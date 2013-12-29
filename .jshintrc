@@ -18,22 +18,20 @@
     "trailing": true, // Prohibit trailing whitespaces.
     "smarttabs": false, // Suppresses warnings about mixed tabs and spaces
     "globals": { // Globals variables.
-        "angular": true
+        "angular": true,
+        "define": true,
+        "require": true,
+        "exports": true,
+        "module": true,
+        "describe": true,
+        "before": true,
+        "beforeEach": true,
+        "after": true,
+        "afterEach": true,
+        "it": true,
+        "inject": true,
+        "expect": true
     },
-    "predef": [ // Extra globals.
-        "define",
-        "require",
-        "exports",
-        "module",
-        "describe",
-        "before",
-        "beforeEach",
-        "after",
-        "afterEach",
-        "it",
-        "inject",
-        "expect"
-    ],
     "indent": 4, // Specify indentation spacing
     "devel": true, // Allow development statements e.g. `console.log();`.
     "noempty": true // Prohibit use of empty blocks.
