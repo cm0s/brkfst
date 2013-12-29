@@ -1,6 +1,6 @@
 {
-    "name": "mean",
-    "version": "0.1.2",
+    "name": "brkfst",
+    "version": "0.1.0-SNAPSHOT",
     "dependencies": {
         "angular": "latest",
         "angular-resource": "latest",
