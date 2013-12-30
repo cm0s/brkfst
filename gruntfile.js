@@ -12,7 +12,8 @@ module.exports = function (grunt) {
                 }
             },
             js: {
-                files: ['gruntfile.js', 'server.js', 'app/**/*.js', 'public/js/**', 'test/**/*.js'],
+                files: ['gruntfile.js', 'server.js', 'app/**/*.js', 'public/js/**', 'test/**/*.js',
+                    '!test/coverage/**/*'],
                 tasks: ['jshint'],
                 options: {
                     livereload: true
@@ -45,7 +46,7 @@ module.exports = function (grunt) {
                 options: {
                     file: 'server.js',
                     args: [],
-                    ignoredFiles: ['public/**'],
+                    ignoredFiles: ['public/**','test/coverage/**/*'],
                     watchedExtensions: ['js'],
                     nodeArgs: ['--debug'],
                     delayTime: 1,
