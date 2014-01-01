@@ -79,7 +79,7 @@ module.exports = function (grunt) {
         },
         mochacli: {
             options: {
-                require: ['should'],
+                require: ['should','server.js'],
                 reporter: ['spec'],
                 bail: true, //Stop on the first exception
                 files: ['test/mocha/**/*.js']
