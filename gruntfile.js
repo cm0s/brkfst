@@ -97,12 +97,14 @@ module.exports = function (grunt) {
                     coverage: true,
                     reporter: 'html-cov',
                     recursive: true,
+                    require: ['should', 'server.js'],
                     output: 'coverage/report.html'
                 }
             },
             coveralls: {
                 options: {
                     coveralls: {
+                        require: ['should', 'server.js'],
                         serviceName: 'travis-ci',
                         repoToken: 'fQciom8cbXfCtX4bu6C6jKvAGaPDvgahz'
                     }
