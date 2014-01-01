@@ -79,7 +79,7 @@ module.exports = function (grunt) {
         },
         mochacli: {
             options: {
-                require: ['should','server.js'],
+                require: ['should', 'server.js'],
                 reporter: ['spec'],
                 bail: true, //Stop on the first exception
                 files: ['test/mocha/**/*.js']
@@ -92,12 +92,41 @@ module.exports = function (grunt) {
             }
         },
         mochacov: {
-            options: {
-                files: ['test/mocha/**/*.js'],
-                coveralls: {
-                    serviceName: 'travis-ci'
+            coverage: {
+                options: {
+                    coverage: true,
+                    reporter: 'html-cov',
+                    recursive: true,
+                    output: 'coverage/report.html'
                 }
+            },
+            coveralls: {
+                options: {
+                    coveralls: {
+                        serviceName: 'travis-ci',
+                        repoToken: 'fQciom8cbXfCtX4bu6C6jKvAGaPDvgahz'
+                    }
+                }
+            },
+            test: {
+                options: {
+                    reporter: 'spec',
+                    require: ['should', 'server.js']
+                }
+            },
+            test_debug: {
+                options: {
+                    reporter: 'spec',
+                    require: ['should', 'server.js'],
+                    'debug-brk': true
+                }
+            },
+            options: {
+                files: './test/mocha/**/*.js'
             }
+
+
+
         },
         env: {
             test: {
@@ -111,7 +140,7 @@ module.exports = function (grunt) {
         }
     });
 
-    //Load NPM tasks 
+    //Load NPM tasks
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-mocha-cli');
@@ -120,6 +149,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-env');
+    grunt.loadNpmTasks('grunt-blanket-mocha');
 
     //Making grunt default to force in order not to break the project.
     grunt.option('force', true);
@@ -128,7 +158,7 @@ module.exports = function (grunt) {
     grunt.registerTask('default', ['jshint', 'concurrent:default']);
 
     //Test task.
-    grunt.registerTask('test', ['env:test', 'mochacli:default', 'karma:unit']);
+    grunt.registerTask('test', ['env:test', 'mochacov:test', 'karma:unit', 'mochacov:coverage']);
 
     //Test with debug enabled
     grunt.registerTask('test-debug', ['env:test', 'mochacli:debug', 'karma:unit']);
