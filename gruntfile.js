@@ -97,14 +97,12 @@ module.exports = function (grunt) {
                     coverage: true,
                     reporter: 'html-cov',
                     recursive: true,
-                    require: ['should', 'server.js'],
-                    output: 'coverage/report.html'
+                    output: 'test/coverage/mocha/report.html'
                 }
             },
             coveralls: {
                 options: {
                     coveralls: {
-                        require: ['should', 'server.js'],
                         serviceName: 'travis-ci',
                         repoToken: 'fQciom8cbXfCtX4bu6C6jKvAGaPDvgahz'
                     }
@@ -153,7 +151,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-env');
 
     //Making grunt default to force in order not to break the project.
-    grunt.option('force', true);
 
     //Default task(s).
     grunt.registerTask('default', ['jshint', 'concurrent:default']);
