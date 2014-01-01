@@ -77,12 +77,19 @@ module.exports = function (grunt) {
                 }
             }
         },
-        mochaTest: {
+        mochacli: {
             options: {
+                require: ['should'],
                 reporter: 'spec',
-                require: 'server.js'
+                bail: true, //Stop on the first exception
+                files: ['test/mocha/**/*.js']
             },
-            src: ['test/mocha/**/*.js']
+            default: {},
+            debug: {
+                options: {
+                    'debug-brk': true
+                }
+            }
         },
         env: {
             test: {
@@ -99,7 +106,7 @@ module.exports = function (grunt) {
     //Load NPM tasks 
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-mocha-test');
+    grunt.loadNpmTasks('grunt-mocha-cli');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-concurrent');
@@ -112,9 +119,12 @@ module.exports = function (grunt) {
     grunt.registerTask('default', ['jshint', 'concurrent:default']);
 
     //Test task.
-    grunt.registerTask('test', ['env:test', 'mochaTest', 'karma:unit']);
+    grunt.registerTask('test', ['env:test', 'mochacli:default', 'karma:unit']);
+
+    //Test with debug enabled
+    grunt.registerTask('test-debug', ['env:test', 'mochacli:debug', 'karma:unit']);
 
     //Watch tasks.
     grunt.registerTask('watch-test', ['watch:test']);
-    grunt.registerTask('watch-dev', ['watch:jade','watch:js','watch:html','watch:css']);
+    grunt.registerTask('watch-dev', ['watch:jade', 'watch:js', 'watch:html', 'watch:css']);
 };

@@ -45,7 +45,7 @@
         "grunt-contrib-jshint": "latest",
         "grunt-nodemon": "latest",
         "grunt-concurrent": "latest",
-        "grunt-mocha-test": "latest",
+        "grunt-mocha-cli": "latest",
         "karma-script-launcher": "~0.1.0",
         "karma-chrome-launcher": "~0.1.0",
         "karma-firefox-launcher": "~0.1.0",
