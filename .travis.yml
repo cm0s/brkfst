@@ -1,7 +1,9 @@
 language: node_js
 node_js:
   - "0.10"
+before_script:
+  - npm install -g grunt-cli
 env:
-  - NODE_ENV=travis
+  - NODE_ENV=test
 services:
   - mongodb
