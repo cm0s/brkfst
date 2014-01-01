@@ -1,36 +1,48 @@
 'use strict';
 
 module.exports = function (grunt) {
-    // Project Configuration
+    var files = {
+        js: ['gruntfile.js', 'server.js', 'app/**/*.js', 'public/js/**', 'test/**/*.js',
+            '!test/coverage/**/*'],
+        jade: ['app/views/**'],
+        html: ['public/views/**'],
+        css: ['public/css/**'],
+        test: ['test/**/*.js', '!test/coverage/**/*']
+    };
+
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         watch: {
             jade: {
-                files: ['app/views/**'],
+                files: files.jade,
                 options: {
                     livereload: true
                 }
             },
             js: {
-                files: ['gruntfile.js', 'server.js', 'app/**/*.js', 'public/js/**', 'test/**/*.js',
-                    '!test/coverage/**/*'],
+                files: files.js,
                 tasks: ['jshint'],
                 options: {
                     livereload: true
                 }
             },
             html: {
-                files: ['public/views/**'],
+                files: files.html,
                 options: {
                     livereload: true
                 }
             },
             css: {
-                files: ['public/css/**'],
+                files: files.css,
                 options: {
                     livereload: true
                 }
+            },
+            test: {
+                files: files.test.concat(files.js),
+                tasks: 'test'
             }
+
         },
         jshint: {
             all: {
@@ -46,7 +58,7 @@ module.exports = function (grunt) {
                 options: {
                     file: 'server.js',
                     args: [],
-                    ignoredFiles: ['public/**','test/coverage/**/*'],
+                    ignoredFiles: ['public/**', 'test/coverage/**/*'],
                     watchedExtensions: ['js'],
                     nodeArgs: ['--debug'],
                     delayTime: 1,
@@ -58,14 +70,17 @@ module.exports = function (grunt) {
             }
         },
         concurrent: {
-            tasks: ['nodemon', 'watch'],
-            options: {
-                logConcurrentOutput: true
+            default: {
+                tasks: ['nodemon:dev', 'watch-dev'],
+                options: {
+                    logConcurrentOutput: true
+                }
             }
         },
         mochaTest: {
             options: {
-                reporter: 'spec'
+                reporter: 'spec',
+                require: 'server.js'
             },
             src: ['test/mocha/**/*.js']
         },
@@ -94,8 +109,12 @@ module.exports = function (grunt) {
     grunt.option('force', true);
 
     //Default task(s).
-    grunt.registerTask('default', ['jshint', 'concurrent']);
+    grunt.registerTask('default', ['jshint', 'concurrent:default']);
 
     //Test task.
     grunt.registerTask('test', ['env:test', 'mochaTest', 'karma:unit']);
+
+    //Watch tasks.
+    grunt.registerTask('watch-test', ['watch:test']);
+    grunt.registerTask('watch-dev', ['watch:jade','watch:js','watch:html','watch:css']);
 };
