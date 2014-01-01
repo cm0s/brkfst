@@ -80,7 +80,7 @@ module.exports = function (grunt) {
         mochacli: {
             options: {
                 require: ['should'],
-                reporter: 'spec',
+                reporter: ['spec'],
                 bail: true, //Stop on the first exception
                 files: ['test/mocha/**/*.js']
             },
@@ -88,6 +88,14 @@ module.exports = function (grunt) {
             debug: {
                 options: {
                     'debug-brk': true
+                }
+            }
+        },
+        mochacov: {
+            options: {
+                files: ['test/mocha/**/*.js'],
+                coveralls: {
+                    serviceName: 'travis-ci'
                 }
             }
         },
@@ -107,6 +115,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-mocha-cli');
+    grunt.loadNpmTasks('grunt-mocha-cov');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-concurrent');
