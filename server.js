@@ -61,5 +61,5 @@ console.log('Express app started on port ' + port);
 //Initializing logger
 logger.init(app, passport, mongoose);
 
-//expose app
+//expose app so we can test it
 module.exports = app;
