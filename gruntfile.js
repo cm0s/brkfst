@@ -77,20 +77,6 @@ module.exports = function (grunt) {
                 }
             }
         },
-        mochacli: {
-            options: {
-                require: ['should', 'server.js'],
-                reporter: ['spec'],
-                bail: true, //Stop on the first exception
-                files: ['test/mocha/**/*.js']
-            },
-            default: {},
-            debug: {
-                options: {
-                    'debug-brk': true
-                }
-            }
-        },
         mochacov: {
             coverage: {
                 options: {
@@ -143,7 +129,6 @@ module.exports = function (grunt) {
     //Load NPM tasks
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-mocha-cli');
     grunt.loadNpmTasks('grunt-mocha-cov');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-nodemon');
@@ -159,7 +144,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test', ['env:test', 'mochacov:test', 'karma:unit', 'mochacov:coverage']);
 
     //Test with debug enabled
-    grunt.registerTask('test-debug', ['env:test', 'mochacli:debug', 'karma:unit']);
+    grunt.registerTask('test-debug', ['env:test', 'mochacov:test_debug', 'karma:unit', 'mochacov:coverage']);
 
     //Watch tasks.
     grunt.registerTask('watch-test', ['watch:test']);
