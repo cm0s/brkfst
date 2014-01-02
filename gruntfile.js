@@ -141,10 +141,10 @@ module.exports = function (grunt) {
     grunt.registerTask('default', ['jshint', 'concurrent:default']);
 
     //Test task.
-    grunt.registerTask('test', ['env:test', 'mochacov:test', 'karma:unit', 'mochacov:coverage']);
+    grunt.registerTask('test', ['env:test', 'mochacov:test', 'mochacov:coverage']);
 
     //Test with debug enabled
-    grunt.registerTask('test-debug', ['env:test', 'mochacov:test_debug', 'karma:unit', 'mochacov:coverage']);
+    grunt.registerTask('test-debug', ['env:test', 'mochacov:test_debug', 'mochacov:coverage']);
 
     //Watch tasks.
     grunt.registerTask('watch-test', ['watch:test']);
