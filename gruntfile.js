@@ -114,6 +114,19 @@ module.exports = function (grunt) {
 
 
     },
+    fontello: {
+      dist: {
+        options: {
+          config  : 'public/fonts/fontello/config.json',
+          fonts   : 'public/fonts/fontello/fonts',
+          styles  : 'public/fonts/fontello/css',
+          zip: 'public/fonts/fontello/',
+          scss    : true, //TODO replace option : will probably replace by saas option in next grunt-fontello release
+          force   : true
+        }
+      }
+    },
+
     env: {
       test: {
         NODE_ENV: 'test'
@@ -134,6 +147,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-env');
+  grunt.loadNpmTasks('grunt-fontello');
 
   //Making grunt default to force in order not to break the project.
 
