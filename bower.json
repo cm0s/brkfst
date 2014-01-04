@@ -9,6 +9,7 @@
     "angular-cookies": "~1.2.6",
     "angular-mocks": "~1.2.6",
     "angular-route": "~1.2.6",
+    "angular-sanitize": "~1.2.6",
     "bootstrap": "~3.0.3",
     "fontello": "~5.0.1",
     "angular-bootstrap": "~0.9.0",
