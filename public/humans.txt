@@ -3,13 +3,15 @@
 
 # TEAM
 
-    <name> -- <role> -- <twitter>
+    Web developer : Nicolas Forney
+    Twitter: @nicolasforney
+    From: Geneva, Switzerland
 
 # THANKS
 
-    <name>
+
 
 # TECHNOLOGY COLOPHON
 
     HTML5, CSS3
-    jQuery, Modernizr
+    AngularJS, NodeJS
