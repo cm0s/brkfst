@@ -13,6 +13,7 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+
     watch: {
       jade: {
         files: files.jade,
@@ -27,8 +28,8 @@ module.exports = function (grunt) {
           livereload: true
         }
       },
-      less:{
-        files:files.less,
+      less: {
+        files: files.less,
         tasks: ['less'],
         options: {
           livereload: true
@@ -52,6 +53,7 @@ module.exports = function (grunt) {
       }
 
     },
+
     jshint: {
       all: {
         src: ['gruntfile.js', 'server.js', 'app/**/*.js', 'public/js/**', 'test/**/*.js',
@@ -61,6 +63,7 @@ module.exports = function (grunt) {
         }
       }
     },
+
     nodemon: {
       dev: {
         options: {
@@ -77,6 +80,7 @@ module.exports = function (grunt) {
         }
       }
     },
+
     concurrent: {
       default: {
         tasks: ['nodemon:dev', 'watch-dev'],
@@ -85,6 +89,7 @@ module.exports = function (grunt) {
         }
       }
     },
+
     mochacov: {
       coverage: {
         options: {
@@ -118,19 +123,17 @@ module.exports = function (grunt) {
       options: {
         files: './test/mocha/**/*.js'
       }
-
-
-
     },
+
     fontello: {
       dist: {
         options: {
-          config  : 'public/fonts/fontello/config.json',
-          fonts   : 'public/fonts/fontello/fonts',
-          styles  : 'public/fonts/fontello/css',
+          config: 'public/fonts/fontello/config.json',
+          fonts: 'public/fonts/fontello/fonts',
+          styles: 'public/fonts/fontello/css',
           zip: 'public/fonts/fontello/',
-          scss    : true, //TODO replace option : will probably replace by saas option in next grunt-fontello release
-          force   : true
+          scss: true, //TODO replace option : will probably replace by saas option in next grunt-fontello release
+          force: true
         }
       }
     },
@@ -159,6 +162,7 @@ module.exports = function (grunt) {
         NODE_ENV: 'test'
       }
     },
+
     karma: {
       unit: {
         configFile: 'test/karma/karma.conf.js'
