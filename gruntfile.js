@@ -127,6 +127,25 @@ module.exports = function (grunt) {
       }
     },
 
+    less: {
+      dev: {
+        files: {
+          'public/stylesheets/css/bootstrap.css': 'public/stylesheets/less/bootstrap-ext/bootstrap.less',
+          'public/stylesheets/css/main.css': 'public/stylesheets/less/main.less'
+        }
+      },
+      prod: {
+        options: {
+          compress: true,
+          cleancss: true
+        },
+        files: {
+          'public/stylesheets/css/bootstrap.min.css': 'public/stylesheets/less/bootstrap-ext/bootstrap.less',
+          'public/stylesheets/css/main.min.css': 'public/stylesheets/less/main.less'
+        }
+      }
+    },
+
     env: {
       test: {
         NODE_ENV: 'test'
@@ -142,6 +161,7 @@ module.exports = function (grunt) {
   //Load NPM tasks
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-mocha-cov');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-nodemon');
