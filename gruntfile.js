@@ -4,6 +4,7 @@ module.exports = function (grunt) {
   var files = {
     js: ['gruntfile.js', 'server.js', 'app/**/*.js', 'public/js/**', 'test/**/*.js',
       '!test/coverage/**/*'],
+    less: ['public/stylesheets/less/**/*.less'],
     jade: ['app/views/**'],
     html: ['public/views/**'],
     css: ['public/css/**'],
@@ -22,6 +23,13 @@ module.exports = function (grunt) {
       js: {
         files: files.js,
         tasks: ['jshint'],
+        options: {
+          livereload: true
+        }
+      },
+      less:{
+        files:files.less,
+        tasks: ['less'],
         options: {
           livereload: true
         }
@@ -172,7 +180,7 @@ module.exports = function (grunt) {
   //Making grunt default to force in order not to break the project.
 
   //Default task(s).
-  grunt.registerTask('default', ['jshint', 'concurrent:default']);
+  grunt.registerTask('default', ['jshint', 'less', 'concurrent:default']);
 
   //Test task.
   grunt.registerTask('test', ['env:test', 'mochacov:test', 'mochacov:coverage']);
@@ -182,5 +190,5 @@ module.exports = function (grunt) {
 
   //Watch tasks.
   grunt.registerTask('watch-test', ['watch:test']);
-  grunt.registerTask('watch-dev', ['watch:jade', 'watch:js', 'watch:html', 'watch:css']);
+  grunt.registerTask('watch-dev', ['watch:less', 'watch:jade', 'watch:js', 'watch:html', 'watch:css']);
 };
