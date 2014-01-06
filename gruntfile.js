@@ -4,8 +4,8 @@ module.exports = function (grunt) {
   var files = {
     js: ['gruntfile.js', 'server.js', 'app/**/*.js', 'public/js/**', 'test/**/*.js',
       '!test/coverage/**/*'],
-    angular_js: ['public/angular/app/**/*.js','public/angular/common/**/*.js'],
-    angular_tpl: ['public/angular/app/**/*.html','public/angular/common/**/*.html'],
+    angular_js: ['public/angular/app/**/*.js', 'public/angular/common/**/*.js'],
+    angular_tpl: ['public/angular/app/**/*.html', 'public/angular/common/**/*.html'],
     less: ['public/stylesheets/less/**/*.less'],
     jade: ['app/views/**'],
     css: ['public/css/**'],
@@ -23,7 +23,7 @@ module.exports = function (grunt) {
           .concat(files.less)
           .concat(files.jade)
           .concat(files.css),
-        tasks: ['jshint','angular-dist','less'],
+        tasks: ['jshint', 'angular-dist', 'less'],
         options: {
           livereload: true
         }
@@ -151,7 +151,7 @@ module.exports = function (grunt) {
     },
 
     ngtemplates: {
-      options:{
+      options: {
         standalone: true
       },
       app: {
@@ -177,11 +177,11 @@ module.exports = function (grunt) {
     },
 
     concat_sourcemap: {
-      options:{
+      options: {
         sourcesContent: true
       },
       files: {
-        src: ['public/angular/dist/temp/**/*-templates.js','public/angular/app/**/*.js'],
+        src: ['public/angular/dist/temp/**/*-templates.js', 'public/angular/app/**/*.js'],
         dest: 'public/angular/dist/app.js'
       }
     },
@@ -251,12 +251,8 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-angular-templates');
   grunt.loadNpmTasks('grunt-replace');
 
-
-
-  //Making grunt default to force in order not to break the project.
-
   //Default task(s).
-  grunt.registerTask('default', ['angular-dist','jshint', 'less', 'concurrent:default' ]);
+  grunt.registerTask('default', ['angular-dist', 'jshint', 'less', 'concurrent:default' ]);
 
   //Test task.
   grunt.registerTask('test', ['env:test', 'mochacov:test', 'mochacov:coverage']);
@@ -265,11 +261,10 @@ module.exports = function (grunt) {
   grunt.registerTask('test-debug', ['env:test', 'mochacov:test_debug', 'mochacov:coverage']);
 
   /* Generate javascript to put AngularJS templates into the $templateCache concatenate all js AngularJS files into one
-     file, generate an uglify version of the concatenated file (AngularJS DI annotation are automatically transformed in
-     order to be minifiable), and finally generate a sourcemap file. */
+   file, generate an uglify version of the concatenated file (AngularJS DI annotation are automatically transformed in
+   order to be minifiable), and finally generate a sourcemap file. */
   grunt.registerTask('angular-dist', ['ngtemplates', 'concat_sourcemap', 'ngmin', 'uglify',
     'replace:app_min_js_map_file_option', 'clean']);
-
 
   //Watch tasks.
   grunt.registerTask('watch-test', ['watch:test']);
