@@ -231,6 +231,15 @@ module.exports = function (grunt) {
           }
         ]
       }
+    },
+
+    shell: {
+      load_mongodb_sample: {
+        options: {
+          stdout: true
+        },
+        command: 'mongo localhost/brkfst-dev test/mongodb/sample-data.js'
+      }
     }
   });
 
@@ -250,6 +259,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-ngmin');
   grunt.loadNpmTasks('grunt-angular-templates');
   grunt.loadNpmTasks('grunt-replace');
+  grunt.loadNpmTasks('grunt-shell');
 
   //Default task(s).
   grunt.registerTask('default', ['angular-dist', 'jshint', 'less', 'concurrent:default' ]);
@@ -265,6 +275,9 @@ module.exports = function (grunt) {
    order to be minifiable), and finally generate a sourcemap file. */
   grunt.registerTask('angular-dist', ['ngtemplates', 'concat_sourcemap', 'ngmin', 'uglify',
     'replace:app_min_js_map_file_option', 'clean']);
+
+  //Load sample data into Mongodb dev db
+  grunt.registerTask('mongo-sample', ['shell:load_mongodb_sample:']);
 
   //Watch tasks.
   grunt.registerTask('watch-test', ['watch:test']);

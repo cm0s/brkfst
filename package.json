@@ -68,6 +68,7 @@
     "karma-coverage": "~0.1.0",
     "grunt-mocha-cov": "~0.1.1",
     "grunt-fontello": "~0.1.2",
-    "blanket": "~1.1.5"
+    "blanket": "~1.1.5",
+    "grunt-shell": "~0.6.1"
   }
 }
