@@ -40,7 +40,13 @@
     "grunt": "~0.4.2",
     "grunt-cli": "~0.1.11",
     "grunt-env": "~0.4.1",
-    "grunt-contrib-less": "~0.8.3"
+    "grunt-contrib-less": "~0.8.3",
+    "grunt-angular-templates": "~0.5.1",
+    "grunt-ngmin": "~0.0.3",
+    "grunt-concat-sourcemap": "~0.4.0",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-replace": "~0.5.1",
+    "grunt-contrib-clean": "~0.5.0"
   },
   "devDependencies": {
     "supertest": "~0.8.2",

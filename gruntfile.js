@@ -4,9 +4,10 @@ module.exports = function (grunt) {
   var files = {
     js: ['gruntfile.js', 'server.js', 'app/**/*.js', 'public/js/**', 'test/**/*.js',
       '!test/coverage/**/*'],
+    angular_js: ['public/angular/app/**/*.js','public/angular/common/**/*.js'],
+    angular_tpl: ['public/angular/app/**/*.html','public/angular/common/**/*.html'],
     less: ['public/stylesheets/less/**/*.less'],
     jade: ['app/views/**'],
-    html: ['public/views/**'],
     css: ['public/css/**'],
     test: ['test/**/*.js', '!test/coverage/**/*']
   };
@@ -15,34 +16,14 @@ module.exports = function (grunt) {
     pkg: grunt.file.readJSON('package.json'),
 
     watch: {
-      jade: {
-        files: files.jade,
-        options: {
-          livereload: true
-        }
-      },
-      js: {
-        files: files.js,
-        tasks: ['jshint'],
-        options: {
-          livereload: true
-        }
-      },
-      less: {
-        files: files.less,
-        tasks: ['less'],
-        options: {
-          livereload: true
-        }
-      },
-      html: {
-        files: files.html,
-        options: {
-          livereload: true
-        }
-      },
-      css: {
-        files: files.css,
+      all: {
+        files: files.js
+          .concat(files.angular_js)
+          .concat(files.angular_tpl)
+          .concat(files.less)
+          .concat(files.jade)
+          .concat(files.css),
+        tasks: ['jshint','angular-dist','less'],
         options: {
           livereload: true
         }
@@ -83,7 +64,7 @@ module.exports = function (grunt) {
 
     concurrent: {
       default: {
-        tasks: ['nodemon:dev', 'watch-dev'],
+        tasks: ['nodemon:dev', 'watch-all'],
         options: {
           logConcurrentOutput: true
         }
@@ -167,6 +148,89 @@ module.exports = function (grunt) {
       unit: {
         configFile: 'test/karma/karma.conf.js'
       }
+    },
+
+    ngtemplates: {
+      options:{
+        standalone: true
+      },
+      app: {
+        options: {
+          module: 'templates',
+          url: function (url) { //Strip base template path to have a smaller path which will still be unique
+            return url.replace('public/angular/app/', '');
+          }
+        },
+        src: 'public/angular/app/**/*.html',
+        dest: 'public/angular/dist/temp/app-templates.js'
+      },
+      directives: {
+        options: {
+          module: 'templates',
+          url: function (url) { //Strip base template path to have a smaller path which will still be unique
+            return url.replace('public/angular/app/', '');
+          }
+        },
+        src: 'public/angular/common/**/*.html',
+        dest: 'public/angular/dist/temp/directives-templates.js'
+      }
+    },
+
+    concat_sourcemap: {
+      options:{
+        sourcesContent: true
+      },
+      files: {
+        src: ['public/angular/dist/temp/**/*-templates.js','public/angular/app/**/*.js'],
+        dest: 'public/angular/dist/app.js'
+      }
+    },
+
+    ngmin: {
+      app: {
+        src: ['public/angular/dist/app.js'],
+        dest: 'public/angular/dist/temp/app.annotated.js'
+      }
+    },
+
+    clean: {
+      temp: ['public/angular/dist/temp/']
+    },
+
+    uglify: {
+      angular: {
+        options: {
+          sourceMap: 'public/angular/dist/app.min.js.map',
+          sourceMapPrefix: 2,
+          sourceMappingURL: 'app.min.js.map'
+        },
+        files: {  //The app.min.js file must be copied to the app root path in order to
+          'public/angular/dist/app.min.js': ['public/angular/dist/temp/app.annotated.js']
+        }
+      }
+    },
+
+    replace: {
+      // As the uglify target doesn't set the file option value correctly in the sourcemap file it has to be
+      // corrected. It uses the uglify.angular.files dest property which is a full path and we need only the
+      // file name as a path.
+      app_min_js_map_file_option: {
+        options: {
+          prefix: '',
+          patterns: [
+            {
+              match: '"file":"public/angular/dist/app.min.js"',
+              replacement: '"file":"app.min.js"'
+            }
+          ]
+        },
+        files: [
+          {
+            src: 'public/angular/dist/app.min.js.map',
+            dest: 'public/angular/dist/app.min.js.map'
+          }
+        ]
+      }
     }
   });
 
@@ -180,11 +244,19 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-env');
   grunt.loadNpmTasks('grunt-fontello');
+  grunt.loadNpmTasks('grunt-concat-sourcemap');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-ngmin');
+  grunt.loadNpmTasks('grunt-angular-templates');
+  grunt.loadNpmTasks('grunt-replace');
+
+
 
   //Making grunt default to force in order not to break the project.
 
   //Default task(s).
-  grunt.registerTask('default', ['jshint', 'less', 'concurrent:default']);
+  grunt.registerTask('default', ['angular-dist','jshint', 'less', 'concurrent:default' ]);
 
   //Test task.
   grunt.registerTask('test', ['env:test', 'mochacov:test', 'mochacov:coverage']);
@@ -192,7 +264,14 @@ module.exports = function (grunt) {
   //Test with debug enabled
   grunt.registerTask('test-debug', ['env:test', 'mochacov:test_debug', 'mochacov:coverage']);
 
+  /* Generate javascript to put AngularJS templates into the $templateCache concatenate all js AngularJS files into one
+     file, generate an uglify version of the concatenated file (AngularJS DI annotation are automatically transformed in
+     order to be minifiable), and finally generate a sourcemap file. */
+  grunt.registerTask('angular-dist', ['ngtemplates', 'concat_sourcemap', 'ngmin', 'uglify',
+    'replace:app_min_js_map_file_option', 'clean']);
+
+
   //Watch tasks.
   grunt.registerTask('watch-test', ['watch:test']);
-  grunt.registerTask('watch-dev', ['watch:less', 'watch:jade', 'watch:js', 'watch:html', 'watch:css']);
+  grunt.registerTask('watch-all', ['watch:all']);
 };
