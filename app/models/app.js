@@ -20,6 +20,9 @@ var AppSchema = new Schema({
     type: String,
     required: true,
     trim: true
+  },
+  icon: {
+    url : String
   }
 });
 
