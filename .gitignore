@@ -5,5 +5,4 @@ node_modules/
 public/libs
 test/coverage/
 public/angular/dist/
-public/stylesheets/css/*.min.css
-public/stylesheets/css/bootstrap.css
+public/stylesheets/css/
