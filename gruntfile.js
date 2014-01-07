@@ -282,8 +282,9 @@ module.exports = function (grunt) {
   grunt.registerTask('test-debug', ['env:test', 'mochacov:test_debug', 'mochacov:coverage']);
 
   /* Generate javascript to put AngularJS templates into the $templateCache concatenate all js AngularJS files into one
-   file, generate an uglify version of the concatenated file (AngularJS DI annotation are automatically transformed in
-   order to be minifiable), and finally generate a sourcemap file. */
+   file, prepend the concatenated file with the 'use strict'; statment, generate an uglify version of the concatenated
+   file (AngularJS DI annotation are automatically transformed in order to be minifiable), and finally generate a
+   sourcemap file. */
   grunt.registerTask('angular-dist', ['ngtemplates', 'concat_sourcemap', 'file_append:use_strict', 'ngmin', 'uglify',
     'replace:app_min_js_map_file_option', 'clean']);
 
