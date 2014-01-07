@@ -37,7 +37,7 @@ module.exports = function (grunt) {
     jshint: {
       all: {
         src: ['gruntfile.js', 'server.js', 'app/**/*.js', 'public/js/**', 'test/**/*.js',
-          '!test/coverage/**/*', '!test/mongodb/**/*'],
+          '!test/coverage/**/*'],
         options: {
           jshintrc: true
         }
