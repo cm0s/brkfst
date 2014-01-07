@@ -32,13 +32,12 @@ module.exports = function (grunt) {
         files: files.test.concat(files.js),
         tasks: 'test'
       }
-
     },
 
     jshint: {
       all: {
         src: ['gruntfile.js', 'server.js', 'app/**/*.js', 'public/js/**', 'test/**/*.js',
-          '!test/coverage/**/*'],
+          '!test/coverage/**/*', '!test/mongodb/**/*'],
         options: {
           jshintrc: true
         }
@@ -240,6 +239,17 @@ module.exports = function (grunt) {
         },
         command: 'mongo localhost/brkfst-dev test/mongodb/sample-data.js'
       }
+    },
+
+    file_append: {
+      use_strict: {
+        files: {
+          'public/angular/dist/app.js': {
+            prepend: '\'use strict\';\n \n',
+            input: 'public/angular/dist/app.js'
+          }
+        }
+      }
     }
   });
 
@@ -260,6 +270,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-angular-templates');
   grunt.loadNpmTasks('grunt-replace');
   grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-file-append');
 
   //Default task(s).
   grunt.registerTask('default', ['angular-dist', 'jshint', 'less', 'concurrent:default' ]);
@@ -273,7 +284,7 @@ module.exports = function (grunt) {
   /* Generate javascript to put AngularJS templates into the $templateCache concatenate all js AngularJS files into one
    file, generate an uglify version of the concatenated file (AngularJS DI annotation are automatically transformed in
    order to be minifiable), and finally generate a sourcemap file. */
-  grunt.registerTask('angular-dist', ['ngtemplates', 'concat_sourcemap', 'ngmin', 'uglify',
+  grunt.registerTask('angular-dist', ['ngtemplates', 'concat_sourcemap', 'file_append:use_strict', 'ngmin', 'uglify',
     'replace:app_min_js_map_file_option', 'clean']);
 
   //Load sample data into Mongodb dev db
