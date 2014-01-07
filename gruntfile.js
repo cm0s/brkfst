@@ -180,7 +180,8 @@ module.exports = function (grunt) {
         sourcesContent: true
       },
       files: {
-        src: ['public/angular/dist/temp/**/*-templates.js', 'public/angular/app/**/*.js'],
+        src: ['public/angular/dist/temp/**/*-templates.js', 'public/angular/app/**/*.js',
+          'public/angular/common/**/*.js'],
         dest: 'public/angular/dist/app.js'
       }
     },
