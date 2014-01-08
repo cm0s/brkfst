@@ -6,3 +6,5 @@ public/libs
 test/coverage/
 public/angular/dist/
 public/stylesheets/css/
+public/fonts/fontello/css
+public/fonts/fontello/fonts
