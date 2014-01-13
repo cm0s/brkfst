@@ -6,7 +6,6 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
-
 /**
  * App Schema
  */
@@ -22,8 +21,15 @@ var AppSchema = new Schema({
     trim: true
   },
   icon: {
-    url : String
-  }
+    url: String
+  },
+  categories: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'AppCategory'
+    }
+  ]
+
 });
 
 mongoose.model('App', AppSchema);
