@@ -51,7 +51,7 @@ module.exports = function (grunt) {
           args: [],
           ignoredFiles: ['public/**', 'test/coverage/**/*'],
           watchedExtensions: ['js'],
-          nodeArgs: ['--debug'],
+          nodeArgs: ['--debug=5859'],
           delayTime: 1,
           env: {
             PORT: 3000
