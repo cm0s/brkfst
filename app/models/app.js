@@ -25,7 +25,7 @@ var AppSchema = new Schema({
   },
   categories: [
     {
-      type: Schema.Types.ObjectId,
+      type: Schema.ObjectId,
       ref: 'AppCategory'
     }
   ]
