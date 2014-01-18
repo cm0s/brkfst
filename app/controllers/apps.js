@@ -11,15 +11,23 @@ var mongoose = require('mongoose'),
  * List all Apps
  */
 exports.all = function (req, res) {
-  App.find().sort('-title').exec(function (err, apps) {
-    if (err) {
-      res.render('error', {
-        status: 500
-      });
-    } else {
-      res.jsonp(apps);
-    }
-  });
+  var query = App.find();
+
+  if (req.query.expand === 'true') {
+    query.populate('categories');
+  }
+
+  query
+    .sort('-title')
+    .exec(function (err, apps) {
+      if (err) {
+        res.render('error', {
+          status: 500
+        });
+      } else {
+        res.jsonp(apps);
+      }
+    });
 };
 
 /**
