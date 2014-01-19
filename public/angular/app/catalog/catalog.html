@@ -1,3 +1,6 @@
-<ul ng-repeat="app in apps">
-    <li>{{app.title}}</li>
-</ul>
+<div ng-repeat="appCategory in appCategories">
+    <div class="appcategory header"><span class="header-text">{{appCategory.title}}</span></div>
+    <div class="app" ng-repeat="app in appCategory.apps">
+        {{app.title}}
+    </div>
+</div>
