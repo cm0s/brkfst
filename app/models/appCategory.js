@@ -25,7 +25,7 @@ AppCategorySchema.statics = {
   list: function (expand, callback) {
     this.find()
       .lean()
-      .sort('-title')
+      .sort('title')
       .exec(callback);
   }
 };

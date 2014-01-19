@@ -41,12 +41,12 @@ AppSchema.statics = {
     }
 
     query
-      .sort('-title')
+      .sort('title')
       .exec(callback);
   },
   byCategory: function (categoryId, callback) {
     this.find({'categories': categoryId})
-      .sort('-title')
+      .sort('title')
       .exec(callback);
   }
 };
