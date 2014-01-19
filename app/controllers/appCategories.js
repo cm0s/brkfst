@@ -11,6 +11,8 @@ var mongoose = require('mongoose'),
  * List all AppCategories
  */
 exports.all = function (req, res) {
+  //Function needed in order to send the http response only once all
+  //the appCategories' apps has been retrieved and added to the returned json document.
   function response(appCategories) {
     res.json(appCategories);
   }
