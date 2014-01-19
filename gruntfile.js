@@ -109,7 +109,7 @@ module.exports = function (grunt) {
       dist: {
         options: {
           config: 'public/fonts/fontello/config.json',
-          fonts: 'public/fonts/fontello/fonts',
+          fonts: 'public/fonts/fontello/font',
           styles: 'public/fonts/fontello/css',
           zip: 'public/fonts/fontello/',
           scss: true, //TODO replace option : will probably replace by saas option in next grunt-fontello release
