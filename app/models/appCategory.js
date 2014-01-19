@@ -4,7 +4,10 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-  Schema = mongoose.Schema;
+  _ = require('lodash'),
+  Schema = mongoose.Schema,
+  App = mongoose.model('App');
+
 
 
 /**
@@ -17,5 +20,14 @@ var AppCategorySchema = new Schema({
     trim: true
   }
 });
+
+AppCategorySchema.statics = {
+  list: function (expand, callback) {
+    this.find()
+      .lean()
+      .sort('-title')
+      .exec(callback);
+  }
+};
 
 mongoose.model('AppCategory', AppCategorySchema);

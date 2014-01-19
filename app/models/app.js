@@ -32,4 +32,31 @@ var AppSchema = new Schema({
 
 });
 
+AppSchema.statics = {
+  list: function (expand, callback) {
+    var query = this.find();
+
+    if (expand === 'true') {
+      query.populate('categories');
+    }
+
+    query
+      .sort('-title')
+      .exec(callback);
+  },
+  byCategory: function (categoryId, callback) {
+    this.find({'categories': categoryId})
+      .sort('-title')
+      .exec(callback);
+  }
+};
+
+//Remove the categories field whenever a model is converted to JSON.
+AppSchema.set('toJSON', {
+  transform: function(origDoc, jsonObj, options) {
+    delete jsonObj.categories;
+    return jsonObj;
+  }
+});
+
 mongoose.model('App', AppSchema);

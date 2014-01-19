@@ -69,6 +69,11 @@ module.exports = function (app, passport, auth) {
   app.get('/api/apps', apps.all);
   app.post('/api/apps', apps.create);
 
+  //AppCategories routes
+  var appCategories = require('../app/controllers/appCategories');
+  app.get('/api/appCategories', appCategories.all);
+  app.post('/api/appCategories', appCategories.create);
+
   //Home route
   var index = require('../app/controllers/index');
   app.get('/', index.render);

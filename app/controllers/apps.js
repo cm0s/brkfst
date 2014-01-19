@@ -4,30 +4,23 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-  App = mongoose.model('App');
+  App = mongoose.model('App'),
+  errors = require('../errors');
+
 
 
 /**
  * List all Apps
  */
 exports.all = function (req, res) {
-  var query = App.find();
-
-  if (req.query.expand === 'true') {
-    query.populate('categories');
-  }
-
-  query
-    .sort('-title')
-    .exec(function (err, apps) {
-      if (err) {
-        res.render('error', {
-          status: 500
-        });
-      } else {
-        res.jsonp(apps);
-      }
-    });
+  var expand = req.query.expand;
+  App.list(expand, function (err, apps) {
+    if (err) {
+      errors.serverError();
+    } else {
+      res.json(apps);
+    }
+  });
 };
 
 /**
