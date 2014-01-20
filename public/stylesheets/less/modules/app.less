@@ -1,7 +1,33 @@
-.appcategory {
-
-}
+/**
+ * APP module
+ */
+@import "../bootstrap-ext/mixins";
 
 .app {
-  display: inline-block;
+  .box-shadow(0px 2px 4px rgba(0, 0, 0, .2));
+  .border-radius(3px);
+  margin-right: 5px;
+  background-color: white;
 }
+
+.app-small {
+  display: inline-block;
+  margin-bottom: 10px;
+  margin-right: 10px;
+
+  .app-icon {
+    background-color: cornflowerblue;
+    .border-left-radius(3px);
+    float: left;
+    font-size: 29px;
+    height: 43px;
+  }
+
+  .app-title {
+    overflow: hidden;
+    padding: 4px 7px;
+    width: 140px;
+    height: 43px;
+  }
+}
+

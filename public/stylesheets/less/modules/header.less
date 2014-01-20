@@ -1,5 +1,10 @@
+/**
+ * HEADER module
+ */
+@import "../bootstrap-ext/mixins";
+
 .header {
-  border-bottom: 1px solid @separation-line-color;
+  border-bottom: 1px solid lighten(@headings-color,20%);
   margin-bottom: 14px;
   margin-top: -11px;
   position: relative;
@@ -9,7 +14,7 @@
   padding-right: 8px;
   position: relative;
   text-transform: uppercase;
-  background-color: #fff;
+  background-color: @brkfst-main-bg-color;
   bottom: -11px;
   font-size: 12px;
   font-weight: bold;
