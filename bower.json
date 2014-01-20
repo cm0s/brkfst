@@ -14,6 +14,7 @@
     "bootstrap": "~3.0.3",
     "angular-bootstrap": "~0.9.0",
     "angular-ui-utils": "~0.1.0",
-    "restangular": "~1.2.2"
+    "restangular": "~1.2.2",
+    "jquery-ellipsis": "~1.1.0"
   }
 }
