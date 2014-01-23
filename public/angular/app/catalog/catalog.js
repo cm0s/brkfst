@@ -2,6 +2,11 @@ angular.module('catalogCtrl', ['services.apiRestangularSrv', 'services.utilsSrv'
   .controller('CatalogCtrl', function ($scope, apiRestangularSrv, utilsSrv) {
     var appCategories = apiRestangularSrv.all('appCategories');
     $scope.appCategories = appCategories.getList().$object;
+    $scope.isSearchInputEmpty = true;
+
+    $scope.hideCategories = function(){
+      $scope.isSearchInputEmpty = _.isEmpty($scope.search);
+    };
 
     //Filter used to ignore accents when filtering apps
     $scope.ignoreAccents = function (item) {
