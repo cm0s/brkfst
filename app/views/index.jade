@@ -2,6 +2,6 @@ extends layouts/default
 
 block content
   section(ng-include, src="'header/index.html'")
-  section(ng-view, class='main-view')
+  section(ui-view, class='main-view')
   script().
     window.user = !{user};

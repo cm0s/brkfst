@@ -1,15 +1,15 @@
 angular.module('routes', [
     'ui.router'
   ])
-  .config(['$routeProvider', function ($routeProvider) {
-    $routeProvider
-      .when('/home', {
+  .config(function ($stateProvider, $urlRouterProvider) {
+    $stateProvider
+      .state('home', {
+        url: '/home',
         templateUrl: 'home/index.html'
       })
-      .when('/catalog', {
+      .state('catalog', {
+        url: '/catalog',
         templateUrl: 'catalog/catalog.html',
         controller: 'CatalogCtrl'
-      })
-      .when('/', {redirectTo: '/home'})
-      .otherwise({redirectTo: '/'});
-  }]);
+      });
+  });
