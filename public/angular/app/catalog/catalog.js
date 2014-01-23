@@ -3,6 +3,7 @@ angular.module('catalogCtrl', ['services.apiRestangularSrv', 'services.utilsSrv'
     var appCategories = apiRestangularSrv.all('appCategories');
     $scope.appCategories = appCategories.getList().$object;
 
+    //Filter used to ignore accents when filtering apps
     $scope.ignoreAccents = function (item) {
       if (!$scope.search) {
         return true;
