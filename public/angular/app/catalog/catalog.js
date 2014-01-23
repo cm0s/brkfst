@@ -1,4 +1,8 @@
-angular.module('catalogCtrl', ['services.apiRestangularSrv', 'services.utilsSrv', 'ui.utils'])
+angular.module('catalogCtrl', [
+    'services.apiRestangularSrv',
+    'services.utilsSrv',
+    'ui.utils'
+  ])
   .controller('CatalogCtrl', function ($scope, apiRestangularSrv, utilsSrv) {
     var appCategories = apiRestangularSrv.all('appCategories');
     $scope.appCategories = appCategories.getList().$object;
@@ -25,13 +29,13 @@ angular.module('catalogCtrl', ['services.apiRestangularSrv', 'services.utilsSrv'
       //the search input is not found. If at least one is not found it means the
       //filter must indicates it's a no match (return false). Otherwise it match
       //and the filter return true.
-      var elementNotFound =_.find(searchInputSplit, function(searchInputElement){
+      var elementNotFound = _.find(searchInputSplit, function (searchInputElement) {
         if (itemTitle.indexOf(searchInputElement) < 0) {
           return true;
         }
         return false;
       });
-      if(!elementNotFound){
+      if (!elementNotFound) {
         return true;
       }
       return false;

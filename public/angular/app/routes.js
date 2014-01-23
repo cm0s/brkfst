@@ -1,4 +1,6 @@
-angular.module('routes', ['ngRoute'])
+angular.module('routes', [
+    'ui.router'
+  ])
   .config(['$routeProvider', function ($routeProvider) {
     $routeProvider
       .when('/home', {

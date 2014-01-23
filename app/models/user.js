@@ -8,7 +8,6 @@ var mongoose = require('mongoose'),
   crypto = require('crypto'),
   authTypes = ['github', 'twitter', 'facebook', 'google'];
 
-
 /**
  * User Schema
  */

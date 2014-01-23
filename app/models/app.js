@@ -53,7 +53,7 @@ AppSchema.statics = {
 
 //Remove the categories field whenever a model is converted to JSON.
 AppSchema.set('toJSON', {
-  transform: function(origDoc, jsonObj, options) {
+  transform: function (origDoc, jsonObj, options) {
     delete jsonObj.categories;
     return jsonObj;
   }

@@ -6,7 +6,6 @@ var mongoose = require('mongoose'),
   App = mongoose.model('App'),
   errors = require('../errors');
 
-
 /**
  * List all AppCategories
  */

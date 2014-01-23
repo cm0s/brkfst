@@ -1,5 +1,4 @@
-
-module.exports.custom = function(res, code, message) {
+module.exports.custom = function (res, code, message) {
   if (code === null) {
     code = 500;
   }
@@ -10,7 +9,7 @@ module.exports.custom = function(res, code, message) {
   return res.end();
 };
 
-module.exports.unauthorized = function(res, message) {
+module.exports.unauthorized = function (res, message) {
   if (message === null) {
     message = 'Unauthorized';
   }
@@ -18,7 +17,7 @@ module.exports.unauthorized = function(res, message) {
   return res.end();
 };
 
-module.exports.forbidden = function(res, message) {
+module.exports.forbidden = function (res, message) {
   if (message === null) {
     message = 'Forbidden';
   }
@@ -26,7 +25,7 @@ module.exports.forbidden = function(res, message) {
   return res.end();
 };
 
-module.exports.notFound = function(res, message) {
+module.exports.notFound = function (res, message) {
   if (message === null) {
     message = 'Not found.';
   }
@@ -34,7 +33,7 @@ module.exports.notFound = function(res, message) {
   return res.end();
 };
 
-module.exports.badMethod = function(res, message) {
+module.exports.badMethod = function (res, message) {
   if (message === null) {
     message = 'Method Not Allowed';
   }
@@ -42,7 +41,7 @@ module.exports.badMethod = function(res, message) {
   return res.end();
 };
 
-module.exports.conflict = function(res, message) {
+module.exports.conflict = function (res, message) {
   if (message === null) {
     message = 'Conflict. File exists';
   }
@@ -50,7 +49,7 @@ module.exports.conflict = function(res, message) {
   return res.end();
 };
 
-module.exports.badInput = function(res, message) {
+module.exports.badInput = function (res, message) {
   if (message === null) {
     message = 'Unprocessable Entity. Bad Input.';
   }
@@ -58,7 +57,7 @@ module.exports.badInput = function(res, message) {
   return res.end();
 };
 
-module.exports.serverError = function(res, message) {
+module.exports.serverError = function (res, message) {
   if (message === null) {
     message = 'Internal Server Error';
   }
