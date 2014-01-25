@@ -4,7 +4,8 @@ angular.module('app', [
   'routes',
   'templates',
   'ngSanitize',
-  'ngAnimate'
+  'ngAnimate',
+  'pascalprecht.translate'
 ]);
 
 angular.module('app').config(function ($locationProvider) {
