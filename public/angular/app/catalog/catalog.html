@@ -2,8 +2,8 @@
   <div class="catalog-search">
     <input type="text" class="form-control" placeholder="Search" ng-model="search" ng-change="hideCategories()"/>
   </div>
-  <div class="catalog-appcategories">
-    <div class="appcategory" ng-repeat="appCategory in appCategories" ng-show="isSearchInputEmpty">
+  <div class="catalog-browse" ng-show="isSearchInputEmpty">
+    <div class="appcategory" ng-repeat="appCategory in appCategories">
       <div class="appcategory-title">{{appCategory.title}}</div>
       <div class="app app-small" ng-repeat="app in appCategory.apps">
         <div class="app-hover-overlay"></div>
@@ -15,15 +15,15 @@
         </div>
       </div>
     </div>
-    <div class="search-result">
-      <div class="app app-small" ng-repeat="app in apps | filter:textFilter">
-        <div class="app-hover-overlay"></div>
-        <div class="app-icon">
-          <i class="icon-link"></i>
-        </div>
-        <div class="app-title">
-          <div class="ellipsis" ui-jq="ellipsis" ui-options="{row:2}">{{app.title}}</div>
-        </div>
+  </div>
+  <div class="catalog-search-result" ng-show="!isSearchInputEmpty">
+    <div class="app app-small" ng-repeat="app in apps | filter:textFilter">
+      <div class="app-hover-overlay"></div>
+      <div class="app-icon">
+        <i class="icon-link"></i>
+      </div>
+      <div class="app-title">
+        <div class="ellipsis" ui-jq="ellipsis" ui-options="{row:2}">{{app.title}}</div>
       </div>
     </div>
   </div>
