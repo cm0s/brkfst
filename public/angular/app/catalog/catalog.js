@@ -4,8 +4,12 @@ angular.module('catalogCtrl', [
     'ui.utils'
   ])
   .controller('CatalogCtrl', function ($scope, apiRestangularSrv, utilsSrv) {
-    var appCategories = apiRestangularSrv.all('appCategories');
+    var
+      appCategories = apiRestangularSrv.all('appCategories'),
+      apps = apiRestangularSrv.all('apps');
+
     $scope.appCategories = appCategories.getList().$object;
+    $scope.apps = apps.getList().$object;
     $scope.isSearchInputEmpty = true;
 
     $scope.hideCategories = function () {
