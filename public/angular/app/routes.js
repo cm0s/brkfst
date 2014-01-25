@@ -1,5 +1,6 @@
 angular.module('routes', [
-    'ui.router'
+    'ui.router',
+    'catalogCtrl'
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider

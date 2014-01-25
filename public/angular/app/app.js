@@ -4,8 +4,7 @@ angular.module('app', [
   'routes',
   'templates',
   'ngSanitize',
-  'ngAnimate',
-  'catalogCtrl'
+  'ngAnimate'
 ]);
 
 angular.module('app').config(function ($locationProvider) {
