@@ -17,6 +17,7 @@
     "jquery-ellipsis": "~1.1.0",
     "lesshat": "~2.0.13",
     "angular-ui-router": "0.2.7",
-    "angular-translate": "~1.1.1"
+    "angular-translate": "~1.1.1",
+    "angular-translate-loader-url": "~0.1.5"
   }
 }

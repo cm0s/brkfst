@@ -74,6 +74,10 @@ module.exports = function (app, passport, auth) {
   app.get('/api/appCategories', appCategories.all);
   app.post('/api/appCategories', appCategories.create);
 
+  //Localization routes
+  var locale = require('../app/controllers/locale');
+  app.get('/api/locale', locale.render);
+
   /**
    /* Pages
    **/

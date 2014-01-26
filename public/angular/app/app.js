@@ -8,9 +8,11 @@ angular.module('app', [
   'pascalprecht.translate'
 ]);
 
-angular.module('app').config(function ($locationProvider) {
-  //TODO try to make it work
-  //$locationProvider.html5Mode(true);
+angular.module('app').config(function ($translateProvider) {
+  //Set which REST url to use to load the localization files
+  $translateProvider.useUrlLoader('/api/locale');
+  //For now the language is force to english
+  $translateProvider.preferredLanguage('en');
 });
 
 angular.module('app').controller('HeaderCtrl', function () {
