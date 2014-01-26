@@ -3,6 +3,6 @@ angular.module('services.apiRestangularSrv', [
   ])
   .factory('apiRestangularSrv', function (Restangular) {
     return Restangular.withConfig(function (RestangularConfigurer) {
-      RestangularConfigurer.setBaseUrl('api');
+      RestangularConfigurer.setBaseUrl('/api');
     });
   });

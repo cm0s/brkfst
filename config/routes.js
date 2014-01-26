@@ -64,7 +64,7 @@ module.exports = function (app, passport, auth) {
   /**
    /* API
    **/
-  //Apps Routes
+  //Apps routes
   var apps = require('../app/controllers/apps');
   app.get('/api/apps', apps.all);
   app.post('/api/apps', apps.create);
@@ -74,8 +74,12 @@ module.exports = function (app, passport, auth) {
   app.get('/api/appCategories', appCategories.all);
   app.post('/api/appCategories', appCategories.create);
 
+  /**
+   /* Pages
+   **/
   //Home route
   var index = require('../app/controllers/index');
   app.get('/', index.render);
+  app.get('*', index.render);
 
 };
