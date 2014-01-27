@@ -16,7 +16,7 @@
     "restangular": "~1.2.2",
     "jquery-ellipsis": "~1.1.0",
     "lesshat": "~2.0.13",
-    "angular-ui-router": "0.2.7",
+    "angular-ui-router": "0.2.8-bowratic-tedium",
     "angular-translate": "~1.1.1",
     "angular-translate-loader-url": "~0.1.5",
     "animate.css": "~3.0.0"
