@@ -7,7 +7,7 @@ angular.module('routes', [
     $stateProvider
       .state('home', {
         url: '/home',
-        templateUrl: 'home/index.html'
+        templateUrl: 'home/home.html'
       })
       .state('catalog', {
         url: '/catalog',
