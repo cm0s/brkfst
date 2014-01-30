@@ -1,5 +1,8 @@
 {
   "app": {
     "title": "Brkfst"
+  },
+  "catalog": {
+    "noresults": "No results"
   }
 }

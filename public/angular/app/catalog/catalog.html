@@ -22,7 +22,7 @@
 
   <!-- SEARCH RESULT -->
   <div class="catalog-search-results" ng-show="!isSearchInputEmpty">
-    <div class="app app-small" ng-repeat="app in apps | filter:textFilter">
+    <div class="app app-small" ng-repeat="app in filteredApps = (apps | filter:textFilter)">
       <div class="app-hover-overlay"></div>
       <div class="app-icon">
         <i class="icon-link"></i>
@@ -32,4 +32,5 @@
       </div>
     </div>
   </div>
+  <div class="catalog-search-no-results" ng-show="!filteredApps.length">{{'catalog.noresults' | translate}}</div>
 </section>
