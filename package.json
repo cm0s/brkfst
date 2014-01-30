@@ -70,6 +70,7 @@
     "grunt-mocha-cov": "~0.1.1",
     "grunt-fontello": "~0.1.2",
     "blanket": "~1.1.5",
-    "grunt-shell": "~0.6.1"
+    "grunt-shell": "~0.6.1",
+    "grunt-contrib-concat": "~0.3.0"
   }
 }

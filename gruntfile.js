@@ -119,9 +119,24 @@ module.exports = function (grunt) {
     },
 
     less: {
-      dev: {
+      dev_bootstrap: {
+        options: {
+          sourceMap: true,
+          sourceMapFilename: 'public/stylesheets/css/bootstrap.css.map',
+          //rootpath:
+          sourceMapRootpath: 'http://localhost:3000'
+        },
         files: {
-          'public/stylesheets/css/bootstrap.css': 'public/stylesheets/less/bootstrap-ext/bootstrap.less',
+          'public/stylesheets/css/bootstrap.css': 'public/stylesheets/less/bootstrap-ext/bootstrap.less'
+        }
+      },
+      dev_main: {
+        options: {
+          sourceMap: true,
+          sourceMapFilename: 'public/stylesheets/css/main.css.map',
+          sourceMapRootpath: 'http://localhost:3000'
+        },
+        files: {
           'public/stylesheets/css/main.css': 'public/stylesheets/less/main.less'
         }
       },
@@ -175,10 +190,7 @@ module.exports = function (grunt) {
       }
     },
 
-    concat_sourcemap: {
-      options: {
-        sourcesContent: true
-      },
+    concat: {
       files: {
         src: ['public/angular/dist/temp/**/*-templates.js', 'public/angular/app/**/*.js',
           'public/angular/common/**/*.js'],
@@ -199,37 +211,9 @@ module.exports = function (grunt) {
 
     uglify: {
       angular: {
-        options: {
-          sourceMap: 'public/angular/dist/app.min.js.map',
-          sourceMapPrefix: 2,
-          sourceMappingURL: 'app.min.js.map'
-        },
-        files: {  //The app.min.js file must be copied to the app root path in order to
+        files: {
           'public/angular/dist/app.min.js': ['public/angular/dist/temp/app.annotated.js']
         }
-      }
-    },
-
-    replace: {
-      // As the uglify target doesn't set the file option value correctly in the sourcemap file it has to be
-      // corrected. It uses the uglify.angular.files dest property which is a full path and we need only the
-      // file name as a path.
-      app_min_js_map_file_option: {
-        options: {
-          prefix: '',
-          patterns: [
-            {
-              match: '"file":"public/angular/dist/app.min.js"',
-              replacement: '"file":"app.min.js"'
-            }
-          ]
-        },
-        files: [
-          {
-            src: 'public/angular/dist/app.min.js.map',
-            dest: 'public/angular/dist/app.min.js.map'
-          }
-        ]
       }
     },
 
@@ -264,7 +248,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-env');
   grunt.loadNpmTasks('grunt-fontello');
-  grunt.loadNpmTasks('grunt-concat-sourcemap');
+  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-ngmin');
@@ -286,8 +270,7 @@ module.exports = function (grunt) {
    file, prepend the concatenated file with the 'use strict'; statment, generate an uglify version of the concatenated
    file (AngularJS DI annotation are automatically transformed in order to be minifiable), and finally generate a
    sourcemap file. */
-  grunt.registerTask('angular-dist', ['ngtemplates', 'concat_sourcemap', 'file_append:use_strict', 'ngmin', 'uglify',
-    'replace:app_min_js_map_file_option', 'clean']);
+  grunt.registerTask('angular-dist', ['ngtemplates', 'concat', 'file_append:use_strict', 'ngmin', 'uglify', 'clean']);
 
   //Load sample data into Mongodb dev db
   grunt.registerTask('mongo-sample', ['shell:load_mongodb_sample:']);
