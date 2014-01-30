@@ -9,7 +9,8 @@ module.exports = function (grunt) {
     less: ['public/stylesheets/less/**/*.less'],
     jade: ['app/views/**'],
     css: ['public/css/**'],
-    test: ['test/**/*.js', '!test/coverage/**/*']
+    test: ['test/**/*.js', '!test/coverage/**/*'],
+    locales: ['public/angular/locales/**/*.json']
   };
 
   grunt.initConfig({
@@ -22,7 +23,8 @@ module.exports = function (grunt) {
           .concat(files.angular_tpl)
           .concat(files.less)
           .concat(files.jade)
-          .concat(files.css),
+          .concat(files.css)
+          .concat(files.locales),
         tasks: ['jshint', 'angular-dist', 'less'],
         options: {
           livereload: true
