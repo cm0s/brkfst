@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose'),
   _ = require('lodash'),
+  async = require('async'),
   AppCategory = mongoose.model('AppCategory'),
   App = mongoose.model('App'),
   errors = require('../errors');
@@ -10,25 +11,34 @@ var mongoose = require('mongoose'),
  * List all AppCategories
  */
 exports.all = function (req, res) {
-  //Function needed in order to send the http response only once all
-  //the appCategories' apps has been retrieved and added to the returned json document.
-  function response(appCategories) {
-    res.json(appCategories);
-  }
-
   var expand = req.query.expand;
   AppCategory.list(expand, function (err, appCategories) {
     if (err) {
       errors.serverError();
     } else {
+      //The list of apps associated to each appCategories must be populated (we cannot use the mongoose populate
+      //function because the AppCategory model doesn't hold references to the associated apps).
+      //So, an asynchronous call to retrieve the apps must be performed for each appCategories.
+      //However, it's not possible to populate the appCategories' apps array inside a loop because
+      //of the asynchronous nature of the call to retrieve the apps in the DB. To overcome this problem
+      //the parallel util of the async library is used in order to parallelize the asynchronous call made
+      //on the DB and thus be able to populate the appCategories' apps array only once all the apps are
+      //retrieved from the DB.
+      var populateFunctionArray = [];
       _.forEach(appCategories, function (category, index) {
-        category.apps = [];
-        App.byCategory(category._id, function (err, apps) {
-          category.apps = category.apps.concat(apps);
-          if (index === appCategories.length - 1) {
-            response(appCategories);
+        populateFunctionArray.push(
+          function (callback) {
+            App.byCategory(category._id, function (err, apps) {
+              callback(null, apps);
+            });
           }
+        );
+      });
+      async.parallel(populateFunctionArray, function (err, results) {
+        _.forEach(appCategories, function (category, index) {
+          category.apps = results[index];
         });
+        res.json(appCategories);
       });
     }
   });
