@@ -14,4 +14,6 @@ angular.module('routes', [
         templateUrl: 'catalog/catalog.html',
         controller: 'CatalogCtrl'
       });
+
+    $urlRouterProvider.otherwise('/home');
   });

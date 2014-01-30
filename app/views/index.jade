@@ -1,7 +1,6 @@
 extends layouts/default
 
 block content
-  section(ng-include, src="'header/header.html'")
-  section(ui-view, class='main-view')
+  section(ui-view, class='main-view', autoscroll='false')
   script().
     window.user = !{user};

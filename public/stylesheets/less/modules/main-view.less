@@ -1,0 +1,13 @@
+/* Have to set height explicity on ui-view
+to prevent collapsing during animation*/
+.main-view {
+  position: absolute;
+}
+
+.main-view.ng-enter {
+  .lh-animation(slideInLeft 0.7s);
+}
+
+.main-view.ng-leave {
+  .lh-animation(slideOutRight 1.0s);
+}
