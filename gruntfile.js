@@ -172,7 +172,7 @@ module.exports = function (grunt) {
       },
       app: {
         options: {
-          module: 'templates',
+          module: 'templates.app',
           url: function (url) { //Strip base template path to have a smaller path which will still be unique
             return url.replace('public/angular/app/', '');
           }
@@ -182,9 +182,9 @@ module.exports = function (grunt) {
       },
       directives: {
         options: {
-          module: 'templates',
+          module: 'templates.directives',
           url: function (url) { //Strip base template path to have a smaller path which will still be unique
-            return url.replace('public/angular/app/', '');
+            return url.replace('public/angular/common/', '');
           }
         },
         src: 'public/angular/common/**/*.html',
