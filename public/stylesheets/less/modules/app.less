@@ -8,6 +8,11 @@
   .border-radius(3px);
   margin-right: 5px;
   background-color: white;
+  &:hover {
+    .app-pin {
+      display: inline;
+    }
+  }
 }
 
 .app-hover-overlay {
@@ -22,7 +27,7 @@
   .lh-transition(opacity .3s ease-in-out);
   .lh-opacity(0);
   &:hover {
-    .lh-opacity(.2);
+    .lh-opacity(.1);
   }
 }
 
@@ -41,9 +46,30 @@
 
   .app-title {
     overflow: hidden;
-    padding: 4px 7px;
+    padding: 4px 14px 4px 7px;
     width: 140px;
     height: 43px;
+  }
+
+  .app-pin {
+    @app-pin-color: lighten(@gray, 40%);
+    @app-pin-active-color: #EE5757;
+
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: -4px;
+    font-size: 18px;
+    color: @app-pin-color;
+    cursor: pointer;
+    .rotate(40deg);
+    &:hover {
+      color: @app-pin-active-color;
+    }
+
+    .app-pin-active {
+      color: @app-pin-active-color;
+    }
   }
 }
 

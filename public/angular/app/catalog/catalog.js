@@ -1,7 +1,8 @@
 angular.module('catalogCtrl', [
     'services.apiRestangularSrv',
     'services.utilsSrv',
-    'ui.utils'
+    'ui.utils',
+    'directives.brkfstApp'
   ])
   .controller('CatalogCtrl', function ($scope, apiRestangularSrv, utilsSrv) {
     var

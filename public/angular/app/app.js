@@ -2,7 +2,8 @@
 
 angular.module('app', [
   'routes',
-  'templates',
+  'templates.app',
+  'templates.directives',
   'ngSanitize',
   'ngAnimate',
   'pascalprecht.translate'
