@@ -146,8 +146,9 @@ UserSchema.methods = {
 
 UserSchema.statics = {
   byId: function (userId, callback) {
-    var query = this.find({_id: userId});
+    var query = this.findOne({_id: userId});
     query
+      .populate('pinnedAppsGroups.apps')
       .exec(callback);
   }
 };

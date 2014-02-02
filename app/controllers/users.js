@@ -4,7 +4,8 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-  User = mongoose.model('User');
+  User = mongoose.model('User'),
+  errors = require('../errors');
 
 /**
  * Auth callback
@@ -100,4 +101,19 @@ exports.user = function (req, res, next, id) {
       req.profile = user;
       next();
     });
+};
+
+/**
+ * Find logged user in DB
+ * Replace the exports.me function in order to be able to run the populate
+ * option on the User model query to mongodb (will be replaced later)
+ */
+exports.currentUser = function (req, res) {
+  User.byId(req.user.id, function (err, user) {
+    if (err) {
+      errors.serverError();
+    } else {
+      res.jsonp(user);
+    }
+  });
 };
