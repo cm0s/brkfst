@@ -65,14 +65,18 @@ module.exports = function (app, passport, auth) {
    /* API
    **/
   //Apps routes
-  var apps = require('../app/controllers/apps');
-  app.get('/api/apps', apps.all);
-  app.post('/api/apps', apps.create);
+  var appsCtrl = require('../app/controllers/apps');
+  app.get('/api/apps', appsCtrl.all);
+  app.post('/api/apps', appsCtrl.create);
 
   //AppCategories routes
-  var appCategories = require('../app/controllers/appCategories');
-  app.get('/api/appCategories', appCategories.all);
-  app.post('/api/appCategories', appCategories.create);
+  var appCategoriesCtrl = require('../app/controllers/appCategories');
+  app.get('/api/appCategories', appCategoriesCtrl.all);
+  app.post('/api/appCategories', appCategoriesCtrl.create);
+
+  //PinnedAppsGroups routes
+  // var pinnedAppsGroupsCtrl = require('../app/controllers/pinnedAppsGroups');
+  //app.get('/api/users/me/pinnedAppsGroups', pinnedAppsGroupsCtrl.all);
 
   //Localization routes
   var locale = require('../app/controllers/locale');

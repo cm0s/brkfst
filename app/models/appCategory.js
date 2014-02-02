@@ -8,7 +8,6 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema,
   App = mongoose.model('App');
 
-
 /**
  * AppCategory Schema
  */
