@@ -20,7 +20,7 @@ var AppCategorySchema = new Schema({
 });
 
 AppCategorySchema.statics = {
-  list: function (expand, callback) {
+  list: function (callback) {
     this.find()
       .lean()
       .sort('title')

@@ -9,7 +9,7 @@ angular.module('catalogCtrl', [
       appCategories = apiRestangularSrv.all('appCategories'),
       apps = apiRestangularSrv.all('apps');
 
-    $scope.appCategories = appCategories.getList().$object;
+    $scope.appCategories = appCategories.getList({expand: true}).$object;
     $scope.apps = apps.getList().$object;
     $scope.isSearchInputEmpty = true;
 
