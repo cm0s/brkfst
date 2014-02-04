@@ -29,6 +29,7 @@ exports.all = function (req, res) {
         //retrieved from the DB.
         var populateFunctionArray = [];
         _.forEach(appCategories, function (category, index) {
+          //Create an array of populate function which will be run after in parallel
           populateFunctionArray.push(
             function (callback) {
               App.byCategory(category._id, function (err, apps) {
@@ -37,10 +38,24 @@ exports.all = function (req, res) {
             }
           );
         });
+        //Run each populate function located in the populateFunctionArray and once all functions execution are
+        // terminated executed a call back which has as parameter a results array which contains all populate function
+        // results
         async.parallel(populateFunctionArray, function (err, results) {
+          /*   if (pinAppsQueryParam) {
+           _.forEach(appCategories, function (category, index) {
+           _.forEach(req.user.pinnedAppsGroups,function(pinnedAppsGroup){
+           _.forEach(pinnedAppsGroup.apps,function(app){
+
+           })
+           })
+           category.apps = results[index];
+           });
+           } else {*/
           _.forEach(appCategories, function (category, index) {
             category.apps = results[index];
           });
+          // }
           res.json(appCategories);
         });
       } else {
