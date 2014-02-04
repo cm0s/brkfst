@@ -9,6 +9,25 @@ var mongoose = require('mongoose'),
   crypto = require('crypto'),
   authTypes = ['github', 'twitter', 'facebook', 'google'];
 
+var PinnedAppsGroupSchema = new Schema({
+  id: {
+    type: Number,
+    required: true,
+    unique: true
+  },
+  title: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  apps: [
+    {
+      type: Schema.ObjectId,
+      ref: 'App'
+    }
+  ]
+});
+
 /**
  * User Schema
  */
@@ -26,26 +45,7 @@ var UserSchema = new Schema({
   twitter: {},
   github: {},
   google: {},
-  pinnedAppsGroups: [
-    {
-      id: {
-        type: Number,
-        required: true,
-        unique: true
-      },
-      title: {
-        type: String,
-        required: true,
-        trim: true
-      },
-      apps: [
-        {
-          type: Schema.ObjectId,
-          ref: 'App'
-        }
-      ]
-    }
-  ]
+  pinnedAppsGroups: [PinnedAppsGroupSchema]
 });
 
 /**
