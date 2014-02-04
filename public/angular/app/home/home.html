@@ -1,3 +1,6 @@
-<section class="page-home">
-  <a href="/catalog">Catalog</a>
+<section class="home">
+  <div class="pinnedappsgroup" ng-repeat="pinnedAppsGroup in pinnedAppsGroups">
+    <div class="pinnedappsgroup-title">{{pinnedAppsGroup.title}}</div>
+    <brkfst-app model="pinnedApp" ng-repeat="pinnedApp in pinnedAppsGroup.apps"></brkfst-app>
+  </div>
 </section>

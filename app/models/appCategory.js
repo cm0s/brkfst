@@ -8,7 +8,6 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema,
   App = mongoose.model('App');
 
-
 /**
  * AppCategory Schema
  */
@@ -21,7 +20,7 @@ var AppCategorySchema = new Schema({
 });
 
 AppCategorySchema.statics = {
-  list: function (expand, callback) {
+  list: function (callback) {
     this.find()
       .lean()
       .sort('title')

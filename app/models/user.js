@@ -5,6 +5,7 @@
  */
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema,
+  AppSchema = mongoose.model('App').schema,
   crypto = require('crypto'),
   authTypes = ['github', 'twitter', 'facebook', 'google'];
 
@@ -24,7 +25,27 @@ var UserSchema = new Schema({
   facebook: {},
   twitter: {},
   github: {},
-  google: {}
+  google: {},
+  pinnedAppsGroups: [
+    {
+      id: {
+        type: Number,
+        required: true,
+        unique: true
+      },
+      title: {
+        type: String,
+        required: true,
+        trim: true
+      },
+      apps: [
+        {
+          type: Schema.ObjectId,
+          ref: 'App'
+        }
+      ]
+    }
+  ]
 });
 
 /**
@@ -35,8 +56,8 @@ UserSchema.virtual('password').set(function (password) {
   this.salt = this.makeSalt();
   this.hashed_password = this.encryptPassword(password);
 }).get(function () {
-    return this._password;
-  });
+  return this._password;
+});
 
 /**
  * Validations
@@ -119,6 +140,15 @@ UserSchema.methods = {
     if (!password || !this.salt) return '';
     var salt = new Buffer(this.salt, 'base64');
     return crypto.pbkdf2Sync(password, salt, 10000, 64).toString('base64');
+  }
+};
+
+UserSchema.statics = {
+  byId: function (userId, callback) {
+    var query = this.findOne({_id: userId});
+    query
+      .populate('pinnedAppsGroups.apps')
+      .exec(callback);
   }
 };
 
