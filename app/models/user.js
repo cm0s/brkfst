@@ -6,6 +6,7 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema,
   crypto = require('crypto'),
+  _ = require('lodash'),
   authTypes = ['github', 'twitter', 'facebook', 'google'];
 
 var PinnedAppsGroupSchema = new Schema({
@@ -139,6 +140,23 @@ UserSchema.methods = {
     if (!password || !this.salt) return '';
     var salt = new Buffer(this.salt, 'base64');
     return crypto.pbkdf2Sync(password, salt, 10000, 64).toString('base64');
+  },
+
+  /**
+   * Get the list pinned apps
+   * @return {Array}
+   */
+  getPinnedApps: function () {
+    var pinnedApps = [];
+    _.forEach(this.pinnedAppsGroups, function (pinnedAppsGroup) {
+      _.forEach(pinnedAppsGroup.apps, function (app) {
+        //Avoid duplicate object (we don't want to list the same app twice)
+        if (_.find(pinnedApps, app) === undefined) {
+          pinnedApps.push(app);
+        }
+      });
+    });
+    return pinnedApps;
   }
 };
 
@@ -151,4 +169,6 @@ UserSchema.statics = {
   }
 };
 
+
 mongoose.model('User', UserSchema);
+mongoose.model('PinnedAppsGroup', PinnedAppsGroupSchema);
