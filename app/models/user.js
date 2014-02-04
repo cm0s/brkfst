@@ -5,7 +5,6 @@
  */
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema,
-  AppSchema = mongoose.model('App').schema,
   crypto = require('crypto'),
   authTypes = ['github', 'twitter', 'facebook', 'google'];
 
