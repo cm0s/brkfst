@@ -31,8 +31,7 @@ var UserSchema = new Schema({
       id: {
         type: Number,
         required: true,
-        unique: true,
-        trim: true
+        unique: true
       },
       title: {
         type: String,
