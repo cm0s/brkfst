@@ -6,7 +6,7 @@
   <div class="app-title">
     <div class="ellipsis" ui-jq="ellipsis" ui-options="{row:2}">{{app.title}}</div>
   </div>
-  <div class="app-pin">
+  <div class="app-pin" ng-class="{'app-pin-active': app.isPinned}">
     <i class="icon-pin"></i>
   </div>
 </div>

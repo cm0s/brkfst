@@ -22,6 +22,20 @@ exports.all = function (req, res) {
 };
 
 /**
+ * List all Apps that the specified user can read
+ */
+exports.all = function (req, res, userId) {
+  var expand = req.query.expand;
+  App.list(expand, function (err, apps) {
+    if (err) {
+      errors.serverError();
+    } else {
+      res.json(apps);
+    }
+  });
+};
+
+/**
  * Create a new App
  */
 exports.create = function (req, res) {

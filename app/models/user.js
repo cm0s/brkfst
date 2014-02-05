@@ -143,7 +143,7 @@ UserSchema.methods = {
   },
 
   /**
-   * Get the list pinned apps
+   * Get the list of App pinned by the user
    * @return {Array}
    */
   getPinnedApps: function () {

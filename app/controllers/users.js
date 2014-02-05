@@ -5,7 +5,9 @@
  */
 var mongoose = require('mongoose'),
   User = mongoose.model('User'),
-  errors = require('../errors');
+  App = mongoose.model('App'),
+  errors = require('../errors'),
+  _ = require('lodash');
 
 /**
  * Auth callback
@@ -114,6 +116,36 @@ exports.currentUser = function (req, res) {
       errors.serverError();
     } else {
       res.jsonp(user);
+    }
+  });
+};
+
+exports.currentUserApps = function (req, res) {
+  User.byId(req.user.id, function (err, user) {
+    if (err) {
+      errors.serverError();
+    } else {
+      var expand = req.query.expand;
+      var userPinnedApps = user.getPinnedApps();
+      //TODO replace by a list which contains only the apps the user can READ
+      //(roles and permissions must be implemented first).
+      App.list(expand, function (err, apps) {
+        if (err) {
+          errors.serverError();
+        } else {
+          //Add a isPinned property to the document which indicated if this document is pinned by the user.
+          _.forEach(apps, function (app, index) {
+            apps[index]._doc.isPinned = false;
+            _.forEach(userPinnedApps, function (userPinnedApp) {
+              if (userPinnedApp.equals(app)) {
+                apps[index]._doc.isPinned = true;
+              }
+            });
+
+          });
+          res.json(apps);
+        }
+      });
     }
   });
 };

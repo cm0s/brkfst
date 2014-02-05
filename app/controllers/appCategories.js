@@ -38,10 +38,12 @@ exports.all = function (req, res) {
             }
           );
         });
+        //TODO update comment
         //Run each populate function located in the populateFunctionArray and once all functions execution are
         // terminated executed a call back which has as parameter a results array which contains all populate function
         // results
         async.parallel(populateFunctionArray, function (err, results) {
+          //TODO remove comment
           /*   if (pinAppsQueryParam) {
            _.forEach(appCategories, function (category, index) {
            _.forEach(req.user.pinnedAppsGroups,function(pinnedAppsGroup){

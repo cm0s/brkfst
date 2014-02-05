@@ -76,6 +76,7 @@ module.exports = function (app, passport, auth) {
 
   //User routes
   app.get('/api/users/me', users.currentUser);
+  app.get('/api/users/me/apps', users.currentUserApps);
 
   //Localization routes
   var locale = require('../app/controllers/locale');
