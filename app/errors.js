@@ -6,7 +6,6 @@ module.exports.custom = function (res, code, message) {
     message = 'Internal Server Error';
   }
   res.send(code, message);
-  return res.end();
 };
 
 module.exports.unauthorized = function (res, message) {
@@ -14,7 +13,6 @@ module.exports.unauthorized = function (res, message) {
     message = 'Unauthorized';
   }
   res.send(401, message);
-  return res.end();
 };
 
 module.exports.forbidden = function (res, message) {
@@ -22,7 +20,6 @@ module.exports.forbidden = function (res, message) {
     message = 'Forbidden';
   }
   res.send(403, message);
-  return res.end();
 };
 
 module.exports.notFound = function (res, message) {
@@ -30,7 +27,6 @@ module.exports.notFound = function (res, message) {
     message = 'Not found.';
   }
   res.send(404, message);
-  return res.end();
 };
 
 module.exports.badMethod = function (res, message) {
@@ -38,7 +34,6 @@ module.exports.badMethod = function (res, message) {
     message = 'Method Not Allowed';
   }
   res.send(405, message);
-  return res.end();
 };
 
 module.exports.conflict = function (res, message) {
@@ -46,7 +41,6 @@ module.exports.conflict = function (res, message) {
     message = 'Conflict. File exists';
   }
   res.send(409, message);
-  return res.end();
 };
 
 module.exports.badInput = function (res, message) {
@@ -54,7 +48,6 @@ module.exports.badInput = function (res, message) {
     message = 'Unprocessable Entity. Bad Input.';
   }
   res.send(422, message);
-  return res.end();
 };
 
 module.exports.serverError = function (res, message) {
@@ -62,5 +55,4 @@ module.exports.serverError = function (res, message) {
     message = 'Internal Server Error';
   }
   res.send(500, message);
-  return res.end();
 };

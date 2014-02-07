@@ -2,7 +2,6 @@
 
 var mongoose = require('mongoose'),
   _ = require('lodash'),
-  async = require('async'),
   AppCategory = mongoose.model('AppCategory'),
   App = mongoose.model('App'),
   errors = require('../errors');
@@ -10,61 +9,28 @@ var mongoose = require('mongoose'),
 /**
  * List all AppCategories
  * Available query parameters:
- *  exapand : will add and populate associated AppCategory's apps
+ *  expand : will add and populate associated AppCategory's apps
  */
 exports.all = function (req, res) {
   var expand = req.query.expand;
-  AppCategory.list(function (err, appCategories) {
-    if (err) {
-      errors.serverError();
-    } else {
-      if (expand === 'true') {
-        //The list of apps associated to each appCategories must be populated (we cannot use the mongoose populate
-        //function because the AppCategory model doesn't hold references to the associated apps).
-        //So, an asynchronous call to retrieve the apps must be performed for each appCategories.
-        //However, it's not possible to populate the appCategories' apps array inside a loop because
-        //of the asynchronous nature of the call to retrieve the apps in the DB. To overcome this problem
-        //the parallel util of the async library is used in order to parallelize the asynchronous call made
-        //on the DB and thus be able to populate the appCategories' apps array only once all the apps are
-        //retrieved from the DB.
-        var populateFunctionArray = [];
-        _.forEach(appCategories, function (category, index) {
-          //Create an array of populate function which will be run after in parallel
-          populateFunctionArray.push(
-            function (callback) {
-              App.byCategory(category._id, function (err, apps) {
-                callback(null, apps);
-              });
-            }
-          );
-        });
-        //TODO update comment
-        //Run each populate function located in the populateFunctionArray and once all functions execution are
-        // terminated executed a call back which has as parameter a results array which contains all populate function
-        // results
-        async.parallel(populateFunctionArray, function (err, results) {
-          //TODO remove comment
-          /*   if (pinAppsQueryParam) {
-           _.forEach(appCategories, function (category, index) {
-           _.forEach(req.user.pinnedAppsGroups,function(pinnedAppsGroup){
-           _.forEach(pinnedAppsGroup.apps,function(app){
 
-           })
-           })
-           category.apps = results[index];
-           });
-           } else {*/
-          _.forEach(appCategories, function (category, index) {
-            category.apps = results[index];
-          });
-          // }
-          res.json(appCategories);
-        });
+  if (expand === 'true') {
+    AppCategory.listWithAppsPopulated(function (err, appCategories) {
+      if (err) {
+        errors.serverError();
       } else {
         res.json(appCategories);
       }
-    }
-  });
+    });
+  } else {
+    AppCategory.list(function (err, appCategories) {
+      if (err) {
+        errors.serverError();
+      } else {
+        res.json(appCategories);
+      }
+    });
+  }
 };
 /**
  * Create a new AppCategory

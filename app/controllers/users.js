@@ -6,6 +6,8 @@
 var mongoose = require('mongoose'),
   User = mongoose.model('User'),
   App = mongoose.model('App'),
+  PinnedAppsGroup = mongoose.model('PinnedAppsGroup'),
+  AppCategory = mongoose.model('AppCategory'),
   errors = require('../errors'),
   _ = require('lodash');
 
@@ -120,6 +122,38 @@ exports.currentUser = function (req, res) {
   });
 };
 
+exports.currentUserAppCategories = function (req, res) {
+  User.byId(req.user.id, function (err, user) {
+    if (err) {
+      errors.serverError();
+    } else {
+      var expand = req.query.expand;
+      var userPinnedApps = user.getPinnedApps();
+
+      //TODO replace by a list which contains only the apps/appCategories the user can READ
+      //(roles and permissions must be implemented first).
+      AppCategory.listWithAppsPopulated(function (err, appCategories) {
+        if (err) {
+          errors.serverError();
+        } else {
+          _.forEach(appCategories, function (appCategory, appCategoryIndex) {
+            //Add a isPinned property to the document which indicated if this document is pinned by the user.
+            _.forEach(appCategory.apps, function (app, appIndex) {
+              appCategories[appCategoryIndex].apps[appIndex]._doc.isPinned = false;
+              _.forEach(userPinnedApps, function (userPinnedApp) {
+                if (userPinnedApp.equals(app)) {
+                  appCategories[appCategoryIndex].apps[appIndex]._doc.isPinned = true;
+                }
+              });
+            });
+          });
+          res.json(appCategories);
+        }
+      });
+    }
+  });
+};
+
 exports.currentUserApps = function (req, res) {
   User.byId(req.user.id, function (err, user) {
     if (err) {
@@ -147,5 +181,41 @@ exports.currentUserApps = function (req, res) {
         }
       });
     }
+  });
+};
+
+exports.pinApp = function (req, res) {
+  var groupId = req.params.groupId;
+  var appId = req.params.appId;
+
+  App.findOne({_id: appId}, function (err, app) {
+    if (err) {
+      errors.serverError();
+    } else {
+      User.pinApp('52ed615a837a670c0c2dc82c', groupId, app, function (err, app) {
+        if (err) {
+          return errors.serverError(res, err.message);
+        } else {
+          res.json(app);
+        }
+      });
+    }
+  });
+};
+
+exports.createGroup = function (req, res) {
+  var group = new PinnedAppsGroup({
+    title: 'Group test99',
+    apps: [
+      {
+        '$oid': '52d9b5375b1b3b5cda9c0e61'
+      },
+      {
+        '$oid': '52d9b5375b1b3b5cda9c0e6e'
+      }
+    ]
+  });
+  group.save(function (err) {
+    res.json(group);
   });
 };

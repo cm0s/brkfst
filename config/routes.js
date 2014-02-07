@@ -77,6 +77,13 @@ module.exports = function (app, passport, auth) {
   //User routes
   app.get('/api/users/me', users.currentUser);
   app.get('/api/users/me/apps', users.currentUserApps);
+  app.get('/api/users/me/appCategories', users.currentUserAppCategories);
+
+  //User pinnedApps routes
+  app.post('/api/users/me/pinnedAppsGroup/:groupId/pinnedApps/:appId', users.pinApp);
+
+  //PinnedApps group
+  app.post('/api/pinnedAppsGroup', users.createGroup);
 
   //Localization routes
   var locale = require('../app/controllers/locale');

@@ -166,6 +166,27 @@ UserSchema.statics = {
     query
       .populate('pinnedAppsGroups.apps')
       .exec(callback);
+  },
+  pinApp: function (userId, groupId, app, callback) {
+    this.findOne({_id: userId})
+      .populate('pinnedAppsGroups.apps')
+      .exec(function (err, user) {
+        var pinnedAppsGroupIndex = _.findIndex(user.pinnedAppsGroups, {'_doc': {'cid': groupId}});
+        if (pinnedAppsGroupIndex === -1) {
+          callback(new Error('There is no group with id: [' + groupId + ']'), null);
+        } else {
+          var pinnedAppsGroup = user.pinnedAppsGroups[pinnedAppsGroupIndex];
+          var pinnedAppIndex = _.findIndex(pinnedAppsGroup.apps, {_id: app.id});
+          if (pinnedAppIndex === -1) {
+            pinnedAppsGroup.apps.push(app);
+            pinnedAppsGroup.save(function (err) {
+              callback(err, app);
+            });
+          } else {
+            callback(new Error('There is already an app with id: [' + app.id + '] in the group with id: [' + groupId + ']'), null);
+          }
+        }
+      });
   }
 };
 
