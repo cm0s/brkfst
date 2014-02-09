@@ -89,6 +89,10 @@ module.exports = function (app, passport, auth) {
   var locale = require('../app/controllers/locale');
   app.get('/api/locale', locale.render);
 
+  //Mysql test
+  var apps2Ctrl = require('../app/controllers/apps2');
+  app.get('/api/apps2', apps2Ctrl.all);
+
   /**
    /* Pages
    **/

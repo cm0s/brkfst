@@ -19,10 +19,11 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 //Initializing system variables 
 var config = require('./config/config'),
   auth = require('./config/middlewares/authorization'),
-  mongoose = require('mongoose');
+  mongoose = require('mongoose'),
+  mysql = require('mysql');
 
 //Bootstrap db connection
-var db = mongoose.connect(config.db);
+var db = mongoose.connect('mongodb://localhost/brkfst-dev');
 
 //Bootstrap models
 var models_path = __dirname + '/app/models';
