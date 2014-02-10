@@ -6,8 +6,8 @@ angular.module('catalogCtrl', [
   ])
   .controller('CatalogCtrl', function ($scope, apiRestangularSrv, utilsSrv) {
     var
-      appCategories = apiRestangularSrv.one('users', 'me').all('appCategories'),
-      apps = apiRestangularSrv.one('users', 'me').all('apps');
+      appCategories = apiRestangularSrv.all('categories'),
+      apps = apiRestangularSrv.all('apps');
 
     $scope.appCategories = appCategories.getList({expand: true}).$object;
     $scope.apps = apps.getList().$object;

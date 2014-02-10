@@ -8,6 +8,13 @@ module.exports.custom = function (res, code, message) {
   res.send(code, message);
 };
 
+module.exports.badRequest = function (res, message) {
+  if (message === null) {
+    message = 'Bad Request';
+  }
+  res.send(400, message);
+};
+
 module.exports.unauthorized = function (res, message) {
   if (message === null) {
     message = 'Unauthorized';

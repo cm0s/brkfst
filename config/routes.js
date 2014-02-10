@@ -65,33 +65,27 @@ module.exports = function (app, passport, auth) {
    /* API
    **/
   //Apps routes
-  var appsCtrl = require('../app/controllers/apps');
-  app.get('/api/apps', appsCtrl.all);
-  app.post('/api/apps', appsCtrl.create);
+  var appCtrl = require('../app/controllers/app');
+  app.get('/api/apps', appCtrl.findAll);
+  app.post('/api/apps', appCtrl.create);
 
   //AppCategories routes
-  var appCategoriesCtrl = require('../app/controllers/appCategories');
-  app.get('/api/appCategories', appCategoriesCtrl.all);
-  app.post('/api/appCategories', appCategoriesCtrl.create);
+  var categoryCtrl = require('../app/controllers/category');
+  app.get('/api/categories', categoryCtrl.findAll);
+  //app.post('/api/appCategories', appCategoriesCtrl.create);
 
   //User routes
   app.get('/api/users/me', users.currentUser);
-  app.get('/api/users/me/apps', users.currentUserApps);
-  app.get('/api/users/me/appCategories', users.currentUserAppCategories);
 
   //User pinnedApps routes
-  app.post('/api/users/me/pinnedAppsGroup/:groupId/pinnedApps/:appId', users.pinApp);
+  // app.post('/api/users/me/pinnedAppsGroup/:groupId/pinnedApps/:appId', users.pinApp);
 
   //PinnedApps group
-  app.post('/api/pinnedAppsGroup', users.createGroup);
+  //app.post('/api/pinnedAppsGroup', users.createGroup);
 
   //Localization routes
   var locale = require('../app/controllers/locale');
   app.get('/api/locale', locale.render);
-
-  //Mysql test
-  var apps2Ctrl = require('../app/controllers/apps2');
-  app.get('/api/apps2', apps2Ctrl.all);
 
   /**
    /* Pages
