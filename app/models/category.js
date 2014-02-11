@@ -1,7 +1,6 @@
 'use strict';
 
 var conn = require('../../config/mysql').conn,
-  mysqlUtil = require('../utils/mysql'),
   async = require('async'),
   _ = require('lodash'),
   Base = require('./mysql-base');
