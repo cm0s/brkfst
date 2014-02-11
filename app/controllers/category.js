@@ -9,7 +9,11 @@ exports.findAll = function (req, res) {
 
   if (embed === 'apps') {
     Category.findAllwithEmbeddedApps(function (err, results) {
-      res.json(results);
+      if (err) {
+        errors.serverError(res, err.message);
+      } else {
+        res.json(results);
+      }
     });
   } else if (_.isEmpty(embed)) {
     Category.findAll(function (err, apps) {
