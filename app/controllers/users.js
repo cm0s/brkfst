@@ -3,9 +3,7 @@
 /**
  * Module dependencies.
  */
-var mongoose = require('mongoose'),
-  User = mongoose.model('User'),
-  errors = require('../errors'),
+var errors = require('../errors'),
   _ = require('lodash');
 
 /**
@@ -15,70 +13,37 @@ exports.authCallback = function (req, res) {
   res.redirect('/');
 };
 
-/**
- * Show login form
- */
-exports.signin = function (req, res) {
-  res.render('users/signin', {
-    title: 'Signin',
-    message: req.flash('error')
-  });
-};
-
-/**
- * Show sign up form
- */
-exports.signup = function (req, res) {
-  res.render('users/signup', {
-    title: 'Sign up',
-    user: new User()
-  });
-};
-
-/**
- * Logout
- */
-exports.signout = function (req, res) {
-  req.logout();
-  res.redirect('/');
-};
-
-/**
- * Session
- */
-exports.session = function (req, res) {
-  res.redirect('/');
-};
 
 /**
  * Create user
  */
 exports.create = function (req, res, next) {
-  var user = new User(req.body);
-  var message = null;
+  /*  var user = new User(req.body);
+   var message = null;
 
-  user.provider = 'local';
-  user.save(function (err) {
-    if (err) {
-      switch (err.code) {
-        case 11000:
-        case 11001:
-          message = 'Username already exists';
-          break;
-        default:
-          message = 'Please fill all the required fields';
-      }
+   user.provider = 'local';
+   user.save(function (err) {
+   if (err) {
+   switch (err.code) {
+   case 11000:
+   case 11001:
+   message = 'Username already exists';
+   break;
+   default:
+   message = 'Please fill all the required fields';
+   }
 
-      return res.render('users/signup', {
-        message: message,
-        user: user
-      });
-    }
-    req.logIn(user, function (err) {
-      if (err) return next(err);
-      return res.redirect('/');
-    });
-  });
+   return res.render('users/signup', {
+   message: message,
+   user: user
+   });
+   }
+   req.logIn(user, function (err) {
+   if (err) return next(err);
+   return res.redirect('/');
+   });
+   });*/
+  return res.redirect('/');
 };
 
 /**
@@ -92,29 +57,15 @@ exports.me = function (req, res) {
  * Find user by id
  */
 exports.user = function (req, res, next, id) {
-  User
-    .findOne({
-      _id: id
-    })
-    .exec(function (err, user) {
-      if (err) return next(err);
-      if (!user) return next(new Error('Failed to load User ' + id));
-      req.profile = user;
-      next();
-    });
-};
-
-/**
- * Find logged user in DB
- * Replace the exports.me function in order to be able to run the populate
- * option on the User model query to mongodb (will be replaced later)
- */
-exports.currentUser = function (req, res) {
-  User.byId(req.user.id, function (err, user) {
-    if (err) {
-      errors.serverError();
-    } else {
-      res.jsonp(user);
-    }
-  });
+  /* User
+   .findOne({
+   _id: id
+   })
+   .exec(function (err, user) {
+   if (err) return next(err);
+   if (!user) return next(new Error('Failed to load User ' + id));
+   req.profile = user;
+   next();
+   });*/
+  next();
 };

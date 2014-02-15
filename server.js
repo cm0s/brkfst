@@ -18,12 +18,11 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 //Initializing system variables 
 var config = require('./config/config'),
-  auth = require('./config/middlewares/authorization'),
-  mongoose = require('mongoose'),
   mysql = require('mysql');
 
 //Bootstrap db connection
-var db = mongoose.connect('mongodb://localhost/brkfst-dev');
+//TODO connect mysql db here
+//var db = mongoose.connect('mongodb://localhost/brkfst-dev');
 
 //Bootstrap models
 var models_path = __dirname + '/app/models';
@@ -42,16 +41,18 @@ var walk = function (path) {
 };
 walk(models_path);
 
-//bootstrap passport config
+// Bootstrap passport config
 require('./config/passport')(passport);
 
 var app = express();
 
 //express settings
-require('./config/express')(app, passport, db);
+require('./config/express')(app, passport);
+//TODO pass the db variable
+//require('./config/express')(app, passport, db);
 
 //Bootstrap routes
-require('./config/routes')(app, passport, auth);
+require('./config/routes')(app, passport);
 
 //Start the app by listening on <port>
 var port = process.env.PORT || config.port;

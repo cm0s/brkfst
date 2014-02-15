@@ -1,62 +1,43 @@
 'use strict';
 
-module.exports = function (app, passport, auth) {
+var auth = require('./middlewares/authorization'),
+  users = require('../app/controllers/users'),
+  errors = require('../app/errors');
+
+module.exports = function (app, passport) {
+  //app.all('*', auth.isAuthenticated);
+
+  app.get('/login', function (req, res, next) {
+    //Authentication is handled by Shibboleth, thus the only thing we need to check
+    //is whether there is a user entry in the database which has the uniqueid
+    //passed in the header.
+    req.body.username = req.headers.uniqueid;
+    //LocalStrategy need a password to work otherwise a MissingCredential error is
+    //raised. This password is just not verified.
+    req.body.password = 'fakepassword';
+
+    //TODO replace the passport-local strategy by a custom strategy which doesn't check the password.
+    //This way, it will not be necessary to set a "fake password".
+    (passport.authenticate('local', function (err, user, info) {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        console.log('ERROR: Cannot login, there is no user with uniqueId [' + req.headers.uniqueid + '] in the DB');
+        return res.send(401, 'User not authorized, invalid uniqueId');
+      }
+
+      req.logIn(user, function (err) {
+        if (err) {
+          return next(err);
+        }
+        return res.redirect(req.session.returnTo || '/');
+      });
+    })(req, res, next));
+  });
+
   //User Routes
-  var users = require('../app/controllers/users');
-  app.get('/signin', users.signin);
-  app.get('/signup', users.signup);
-  app.get('/signout', users.signout);
   app.get('/users/me', users.me);
-
-  //Setting up the users api
-  app.post('/users', users.create);
-
-  //Setting the local strategy route
-  app.post('/users/session', passport.authenticate('local', {
-    failureRedirect: '/signin',
-    failureFlash: true
-  }), users.session);
-
-  //Setting the facebook oauth routes
-  app.get('/auth/facebook', passport.authenticate('facebook', {
-    scope: ['email', 'user_about_me'],
-    failureRedirect: '/signin'
-  }), users.signin);
-
-  app.get('/auth/facebook/callback', passport.authenticate('facebook', {
-    failureRedirect: '/signin'
-  }), users.authCallback);
-
-  //Setting the github oauth routes
-  app.get('/auth/github', passport.authenticate('github', {
-    failureRedirect: '/signin'
-  }), users.signin);
-
-  app.get('/auth/github/callback', passport.authenticate('github', {
-    failureRedirect: '/signin'
-  }), users.authCallback);
-
-  //Setting the twitter oauth routes
-  app.get('/auth/twitter', passport.authenticate('twitter', {
-    failureRedirect: '/signin'
-  }), users.signin);
-
-  app.get('/auth/twitter/callback', passport.authenticate('twitter', {
-    failureRedirect: '/signin'
-  }), users.authCallback);
-
-  //Setting the google oauth routes
-  app.get('/auth/google', passport.authenticate('google', {
-    failureRedirect: '/signin',
-    scope: [
-      'https://www.googleapis.com/auth/userinfo.profile',
-      'https://www.googleapis.com/auth/userinfo.email'
-    ]
-  }), users.signin);
-
-  app.get('/auth/google/callback', passport.authenticate('google', {
-    failureRedirect: '/signin'
-  }), users.authCallback);
 
   //Finish with setting up the userId param
   app.param('userId', users.user);
@@ -75,7 +56,7 @@ module.exports = function (app, passport, auth) {
   //app.post('/api/appCategories', appCategoriesCtrl.create);
 
   //User routes
-  app.get('/api/users/me', users.currentUser);
+  //app.get('/api/users/me', users.currentUser);
 
   //User pinnedApps routes
   // app.post('/api/users/me/pinnedAppsGroup/:groupId/pinnedApps/:appId', users.pinApp);
@@ -92,7 +73,7 @@ module.exports = function (app, passport, auth) {
    **/
   //Home route
   var index = require('../app/controllers/index');
-  app.get('/', index.render);
-  app.get('*', index.render);
+  app.get('/', auth.isAuthenticated, index.render);
+  app.get('*', auth.isAuthenticated, index.render);
 
 };

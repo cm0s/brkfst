@@ -4,12 +4,13 @@
  * Module dependencies.
  */
 var express = require('express'),
-  mongoStore = require('connect-mongo')(express),
   flash = require('connect-flash'),
   helpers = require('view-helpers'),
-  config = require('./config');
+  config = require('./config'),
+  _ = require('lodash'),
+  User = require('../app/models/user');
 
-module.exports = function (app, passport, db) {
+module.exports = function (app, passport) {
   app.set('showStackError', true);
 
   //Prettify HTML
@@ -44,14 +45,13 @@ module.exports = function (app, passport, db) {
     app.use(express.json());
     app.use(express.methodOverride());
 
-    //express/mongo session storage
     app.use(express.session({
-      secret: 'MEAN',
-      store: new mongoStore({
-        db: db.connection.db,
-        collection: 'sessions'
-      })
+      secret: '4ef2aa00bd41f2f915d63dc65aa6eb96'
     }));
+
+    // Initialize passport and activate session
+    app.use(passport.initialize());
+    app.use(passport.session());
 
     //connect flash for flash messages
     app.use(flash());
@@ -59,18 +59,12 @@ module.exports = function (app, passport, db) {
     //dynamic helpers
     app.use(helpers(config.app.name));
 
-    //use passport session
-    app.use(passport.initialize());
-    app.use(passport.session());
-
-
     //Setting the fav icon and static folder
     app.use(express.favicon());
     app.use('/public', express.static(config.root + '/public'));
 
     //routes should be at the last
     app.use(app.router);
-
 
     //Assume "not found" in the error msgs is a 404. this is somewhat silly, but valid, you can do whatever you like, set properties, use instanceof etc.
     app.use(function (err, req, res, next) {

@@ -1,23 +1,17 @@
 'use strict';
 
-/**
- * Generic require login routing middleware
- */
-exports.requiresLogin = function (req, res, next) {
-  if (!req.isAuthenticated()) {
-    return res.send(401, 'User is not authorized');
-  }
-  next();
-};
+var _ = require('lodash'),
+  errors = require('../../app/errors');
 
-/**
- * User authorizations routing middleware
- */
-exports.user = {
-  hasAuthorization: function (req, res, next) {
-    if (req.profile.id !== req.user.id) {
-      return res.send(401, 'User is not authorized');
-    }
-    next();
+
+exports.isAuthenticated = function (req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    //Keep the visited page in the request session in order
+    //to redirect to this page after a successful login.
+    req.session.returnTo = req.path;
+    return res.redirect('/login');
   }
+  errors.unauthorized(res, 'User is not authorized');
 };
