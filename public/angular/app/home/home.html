@@ -1,6 +1,6 @@
 <section class="home">
-  <div class="pinnedappsgroup" ng-repeat="pinnedAppsGroup in pinnedAppsGroups">
-    <div class="pinnedappsgroup-title">{{pinnedAppsGroup.title}}</div>
-    <brkfst-app model="pinnedApp" ng-repeat="pinnedApp in pinnedAppsGroup.apps"></brkfst-app>
+  <div class="favgroup" ng-repeat="favgroup in favgroups">
+    <div class="favgroup-title">{{favgroup.title}}</div>
+    <brkfst-app model="pinnedApp" ng-repeat="pinnedApp in favgroup.apps"></brkfst-app>
   </div>
 </section>

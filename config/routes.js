@@ -45,18 +45,19 @@ module.exports = function (app, passport) {
   /**
    /* API
    **/
-  //Apps routes
+  //apps routes
   var appCtrl = require('../app/controllers/app');
   app.get('/api/apps', appCtrl.findAll);
   app.post('/api/apps', appCtrl.create);
 
-  //AppCategories routes
+  //categories routes
   var categoryCtrl = require('../app/controllers/category');
   app.get('/api/categories', categoryCtrl.findAll);
   //app.post('/api/appCategories', appCategoriesCtrl.create);
 
-  //User routes
-  //app.get('/api/users/me', users.currentUser);
+  //favgroups routes
+  var favgroupCtrl = require('../app/controllers/favgroup');
+  app.get('/api/favgroups', favgroupCtrl.findAll);
 
   //User pinnedApps routes
   // app.post('/api/users/me/pinnedAppsGroup/:groupId/pinnedApps/:appId', users.pinApp);

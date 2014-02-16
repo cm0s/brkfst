@@ -13,8 +13,8 @@ Category.findAllwithEmbeddedApps = function (callback) {
   async.waterfall([
     function (callback) {
       conn.query({
-        sql: 'SELECT * FROM category JOIN app_category ON ' +
-          'app_category.category_id = category.id JOIN app ON app.id = app_category.app_id',
+        sql: 'SELECT * FROM category JOIN category_app ON ' +
+          'category_app.category_id = category.id JOIN app ON app.id = category_app.app_id',
         nestTables: true
       }, function (err, rows) {
         callback(err, rows);

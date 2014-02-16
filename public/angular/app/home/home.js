@@ -5,9 +5,6 @@ angular.module('homeCtrl', [
     'directives.brkfstApp'
   ])
   .controller('HomeCtrl', function ($scope, apiRestangularSrv, utilsSrv) {
-    //PinnedApps are embedded in the user document, therefore the user must be retrieve to get the PinnedApps
-    apiRestangularSrv.one('users', 'me').get().then(function (user) {
-      $scope.pinnedAppsGroups = user.pinnedAppsGroups;
-    });
+    $scope.favgroups = apiRestangularSrv.all('favgroups').getList({embed: 'apps'}).$object;
   });
 
