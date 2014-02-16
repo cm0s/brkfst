@@ -5,8 +5,6 @@ var auth = require('./middlewares/authorization'),
   errors = require('../app/errors');
 
 module.exports = function (app, passport) {
-  //app.all('*', auth.isAuthenticated);
-
   app.get('/login', function (req, res, next) {
     //Authentication is handled by Shibboleth, thus the only thing we need to check
     //is whether there is a user entry in the database which has the uniqueid
@@ -36,35 +34,23 @@ module.exports = function (app, passport) {
     })(req, res, next));
   });
 
-  //User Routes
-  app.get('/users/me', users.me);
-
-  //Finish with setting up the userId param
-  app.param('userId', users.user);
-
   /**
    /* API
    **/
-  //apps routes
+  //apps
   var appCtrl = require('../app/controllers/app');
   app.get('/api/apps', appCtrl.findAll);
   app.post('/api/apps', appCtrl.create);
 
-  //categories routes
+  //categories
   var categoryCtrl = require('../app/controllers/category');
   app.get('/api/categories', categoryCtrl.findAll);
 
-  //favgroups routes
+  //favgroups
   var favgroupCtrl = require('../app/controllers/favgroup');
   app.get('/api/favgroups', favgroupCtrl.findAll);
 
-  //User pinnedApps routes
-  // app.post('/api/users/me/pinnedAppsGroup/:groupId/pinnedApps/:appId', users.pinApp);
-
-  //PinnedApps group
-  //app.post('/api/pinnedAppsGroup', users.createGroup);
-
-  //Localization routes
+  //Localization
   var locale = require('../app/controllers/locale');
   app.get('/api/locale', locale.render);
 
