@@ -53,7 +53,6 @@ module.exports = function (app, passport) {
   //categories routes
   var categoryCtrl = require('../app/controllers/category');
   app.get('/api/categories', categoryCtrl.findAll);
-  //app.post('/api/appCategories', appCategoriesCtrl.create);
 
   //favgroups routes
   var favgroupCtrl = require('../app/controllers/favgroup');

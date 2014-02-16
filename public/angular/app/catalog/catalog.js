@@ -6,10 +6,10 @@ angular.module('catalogCtrl', [
   ])
   .controller('CatalogCtrl', function ($scope, apiRestangularSrv, utilsSrv) {
     var
-      appCategories = apiRestangularSrv.all('categories'),
+      categories = apiRestangularSrv.all('categories'),
       apps = apiRestangularSrv.all('apps');
 
-    $scope.appCategories = appCategories.getList({embed: 'apps'}).$object;
+    $scope.categories = categories.getList({embed: 'apps'}).$object;
     $scope.apps = apps.getList().$object;
     $scope.isSearchInputEmpty = true;
 

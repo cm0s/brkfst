@@ -4,9 +4,9 @@
     <input type="text" class="form-control" placeholder="Search" ng-model="search" ng-change="hideCategories()"/>
   </div>
   <div class="catalog-browse" ng-show="isSearchInputEmpty">
-    <div class="appcategory" ng-repeat="appCategory in appCategories">
-      <div class="appcategory-title">{{appCategory.title}}</div>
-      <brkfst-app model="app" ng-repeat="app in appCategory.apps"></brkfst-app>
+    <div class="category" ng-repeat="category in categories">
+      <div class="category-title">{{category.title}}</div>
+      <brkfst-app model="app" ng-repeat="app in category.apps"></brkfst-app>
     </div>
   </div>
 

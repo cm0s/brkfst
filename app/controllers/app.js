@@ -4,7 +4,6 @@ var App = require('../models/app'),
   errors = require('../errors');
 
 exports.findAll = function (req, res) {
-  var expand = req.query.expand;
   App.findAll(function (err, apps) {
     if (err) {
       errors.serverError(res, err.message);
