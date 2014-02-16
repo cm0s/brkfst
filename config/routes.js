@@ -5,7 +5,38 @@ var auth = require('./middlewares/authorization'),
   errors = require('../app/errors');
 
 module.exports = function (app, passport) {
-  app.get('/login', function (req, res, next) {
+
+  //Login form page
+  app.get('/login', users.signin);
+
+  //Auto login which use the uniqueId HTTP header attribute to authenticate the user.
+  app.post('/login', function (req, res, next) {
+    //LocalStrategy need a password to work otherwise a MissingCredential error is
+    //raised. This password is just not verified.
+    req.body.password = 'fakepassword';
+
+    //TODO replace the passport-local strategy by a custom strategy which doesn't check the password.
+    //This way, it will not be necessary to set a "fake password".
+    (passport.authenticate('local', function (err, user, info) {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        console.log('ERROR: Cannot login, there is no user with uniqueId [' + req.headers.uniqueid + '] in the DB');
+        return res.send(401, 'User not authorized, invalid uniqueId');
+      }
+
+      req.logIn(user, function (err) {
+        if (err) {
+          return next(err);
+        }
+        return res.redirect('/');
+      });
+    })(req, res, next));
+  });
+
+  //Auto login which use the uniqueId HTTP header attribute to authenticate the user.
+  app.get('/auto-login', function (req, res, next) {
     //Authentication is handled by Shibboleth, thus the only thing we need to check
     //is whether there is a user entry in the database which has the uniqueid
     //passed in the header.

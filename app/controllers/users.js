@@ -7,6 +7,16 @@ var errors = require('../errors'),
   _ = require('lodash');
 
 /**
+ * Show login form
+ */
+exports.signin = function(req, res) {
+  res.render('users/signin', {
+    title: 'Signin',
+    message: req.flash('error')
+  });
+};
+
+/**
  * Create user
  */
 exports.create = function (req, res, next) {

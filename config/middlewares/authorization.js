@@ -11,7 +11,7 @@ exports.isAuthenticated = function (req, res, next) {
     //Keep the visited page in the request session in order
     //to redirect to this page after a successful login.
     req.session.returnTo = req.path;
-    return res.redirect('/login');
+    return res.redirect('/auto-login');
   }
   errors.unauthorized(res, 'User is not authorized');
 };

@@ -1,19 +1,11 @@
 extends auth
 
 block auth
-  form.signin.form-horizontal(action="/users/session", method="post")
+  form.signin.form-horizontal(action="/login", method="post")
     .control-group
-      label.control-label(for='email') Email
+      label.control-label(for='username') UniqueId
       .controls
-        input#email(type='text', name="email", placeholder='Email')
-
-    .control-group
-      label.control-label(for='password') Password
-      .controls
-        input#password(type='password', name="password", placeholder='Password')
+        input#uniqueid(type='text', name="username", placeholder='UniqueId')
 
     .form-actions
       button.btn.btn-primary(type='submit') Sign in
-      &nbsp;
-      | or&nbsp;
-      a.show-signup(href="/signup") Sign up
