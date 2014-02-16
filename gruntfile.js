@@ -260,7 +260,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-file-append');
 
   //Default task(s).
-  grunt.registerTask('default', ['angular-dist', 'jshint', 'less', 'concurrent:default' ]);
+  grunt.registerTask('default', ['angular-dist', 'jshint', 'less', 'nodemon:dev' ]);
 
   //Test task.
   grunt.registerTask('test', ['env:test', 'mochacov:test', 'mochacov:coverage']);
