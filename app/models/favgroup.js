@@ -9,6 +9,11 @@ var Favgroup = function Favgroup(attributes) {
   this.attributes = attributes;
 };
 
+//Model for the favgroup_app join table
+var FavgroupApp = function FavgroupApp(attributes) {
+  this.attributes = attributes;
+};
+
 Favgroup.findAllwithEmbeddedApps = function (callback) {
   async.waterfall([
     function (callback) {
@@ -41,6 +46,31 @@ Favgroup.findAllwithEmbeddedApps = function (callback) {
 };
 
 Base.apply(Favgroup, 'favgroup');
+Base.apply(FavgroupApp, 'favgroup_app');
+
+Favgroup.prototype.getAppById = function getAppById(id, callback) {
+  FavgroupApp.findOne({favgroup_id: this.get('id'), app_id: id}, function (err, favgroupApp) {
+    if (err) {
+      return callback(err);
+    }
+
+    callback(null, favgroupApp);
+  });
+};
+
+Favgroup.prototype.addApp = function getAppById(id, callback) {
+  var favgroupApp = new FavgroupApp({
+    app_id: id,
+    favgroup_id: this.get('id')
+  });
+  favgroupApp.save(function (err, favGroup) {
+    if (err) {
+      return callback(err);
+    }
+    callback(null, favGroup);
+  })
+};
+
 
 module.exports = Favgroup;
 
