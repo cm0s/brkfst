@@ -6,13 +6,13 @@
   <div class="catalog-browse" ng-show="isSearchInputEmpty">
     <div class="category" ng-repeat="category in categories">
       <div class="category-title">{{category.title}}</div>
-      <brkfst-app model="app" ng-repeat="app in category.apps"></brkfst-app>
+      <ug-app model="app" ng-repeat="app in category.apps"></ug-app>
     </div>
   </div>
 
   <!-- SEARCH RESULT -->
   <div class="catalog-search-results" ng-show="!isSearchInputEmpty">
-    <brkfst-app model="app" ng-repeat="app in filteredApps = (apps | filter:textFilter)"></brkfst-app>
+    <ug-app model="app" ng-repeat="app in filteredApps = (apps | filter:textFilter)"></ug-app>
   </div>
   <div class="catalog-search-no-results" ng-show="!filteredApps.length">{{'catalog.noresults' | translate}}</div>
 </section>
