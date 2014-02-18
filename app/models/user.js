@@ -6,7 +6,10 @@ var conn = require('../../config/mysql').conn,
   Base = require('./mysql-base');
 
 var User = function User(attributes) {
-  this.attributes = attributes;
+  var self = this;
+  _.forEach(attributes, function (value, key) {
+    self[key] = value;
+  });
 };
 
 User.findByUId = function (id, callback) {

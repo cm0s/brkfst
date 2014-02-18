@@ -1,6 +1,8 @@
 'use strict';
 /*jslint -W040 */
-var conn = require('../../config/mysql').conn;
+var conn = require('../../config/mysql').conn,
+  utils = require('../utils/utils'),
+  _ = require('lodash');
 
 var Base = function () {
 };
@@ -15,6 +17,8 @@ Base.apply = function apply(Model, table) {
       var mutator = prep[key];
       attributes[key] = mutator(attributes[key], attributes);
     });
+
+    utils.convertToCamelCase(attributes);
 
     return new Model(attributes);
   };

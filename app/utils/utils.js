@@ -5,14 +5,25 @@
 var _ = require('lodash');
 
 /**
- * Populate path fields of query documents results.
- * Population = replace a field containing a path by a document.
- * @param query the query which is going to be executed
- * @param fields list of field names containing a path which is going to be populated
+ * Convert snake_case string into a camelCase string.
  */
-exports.populateQuery = function (query, fieldNames) {
-  _.forEach(fieldNames, function (fieldName) {
-    query.populate(fieldName);
+exports.snakeToCamelCase = function (string) {
+  return string.replace(/(_\w)/g, function (m) {
+    return m[1].toUpperCase();
   });
-  return query;
+};
+
+/**
+ * Rename recursively all snake_case properties of a given object to camelCase properties.
+ */
+exports.convertToCamelCase = function convertToCamelCase(obj) {
+  for (var property in obj) {
+    if (obj.hasOwnProperty(property)) {
+      var propertyValue = obj[property];
+      if (typeof obj[property] === 'object')
+        convertToCamelCase(obj[property]);
+      delete obj[property];
+      obj[exports.snakeToCamelCase(property)] = propertyValue;
+    }
+  }
 };

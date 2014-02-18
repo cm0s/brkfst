@@ -5,6 +5,8 @@ angular.module('homeCtrl', [
     'directives.brkfstApp'
   ])
   .controller('HomeCtrl', function ($scope, apiRestangularSrv, utilsSrv) {
-    $scope.favgroups = apiRestangularSrv.all('favgroups').getList({embed: 'apps'}).$object;
+    apiRestangularSrv.all('favgroups').getList({embed: 'apps'}).then(function (favgroups) {
+      $scope.favgroups = favgroups;
+    });
   });
 

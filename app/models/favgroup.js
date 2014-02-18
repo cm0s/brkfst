@@ -6,12 +6,18 @@ var conn = require('../../config/mysql').conn,
   async = require('async');
 
 var Favgroup = function Favgroup(attributes) {
-  this.attributes = attributes;
+  var self = this;
+  _.forEach(attributes, function (value, key) {
+    self[key] = value;
+  });
 };
 
 //Model for the favgroup_app join table
 var FavgroupApp = function FavgroupApp(attributes) {
-  this.attributes = attributes;
+  var self = this;
+  _.forEach(attributes, function (value, key) {
+    self[key] = value;
+  });
 };
 
 Favgroup.findAllwithEmbeddedApps = function (callback) {
@@ -22,7 +28,10 @@ Favgroup.findAllwithEmbeddedApps = function (callback) {
           'favgroup_app.favgroup_id = favgroup.id JOIN app ON app.id = favgroup_app.app_id',
         nestTables: true
       }, function (err, rows) {
-        callback(err, rows);
+        if (err) {
+          return callback(err);
+        }
+        callback(null, rows.map(Favgroup.fromDbResult));
       });
     },
     function (rows, callback) {
@@ -49,7 +58,7 @@ Base.apply(Favgroup, 'favgroup');
 Base.apply(FavgroupApp, 'favgroup_app');
 
 Favgroup.prototype.getAppById = function getAppById(id, callback) {
-  FavgroupApp.findOne({favgroup_id: this.get('id'), app_id: id}, function (err, favgroupApp) {
+  FavgroupApp.findOne({favgroup_id: this.id, app_id: id}, function (err, favgroupApp) {
     if (err) {
       return callback(err);
     }
@@ -61,14 +70,18 @@ Favgroup.prototype.getAppById = function getAppById(id, callback) {
 Favgroup.prototype.addApp = function getAppById(id, callback) {
   var favgroupApp = new FavgroupApp({
     app_id: id,
-    favgroup_id: this.get('id')
+    favgroup_id: this.id
   });
   favgroupApp.save(function (err, favGroup) {
     if (err) {
       return callback(err);
     }
     callback(null, favGroup);
-  })
+  });
+};
+
+Favgroup.prototype.is_default = function isDefault() {
+  return false;
 };
 
 

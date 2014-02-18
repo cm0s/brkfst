@@ -6,7 +6,10 @@ var conn = require('../../config/mysql').conn,
   Base = require('./mysql-base');
 
 var Category = function Category(attributes) {
-  this.attributes = attributes;
+  var self = this;
+  _.forEach(attributes, function (value, key) {
+    self[key] = value;
+  });
 };
 
 Category.findAllwithEmbeddedApps = function (callback) {
@@ -17,7 +20,10 @@ Category.findAllwithEmbeddedApps = function (callback) {
           'category_app.category_id = category.id JOIN app ON app.id = category_app.app_id',
         nestTables: true
       }, function (err, rows) {
-        callback(err, rows);
+        if (err) {
+          return callback(err);
+        }
+        callback(null, rows.map(Category.fromDbResult));
       });
     },
     function (rows, callback) {

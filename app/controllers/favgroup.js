@@ -71,7 +71,7 @@ exports.addApp = function (req, res) {
 
     //Add the app into the favgroup
     function (favgroup, app, callback) {
-      favgroup.addApp(app.get('id'), function (err, app) {
+      favgroup.addApp(app.id, function (err, app) {
         if (err) {
           //TODO use the winston extend feature in order to automatically add log when calling serverError.
           logger.error(err.message);
