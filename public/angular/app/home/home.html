@@ -1,6 +1,6 @@
 <section class="home">
-  <div class="favgroup" ng-repeat="favgroup in favgroups">
-    <div class="favgroup-title">{{favgroup.title}}</div>
+  <div class="favgroup" ng-repeat="favgroup in favgroups | orderBy:'-isDefault'">
+    <div class="favgroup-title" ng-if="!favgroup.isDefault">{{favgroup.title}}</div>
     <brkfst-app model="app" ng-repeat="app in favgroup.apps"></brkfst-app>
   </div>
 </section>
