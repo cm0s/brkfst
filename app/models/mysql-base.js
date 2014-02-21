@@ -13,7 +13,7 @@ Base.apply = function apply(Model, table) {
     if (attributes === undefined) return null;
 
     var prep = (Model.prepare || {}).out || {};
-    Object.keys(prep).forEach(function (key) {
+    _.forEach(function (value, key) {
       var mutator = prep[key];
       attributes[key] = mutator(attributes[key], attributes);
     });
@@ -96,9 +96,8 @@ Base.apply = function apply(Model, table) {
   };
 
   Base.prototype.save = function save(callback) {
-    var attributes = this.attributes;
     var table = this.getTableName();
-    var err = this.validate(attributes);
+    var err = this.validate(this);
     var model = this.model;
     var prepMethods = (model.prepare || {})['in'] || {};
     var preppedAttributes = {};
@@ -107,8 +106,8 @@ Base.apply = function apply(Model, table) {
       if (err) {
         return callback(err, null);
       }
-      if (!attributes.id && result.insertId) {
-        attributes.id = result.insertId;
+      if (!this.id && result.insertId) {
+        this.id = result.insertId;
       }
       return callback(null, this);
     }
@@ -122,11 +121,12 @@ Base.apply = function apply(Model, table) {
     if ('function' === typeof this.presave)
       this.presave();
 
-    Object.keys(attributes).forEach(function (key) {
+    var self = this;
+    _.forEach(this, function (value, key) {
       var prep = prepMethods[key] || function (x) {
         return x;
       };
-      preppedAttributes[key] = prep(attributes[key], attributes);
+      preppedAttributes[key] = prep(self[key], self);
     });
 
     conn._upsert(table, preppedAttributes, parseResult.bind(this));
