@@ -53,23 +53,40 @@
 
   .app-fav {
     @app-fav-color: lighten(@gray, 40%);
-    @app-fav-active-color: #eec500;
 
     display: none;
     position: absolute;
-    top: -10px;
-    right: -4px;
-    font-size: 18px;
     color: @app-fav-color;
     cursor: pointer;
-    &:hover {
-      color: @app-fav-active-color;
-    }
 
     &.app-fav-active {
-      color: @app-fav-active-color;
       display: inherit;
     }
+
+    &.app-fav-add {
+      top: -10px;
+      right: -4px;
+      font-size: 18px;
+      &.app-fav-active {
+        color: #eec500;
+      }
+      &:hover {
+        color: #eec500;
+      }
+    }
+
+    &.app-fav-remove {
+      top: -14px;
+      right: -9px;
+      font-size: 23px;
+      &.app-fav-active {
+        color: #cb000b;
+      }
+      &:hover {
+        color: #cb000b;
+      }
+    }
+
   }
 
 }

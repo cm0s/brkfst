@@ -7,6 +7,7 @@ var express = require('express'),
   flash = require('connect-flash'),
   helpers = require('view-helpers'),
   config = require('./config'),
+  expressValidator = require('express-validator'),
   _ = require('lodash'),
   User = require('../app/models/user');
 
@@ -40,9 +41,11 @@ module.exports = function (app, passport) {
     //cookieParser should be above session
     app.use(express.cookieParser());
 
-    // request body parsing middleware should be above methodOverride
+    app.use(express.bodyParser());
+    app.use(expressValidator());
     app.use(express.urlencoded());
     app.use(express.json());
+    //request body parsing middleware should be above methodOverride
     app.use(express.methodOverride());
 
     app.use(express.session({

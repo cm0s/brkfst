@@ -44,6 +44,7 @@ Favgroup.findAllwithEmbeddedApps = function (callback) {
           objData[favgroupId] = row.favgroup;
           objData[favgroupId].apps = [];
         }
+        row.app.favgroup = {id: favgroupId};
         objData[favgroupId].apps.push(row.app);
       });
       var arrData = _.toArray(objData);
@@ -57,7 +58,7 @@ Favgroup.findAllwithEmbeddedApps = function (callback) {
 Base.apply(Favgroup, 'favgroup');
 Base.apply(FavgroupApp, 'favgroup_app');
 
-Favgroup.prototype.getAppById = function getAppById(id, callback) {
+Favgroup.prototype.getAppById = function (id, callback) {
   FavgroupApp.findOne({favgroup_id: this.id, app_id: id}, function (err, favgroupApp) {
     if (err) {
       return callback(err);
@@ -67,7 +68,7 @@ Favgroup.prototype.getAppById = function getAppById(id, callback) {
   });
 };
 
-Favgroup.prototype.addApp = function getAppById(id, callback) {
+Favgroup.prototype.addApp = function (id, callback) {
   var favgroupApp = new FavgroupApp({
     app_id: id,
     favgroup_id: this.id
@@ -77,6 +78,15 @@ Favgroup.prototype.addApp = function getAppById(id, callback) {
       return callback(err);
     }
     callback(null, favGroup);
+  });
+};
+
+Favgroup.prototype.removeApp = function (id, callback) {
+  FavgroupApp.findAndDestroy({app_id: id, favgroup_id: this.id}, function (err, results) {
+    if (err) {
+      return callback(err);
+    }
+    callback(err, results);
   });
 };
 

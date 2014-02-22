@@ -63,6 +63,24 @@ Base.apply = function apply(Model, table) {
     Model.findOne({id: id}, callback);
   };
 
+  Model.findAndDestroy = function (criteria, callback) {
+    var keys = Object.keys(criteria);
+    var values = keys.map(function (key) {
+      return criteria[key];
+    });
+    var qstring = 'DELETE FROM `' + table + '` WHERE ' + keys.map(function (key) {
+      return (key + ' = ?');
+    }).join(' AND ');
+
+    conn.query(qstring, values, function (err, result) {
+      if (result.affectedRows > 0) {
+        callback(err, criteria);
+      } else {
+        callback(err, undefined);
+      }
+    });
+  };
+
   Model.prototype = new Base();
   Model.prototype.model = Model;
   Model.prototype.conn = conn;
@@ -130,6 +148,23 @@ Base.apply = function apply(Model, table) {
     });
 
     conn._upsert(table, preppedAttributes, parseResult.bind(this));
+  };
+
+  Base.prototype.destroy = function (callback) {
+    var self = this;
+    var table = this.getTableName();
+    var querySQL = 'DELETE FROM `' + table + '` WHERE `id` = ? LIMIT 1';
+
+    callback = callback || function () {
+    };
+
+    conn.query(querySQL, [this.id], function (err, resp) {
+      if (err) {
+        return callback(err);
+      }
+      delete self.id;
+      return callback(null, self);
+    });
   };
 };
 

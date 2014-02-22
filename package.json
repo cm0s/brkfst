@@ -46,7 +46,8 @@
     "grunt-file-append": "0.0.2",
     "async": "0.2.10",
     "mysql": "~2.0.1",
-    "winston": "~0.7.2"
+    "winston": "~0.7.2",
+    "express-validator": "~1.0.1"
   },
   "devDependencies": {
     "supertest": "~0.8.3",

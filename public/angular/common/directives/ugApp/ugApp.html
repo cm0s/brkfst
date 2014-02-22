@@ -6,7 +6,11 @@
   <div class="app-title">
     <div class="ellipsis" ui-jq="ellipsis" ui-options="{row:2}">{{app.title}}</div>
   </div>
-  <div class="app-fav" ng-class="{'app-fav-active': app.isFavorited}" ng-click="favorite(app)">
+  <div class="app-fav app-fav-add" ng-if="hasFavIcon" ng-class="{'app-fav-active': app.isFavorited}"
+       ng-click="addFav(app)">
     <i class="icon-star-5"></i>
+  </div>
+  <div class="app-fav app-fav-remove" ng-if="hasUnfavIcon" ng-click="removeFav(app)">
+    <i class="icon-cancel"></i>
   </div>
 </div>
