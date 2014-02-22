@@ -73,11 +73,18 @@ Favgroup.prototype.addApp = function (id, callback) {
     app_id: id,
     favgroup_id: this.id
   });
-  favgroupApp.save(function (err, favGroup) {
-    if (err) {
-      return callback(err);
+  //Avoid duplicates (same App should not be added twice to the same Favgroup)
+  FavgroupApp.findOne({app_id: id, favgroup_id: this.id}, function (err, favgroupapp) {
+    if (!favgroupapp) { //Only persist if there is no duplicate
+      favgroupApp.save(function (err, favGroup) {
+        if (err) {
+          return callback(err);
+        }
+        callback(null, favGroup);
+      });
+    } else {
+      callback(null, undefined);
     }
-    callback(null, favGroup);
   });
 };
 
