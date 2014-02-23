@@ -4,8 +4,8 @@ module.exports = function (grunt) {
   var files = {
     js: ['gruntfile.js', 'server.js', 'app/**/*.js', 'public/js/**', 'test/**/*.js',
       '!test/coverage/**/*'],
-    angular_js: ['public/angular/app/**/*.js', 'public/angular/common/**/*.js'],
-    angular_tpl: ['public/angular/app/**/*.html', 'public/angular/common/**/*.html'],
+    angular_js: ['public/angular/app/**/*.js', 'public/angular/components/**/*.js'],
+    angular_tpl: ['public/angular/app/**/*.html', 'public/angular/components/**/*.html'],
     less: ['public/stylesheets/less/**/*.less'],
     jade: ['app/views/**'],
     css: ['public/css/**'],
@@ -184,10 +184,10 @@ module.exports = function (grunt) {
         options: {
           module: 'templates.directives',
           url: function (url) { //Strip base template path to have a smaller path which will still be unique
-            return url.replace('public/angular/common/', '');
+            return url.replace('public/angular/components/', '');
           }
         },
-        src: 'public/angular/common/**/*.html',
+        src: 'public/angular/components/**/*.html',
         dest: 'public/angular/dist/temp/directives-templates.js'
       }
     },
@@ -195,7 +195,7 @@ module.exports = function (grunt) {
     concat: {
       files: {
         src: ['public/angular/dist/temp/**/*-templates.js', 'public/angular/app/**/*.js',
-          'public/angular/common/**/*.js'],
+          'public/angular/components/**/*.js'],
         dest: 'public/angular/dist/app.js'
       }
     },
