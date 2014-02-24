@@ -119,6 +119,36 @@ exports.removeApp = function (req, res) {
   });
 };
 
+
+exports.update = function (req, res) {
+  req.checkParams('id', 'Should be a number').isInt();
+  req.checkBody('id', 'Should be a number').isInt();
+  req.checkBody('title', 'Should be a number').notEmpty();
+  req.checkBody('userId', 'Should be a number').isInt();
+  req.sanitize('isDefault').toBoolean();
+  req.sanitize('title').toString();
+  req.sanitize('id').toInt();
+  req.sanitize('userId').toInt();
+
+  var reqErrors = req.validationErrors();
+  if (reqErrors) {
+    errors.badRequest(res, reqErrors);
+    return;
+  }
+
+  var favgroup = new Favgroup({
+    id: req.body.id,
+    title: req.body.title,
+    user_id: req.body.userId,
+    is_default: req.body.isDefault
+  });
+  favgroup.save(function (err, updatedFavgroup) {
+      res.json(updatedFavgroup);
+    }
+  );
+}
+;
+
 exports.create = function (req, res) {
 //implement it
 };

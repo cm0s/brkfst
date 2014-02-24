@@ -81,7 +81,9 @@ module.exports = function (app, passport) {
   var favgroupCtrl = require('../app/controllers/favgroup');
   app.get('/api/favgroups', favgroupCtrl.findAll);
   app.post('/api/favgroups/:favgroup_id/apps/:app_id', favgroupCtrl.addApp);
+  app.put('/api/favgroups/:id', favgroupCtrl.update);
   app.delete('/api/favgroups/:favgroup_id/apps/:app_id', favgroupCtrl.removeApp);
+
 
   //Localization
   var locale = require('../app/controllers/locale');

@@ -2,12 +2,17 @@ angular.module('homeCtrl', [
     'services.apiRestangularSrv',
     'services.utilsSrv',
     'ui.utils',
-    'directives.ugApp'
+    'directives.ugApp',
+    'directives.ugEditableText'
   ])
   .controller('HomeCtrl', function ($scope, apiRestangularSrv, utilsSrv) {
     apiRestangularSrv.all('favgroups').getList({embed: 'apps'}).then(function (favgroups) {
       $scope.favgroups = favgroups;
     });
+
+    $scope.updateFavgroupTitle = function (favgroup) {
+      favgroup.put();
+    };
 
     $scope.$on('ugApp.remove.fav', function (event, removedApp) {
       _.forEach($scope.favgroups, function (favgroup, favgroupIndex) {
@@ -18,7 +23,6 @@ angular.module('homeCtrl', [
           }
         });
       });
-
     });
   });
 

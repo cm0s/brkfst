@@ -1,0 +1,9 @@
+<div>
+  <span ng-hide="editing" class="ug-editable-text-text">{{text}}</span>
+
+  <form ng-show="editing" class="form-inline">
+    <div class="form-group">
+      <input type="{{getInputType()}}" class="ug-editable-text-input form-control">
+    </div>
+  </form>
+</div>
