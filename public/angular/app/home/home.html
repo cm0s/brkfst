@@ -3,6 +3,8 @@
     <div class="favgroup-title" ng-if="!favgroup.isDefault">
       <ug-editable-text model="favgroup.title" on-save="updateFavgroupTitle(favgroup)"/>
     </div>
-    <ug-app model="app" has-unfav-icon="true" ng-repeat="app in favgroup.apps"></ug-app>
+    <div class="js-favgroup-apps-drop-container favgroup-apps" ng-model="favgroup.apps" ui-sortable="sortableOptions">
+      <ug-app model="app" has-unfav-icon="true" ng-repeat="app in favgroup.apps"></ug-app>
+    </div>
   </div>
 </section>

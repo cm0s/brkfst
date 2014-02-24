@@ -19,7 +19,9 @@
     "angular-ui-router": "0.2.8-bowratic-tedium",
     "angular-translate": "~1.1.1",
     "angular-translate-loader-url": "~0.1.5",
-    "animate.css": "~3.0.0"
+    "animate.css": "~3.0.0",
+    "jquery-ui": "~1.10.4",
+    "angular-ui-sortable": "~0.12.1"
   },
   "resolutions": {
     "angular": "1.2.13"

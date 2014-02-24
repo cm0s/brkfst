@@ -2,6 +2,7 @@ angular.module('homeCtrl', [
     'services.apiRestangularSrv',
     'services.utilsSrv',
     'ui.utils',
+    'ui.sortable',
     'directives.ugApp',
     'directives.ugEditableText'
   ])
@@ -12,6 +13,11 @@ angular.module('homeCtrl', [
 
     $scope.updateFavgroupTitle = function (favgroup) {
       favgroup.put();
+    };
+
+    $scope.sortableOptions = {
+      placeholder: 'app',
+      connectWith: '.js-favgroup-apps-drop-container'
     };
 
     $scope.$on('ugApp.remove.fav', function (event, removedApp) {
