@@ -82,6 +82,7 @@ module.exports = function (app, passport) {
   app.get('/api/favgroups', favgroupCtrl.findAll);
   app.post('/api/favgroups/:favgroup_id/apps/:app_id', favgroupCtrl.addApp);
   app.put('/api/favgroups/:id', favgroupCtrl.update);
+  app.put('/api/favgroups/:id/apps', favgroupCtrl.updateAppsOrder);
   app.delete('/api/favgroups/:favgroup_id/apps/:app_id', favgroupCtrl.removeApp);
 
 

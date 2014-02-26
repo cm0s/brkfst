@@ -16,8 +16,14 @@ angular.module('homeCtrl', [
     };
 
     $scope.sortableOptions = {
-      placeholder: 'app',
-      connectWith: '.js-favgroup-apps-drop-container'
+      connectWith: '.js-favgroup-apps-drop-container',
+      update: function (event, ui) {
+        var appsIds = $(event.target).sortable('serialize');
+        var favgroupId = $(event.target).attr('id').split('favgroup_')[1];
+        apiRestangularSrv.all('favgroups').one(favgroupId).all('apps').customPUT(appsIds);
+      },
+      scroll: false,
+      key: 'test'
     };
 
     $scope.$on('ugApp.remove.fav', function (event, removedApp) {

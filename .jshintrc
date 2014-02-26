@@ -31,7 +31,8 @@
     "it": true,
     "inject": true,
     "expect": true,
-    "_": true
+    "_": true,
+    "$": true
   },
   "indent": 2, // Specify indentation spacing
   "devel": true, // Allow development statements e.g. `console.log();`.

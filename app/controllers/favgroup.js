@@ -119,6 +119,9 @@ exports.removeApp = function (req, res) {
   });
 };
 
+exports.updateAppsOrder = function (req, res) {
+
+};
 
 exports.update = function (req, res) {
   req.checkParams('id', 'Should be a number').isInt();
