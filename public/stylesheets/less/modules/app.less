@@ -2,12 +2,47 @@
  * APP module
  */
 
+.app-fav {
+  @app-fav-color: lighten(@gray, 40%);
+
+  display: none;
+  position: absolute;
+  color: @app-fav-color;
+  cursor: pointer;
+
+  &.app-fav-active {
+    display: inherit;
+  }
+
+  &.app-fav-add {
+    top: -10px;
+    right: -4px;
+    font-size: 18px;
+    &.app-fav-active {
+      color: #eec500;
+    }
+    &:hover {
+      color: #eec500;
+    }
+  }
+
+  &.app-fav-remove {
+    top: -14px;
+    right: -9px;
+    font-size: 23px;
+    &.app-fav-active {
+      color: #cb000b;
+    }
+    &:hover {
+      color: #cb000b;
+    }
+  }
+}
+
 .app {
   position: relative;
-  .box-shadow(0px 2px 4px rgba(0, 0, 0, .2));
-  .border-radius(3px);
   margin-right: 5px;
-  background-color: white;
+
   &:hover {
     .app-fav {
       display: inline;
@@ -15,26 +50,57 @@
   }
 }
 
-.app-hover-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: black;
-  .border-radius(3px);
-  cursor: pointer;
-  .lh-transition(opacity .3s ease-in-out);
-  .lh-opacity(0);
-  &:hover {
-    .lh-opacity(.15);
-  }
-}
-
-.app-small {
+.app-large:extend(.app all) {
   float: left;
   margin-bottom: 10px;
   margin-right: 10px;
+  background: none;
+
+  .app-hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 26px;
+    width: 58px;
+    height: 58px;
+    background: black;
+    .border-radius(3px);
+    .lh-transition(opacity .3s ease-in-out);
+    .lh-opacity(0);
+  }
+
+  &:hover {
+    cursor: pointer;
+    .app-hover-overlay {
+      .lh-opacity(.15);
+    }
+  }
+
+  .app-icon {
+    background-color: cornflowerblue;
+    .border-radius(3px);
+    font-size: 29px;
+    height: 58px;
+    width: 58px;
+    margin: 0 auto;
+  }
+
+  .app-title {
+    overflow: hidden;
+    padding: 4px 14px 4px 7px;
+    width: 110px;
+    height: 43px;
+    text-align: center;
+  }
+
+}
+
+.app-small:extend(.app all) {
+  float: left;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  .box-shadow(0px 2px 4px rgba(0, 0, 0, .2));
+  .border-radius(3px);
+  background-color: white;
 
   .app-icon {
     background-color: cornflowerblue;
@@ -51,43 +117,20 @@
     height: 43px;
   }
 
-  .app-fav {
-    @app-fav-color: lighten(@gray, 40%);
-
-    display: none;
+  .app-hover-overlay {
     position: absolute;
-    color: @app-fav-color;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    .border-radius(3px);
     cursor: pointer;
-
-    &.app-fav-active {
-      display: inherit;
+    .lh-transition(opacity .3s ease-in-out);
+    .lh-opacity(0);
+    &:hover {
+      .lh-opacity(.15);
     }
-
-    &.app-fav-add {
-      top: -10px;
-      right: -4px;
-      font-size: 18px;
-      &.app-fav-active {
-        color: #eec500;
-      }
-      &:hover {
-        color: #eec500;
-      }
-    }
-
-    &.app-fav-remove {
-      top: -14px;
-      right: -9px;
-      font-size: 23px;
-      &.app-fav-active {
-        color: #cb000b;
-      }
-      &:hover {
-        color: #cb000b;
-      }
-    }
-
   }
-
 }
 
