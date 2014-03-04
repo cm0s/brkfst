@@ -13,6 +13,7 @@ var Favgroup = function Favgroup(attributes) {
 };
 
 //Model for the favgroup_app join table
+//TODO use the FavgroupApp defined in the models/favroupapp.js file instead of this one
 var FavgroupApp = function FavgroupApp(attributes) {
   var self = this;
   _.forEach(attributes, function (value, key) {
@@ -25,7 +26,7 @@ Favgroup.findAllwithEmbeddedApps = function (callback) {
     function (callback) {
       conn.query({
         sql: 'SELECT * FROM favgroup JOIN favgroup_app ON ' +
-          'favgroup_app.favgroup_id = favgroup.id JOIN app ON app.id = favgroup_app.app_id',
+          'favgroup_app.favgroup_id = favgroup.id JOIN app ON app.id = favgroup_app.app_id ORDER BY favgroup_app.position',
         nestTables: true
       }, function (err, rows) {
         if (err) {
@@ -44,7 +45,8 @@ Favgroup.findAllwithEmbeddedApps = function (callback) {
           objData[favgroupId] = row.favgroup;
           objData[favgroupId].apps = [];
         }
-        row.app.favgroup = {id: favgroupId};
+        row.app.favgroup = {id: favgroupId}; //Add extra favgroup property
+        row.app.position = row.favgroupApp.position; //Add extra position property
         objData[favgroupId].apps.push(row.app);
       });
       var arrData = _.toArray(objData);
@@ -86,6 +88,21 @@ Favgroup.prototype.addApp = function (id, callback) {
       callback(null, undefined);
     }
   });
+};
+
+Favgroup.prototype.updateAppPosition = function (appId, position, callback) {
+  var favgroupApp = new FavgroupApp({
+    app_id: appId,
+    favgroup_id: this.id,
+    position: position
+  });
+
+  var querystring
+    = 'UPDATE `' + favgroupApp.getTableName() + '` SET ' +
+    'position = ' + position +
+    ' WHERE app_id = ' + appId + ' AND favgroup_id = ' + this.id;
+
+  conn.query(querystring, callback);
 };
 
 Favgroup.prototype.removeApp = function (id, callback) {

@@ -1,9 +1,9 @@
 angular.module('catalogCtrl', [
-    'services.apiRestangularSrv',
-    'services.utilsSrv',
-    'ui.utils',
-    'directives.ugApp'
-  ])
+  'services.apiRestangularSrv',
+  'services.utilsSrv',
+  'ui.utils',
+  'directives.ugApp'
+])
   .controller('CatalogCtrl', function ($scope, apiRestangularSrv, utilsSrv) {
     var
       categories = apiRestangularSrv.all('categories'),

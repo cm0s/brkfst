@@ -1,5 +1,5 @@
 <section class="home">
-  <div class="favgroup" ng-repeat="favgroup in favgroups | orderBy:'-isDefault'">
+  <div class="favgroup" ng-repeat="favgroup in favgroups | orderBy:'-isDefault'" ng-controller="FavgroupCtrl">
     <div class="favgroup-title" ng-if="!favgroup.isDefault">
       <ug-editable-text model="favgroup.title" on-save="updateFavgroupTitle(favgroup)"/>
     </div>

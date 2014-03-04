@@ -1,6 +1,7 @@
 'use strict';
 
 var Favgroup = require('../models/favgroup'),
+  FavgroupApp = require('../models/favgroupapp'),
   App = require('../models/app'),
   errors = require('../errors'),
   util = require('util'),
@@ -34,17 +35,23 @@ exports.findAll = function (req, res) {
 };
 
 /**
- * Add an App to the logged user's default Favgroup
+ * Add an App to a user's Favgroup
+ * request parameters :
+ * app_id : App id to add to the Favgroup;
+ * favgroup_id: Favgroup id where the App is added (value default can be used instead of an id in order to add the App
+ * to the user's default Favroup)
  */
 exports.addApp = function (req, res) {
   async.waterfall([
     //Retrieve Favgroup
     function (callback) {
-      var isDefault = 0;
-      if (req.params.favgroup_id === 'default') {
-        isDefault = 1;
+      var favgroupId = req.params.favgroup_id;
+      var query = { id: favgroupId };
+      if (favgroupId === 'default') {
+        query = {is_default: 1};
       }
-      Favgroup.findOne({is_default: isDefault}, function (err, favgroup) {
+
+      Favgroup.findOne(query, function (err, favgroup) {
         if (err) {
           logger.error(err.message);
           errors.serverError(res, err.message);
@@ -119,8 +126,49 @@ exports.removeApp = function (req, res) {
   });
 };
 
-exports.updateAppsOrder = function (req, res) {
+exports.updateAppsPosition = function (req, res) {
+  req.checkParams('id', 'Should be a number').isInt();
+  req.sanitize('id').toInt();
 
+  var favgroupId = req.params.id,
+    apps = req.body;
+
+  var favgroup = new Favgroup({
+    id: favgroupId
+  });
+
+  var favgroupAppFunctions = [];
+  _.forEach(apps, function (app, position) {
+    favgroupAppFunctions.push(
+      function (callback) {
+        FavgroupApp.findOne({app_id: app.id, favgroup_id: favgroupId}, function (err, favgroupApp) {
+          if (favgroupApp) {
+            favgroup.updateAppPosition(app.id, position, function (err, favgroupApp) {
+              if (err) {
+                callback(err);
+              }
+              callback(null, favgroupApp);
+            });
+          }
+          if (!favgroupApp) {
+            var newFavgroupApp = new FavgroupApp({
+              app_id: app.id,
+              favgroup_id: favgroupId,
+              position: position
+            });
+            newFavgroupApp.save();
+          }
+        });
+
+      }
+    );
+  });
+  async.parallel(favgroupAppFunctions, function (err, favgroupApps) {
+    if (err) {
+      errors.serverError(res, err);
+    }
+    res.json(204, null);
+  });
 };
 
 exports.update = function (req, res) {

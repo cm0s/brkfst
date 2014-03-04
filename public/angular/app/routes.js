@@ -1,8 +1,8 @@
 angular.module('routes', [
-    'ui.router',
-    'catalogCtrl',
-    'homeCtrl'
-  ])
+  'ui.router',
+  'catalogCtrl',
+  'homeCtrl'
+])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
     $stateProvider
