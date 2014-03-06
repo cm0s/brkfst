@@ -10,6 +10,7 @@ angular.module('homeCtrl', [
 
     $scope.$watch('favgroup.apps', function (newApps, oldApps, scope) {
       if (!_.isEqual(angular.toJson(newApps), angular.toJson(oldApps))) { //Skip init watch call
+        console.log('watch called');
         var favgroupId = $scope.favgroup.id;
         if (newApps.length === oldApps.length) {  //An App has been moved inside a Favgroup
           //Update the Apps position in the Favgroup
@@ -41,76 +42,29 @@ angular.module('homeCtrl', [
         });
 
         return appNotFoundInBothList;
-      }
-
-      /*      console.log('----OLDVALUE-----');
-       _.forEach(oldApps, function (app, key) {
-       console.log(key + '-' + app.title);
-       });
-       console.log('----NEWVALUE-----');
-       _.forEach(newApps, function (app, key) {
-       console.log(key + '-' + app.title);
-       });*/
+      };
     }, true);
   })
   .controller('HomeCtrl', function ($scope, apiRestangularSrv, utilsSrv, $parse) {
     apiRestangularSrv.all('favgroups').getList({embed: 'apps'}).then(function (favgroups) {
       $scope.favgroups = favgroups;
-      /*_.forEach($scope.favgroups, function (favgroup, key) {
-       $scope.$watch('favgroups[1].apps', function (newValue, oldValue, scope) {
-       console.log(newValue);
-       }, true);
-       });*/
     });
 
     $scope.updateFavgroupTitle = function (favgroup) {
       favgroup.put();
     };
 
-
-    /* $scope.$watch(function (scope) {
-     return angular.toJson($scope.favgroups);
-     }, function (newValue, oldValue, scope) {
-
-
-     if (newValue === oldValue) {
-     console.log(newValue);
-
-     } else {
-     console.log('----OLDVALUE-----');
-     _.forEach(angular.fromJson(oldValue), function (favgroup, key) {
-
-     console.log(favgroup.title);
-     _.forEach(favgroup.apps, function (app, key) {
-     console.log(key + '-' + app.title);
-     });
-     });
-     console.log('----NEWVALUE-----');
-     _.forEach(angular.fromJson(newValue), function (favgroup, key) {
-     console.log(favgroup.title);
-     _.forEach(favgroup.apps, function (app, key) {
-     console.log(key + '-' + app.title);
-     });
-     });
-
-     }
-     });*/
-
     $scope.sortableOptions = {
       connectWith: '.js-favgroup-apps-drop-container',
-      //TODO should be replaced by the update event once the issue https://github.com/angular-ui/ui-sortable/issues/137 is resolved
-      /* stop: function (event, ui) {
-       var favgroup = {};
-       favgroup.appsIds = $(event.target).sortable('toArray');
-       var favgroupId = $(event.target).attr('id').split('favgroup_')[1];
-       apiRestangularSrv.all('favgroups').one(favgroupId).all('apps').customPUT(favgroup);
-       },
+      update: function (event, ui) {
+        var favgroupIdTarget = ui.item.sortable.droptarget[0].id.split('favgroup_')[1];
+        var scope = ui.item.scope();
+        if (scope) {
+          //Update the favgroup.id of the moved app.
+          scope.app.favgroup.id = _.parseInt(favgroupIdTarget);
+        }
+      },
 
-       //TODO update is really needed to make it work.
-       update: function (event, ui) {
-       console.log('update-');
-       },
-       */
       scroll: false
     };
 
