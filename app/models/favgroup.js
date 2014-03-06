@@ -25,8 +25,8 @@ Favgroup.findAllwithEmbeddedApps = function (callback) {
   async.waterfall([
     function (callback) {
       conn.query({
-        sql: 'SELECT * FROM favgroup JOIN favgroup_app ON ' +
-          'favgroup_app.favgroup_id = favgroup.id JOIN app ON app.id = favgroup_app.app_id ORDER BY favgroup_app.position',
+        sql: 'SELECT * FROM favgroup LEFT JOIN favgroup_app ON ' +
+          'favgroup_app.favgroup_id = favgroup.id LEFT JOIN app ON app.id = favgroup_app.app_id ORDER BY favgroup_app.position',
         nestTables: true
       }, function (err, rows) {
         if (err) {
@@ -45,9 +45,11 @@ Favgroup.findAllwithEmbeddedApps = function (callback) {
           objData[favgroupId] = row.favgroup;
           objData[favgroupId].apps = [];
         }
-        row.app.favgroup = {id: favgroupId}; //Add extra favgroup property
-        row.app.position = row.favgroupApp.position; //Add extra position property
-        objData[favgroupId].apps.push(row.app);
+        if (_.isNumber(row.app.id)) {
+          row.app.favgroup = {id: favgroupId}; //Add extra favgroup property
+          row.app.position = row.favgroupApp.position; //Add extra position property
+          objData[favgroupId].apps.push(row.app);
+        }
       });
       var arrData = _.toArray(objData);
       callback(null, arrData);
