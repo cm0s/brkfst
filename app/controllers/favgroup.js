@@ -175,11 +175,9 @@ exports.update = function (req, res) {
   req.checkParams('id', 'Should be a number').isInt();
   req.checkBody('id', 'Should be a number').isInt();
   req.checkBody('title', 'Should not be empty').notEmpty();
-  req.checkBody('userId', 'Should be a number').isInt();
   req.sanitize('isDefault').toBoolean();
   req.sanitize('title').toString();
   req.sanitize('id').toInt();
-  req.sanitize('userId').toInt();
 
   var reqErrors = req.validationErrors();
   if (reqErrors) {
@@ -190,7 +188,8 @@ exports.update = function (req, res) {
   var favgroup = new Favgroup({
     id: req.body.id,
     title: req.body.title,
-    user_id: req.body.userId,
+    user_id: req.user.id,
+    //TODO this option should probably not be settable through the REST API
     is_default: req.body.isDefault
   });
   favgroup.save(function (err, updatedFavgroup) {
