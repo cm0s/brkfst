@@ -6,7 +6,8 @@ angular.module('app', [
   'templates.directives',
   'ngSanitize',
   'ngAnimate',
-  'pascalprecht.translate'
+  'pascalprecht.translate',
+  'ui.bootstrap'
 ]);
 
 angular.module('app').config(function ($translateProvider) {

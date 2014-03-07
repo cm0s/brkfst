@@ -2,6 +2,11 @@
   "app": {
     "title": "Brkfst"
   },
+  "home": {
+    "actionmenu": {
+      "addgroup": "Add a group"
+    }
+  },
   "catalog": {
     "noresults": "No results"
   }

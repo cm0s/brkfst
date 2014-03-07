@@ -1,4 +1,13 @@
 <section class="home">
+  <div class="actionmenu">
+    <div class="dropdown-toggle">
+      <i class="icon-list-add"></i>
+    </div>
+    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+      <li><a href="#">{{ 'home.actionmenu.addgroup' | translate }}</a></li>
+    </ul>
+  </div>
+
   <div class="favgroup" ng-repeat="favgroup in favgroups | orderBy:'-isDefault'" ng-controller="FavgroupCtrl">
     <div class="favgroup-title" ng-if="!favgroup.isDefault">
       <ug-editable-text model="favgroup.title" on-save="updateFavgroupTitle(favgroup)"/>
