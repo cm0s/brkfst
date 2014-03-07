@@ -51,7 +51,7 @@ angular.module('homeCtrl', [
     });
 
     $scope.updateFavgroupTitle = function (favgroup) {
-      //Favgroup is a restangular object and thus we can run a PUT request to update the title
+      //favgroup is a restangular object and thus we can run a PUT request to update the title
       favgroup.put();
     };
 
