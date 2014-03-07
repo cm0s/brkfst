@@ -10,7 +10,6 @@ angular.module('homeCtrl', [
 
     $scope.$watch('favgroup.apps', function (newApps, oldApps, scope) {
       if (!_.isEqual(angular.toJson(newApps), angular.toJson(oldApps))) { //Skip init watch call
-        console.log('watch called');
         var favgroupId = $scope.favgroup.id;
         if (newApps.length === oldApps.length) {  //An App has been moved inside a Favgroup
           //Update the Apps position in the Favgroup
@@ -45,10 +44,17 @@ angular.module('homeCtrl', [
       };
     }, true);
   })
-  .controller('HomeCtrl', function ($scope, apiRestangularSrv, utilsSrv, $parse) {
+  .controller('HomeCtrl', function ($scope, apiRestangularSrv, utilsSrv, $parse, $translate) {
     apiRestangularSrv.all('favgroups').getList({embed: 'apps'}).then(function (favgroups) {
       $scope.favgroups = favgroups;
     });
+
+    $scope.addFavgroup = function () {
+      var newFavgroupTitle = $translate('home.favgroup.new');
+      apiRestangularSrv.all('favgroups').post({title: newFavgroupTitle}).then(function (newFavgroup) {
+        $scope.favgroups.push(newFavgroup);
+      });
+    };
 
     $scope.updateFavgroupTitle = function (favgroup) {
       //favgroup is a restangular object and thus we can run a PUT request to update the title

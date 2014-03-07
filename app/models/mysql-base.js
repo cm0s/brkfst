@@ -11,15 +11,7 @@ Base.apply = function apply(Model, table) {
 
   Model.fromDbResult = function fromDbResult(attributes) {
     if (attributes === undefined) return null;
-
-    var prep = (Model.prepare || {}).out || {};
-    _.forEach(function (value, key) {
-      var mutator = prep[key];
-      attributes[key] = mutator(attributes[key], attributes);
-    });
-
     utils.convertToCamelCase(attributes);
-
     return new Model(attributes);
   };
 
@@ -124,9 +116,13 @@ Base.apply = function apply(Model, table) {
       if (err) {
         return callback(err, null);
       }
+
       if (!this.id && result.insertId) {
         this.id = result.insertId;
       }
+
+      utils.convertToCamelCase(this);
+
       return callback(null, this);
     }
 

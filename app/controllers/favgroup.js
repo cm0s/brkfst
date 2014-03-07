@@ -193,6 +193,10 @@ exports.update = function (req, res) {
     is_default: req.body.isDefault
   });
   favgroup.save(function (err, updatedFavgroup) {
+      if (err) {
+        errors.serverError(res, err);
+      }
+
       res.json(updatedFavgroup);
     }
   );
@@ -200,5 +204,25 @@ exports.update = function (req, res) {
 ;
 
 exports.create = function (req, res) {
-//implement it
+  req.checkBody('title', 'Should not be empty').notEmpty();
+  req.sanitize('title').toString();
+
+  var reqErrors = req.validationErrors();
+  if (reqErrors) {
+    errors.badRequest(res, reqErrors);
+    return;
+  }
+
+  var favgroup = new Favgroup({
+    title: req.body.title,
+    user_id: req.user.id,
+    is_default: 0
+  });
+
+  favgroup.save(function (err, newFavgroup) {
+    if (err) {
+      errors.serverError(res, err);
+    }
+    res.json(newFavgroup);
+  });
 };

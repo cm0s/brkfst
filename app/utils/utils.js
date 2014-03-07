@@ -15,6 +15,7 @@ exports.snakeToCamelCase = function (string) {
 
 /**
  * Rename recursively all snake_case properties of a given object to camelCase properties.
+ * @return this function doesn't return any result the object passed in parameter is directly modified.
  */
 exports.convertToCamelCase = function convertToCamelCase(obj) {
   for (var property in obj) {
