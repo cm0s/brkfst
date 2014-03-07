@@ -174,7 +174,7 @@ exports.updateAppsPosition = function (req, res) {
 exports.update = function (req, res) {
   req.checkParams('id', 'Should be a number').isInt();
   req.checkBody('id', 'Should be a number').isInt();
-  req.checkBody('title', 'Should be a number').notEmpty();
+  req.checkBody('title', 'Should not be empty').notEmpty();
   req.checkBody('userId', 'Should be a number').isInt();
   req.sanitize('isDefault').toBoolean();
   req.sanitize('title').toString();
