@@ -4,7 +4,10 @@
 }
 
 .favgroup-title {
-  padding-top: 10px;
+  display: inline-block;
+  position: relative;
+  margin-top: 10px;
+  padding-right: 30px;
   font-weight: 300;
   font-size: 21px;
   color: darken(@headings-color, 30%);
@@ -12,6 +15,29 @@
   .ug-editable-text-input {
     font-weight: inherit;
     font-size: inherit;
+  }
+
+  &:hover {
+    .favgroup-action {
+      display: inline;
+    }
+  }
+}
+
+.favgroup-action {
+  position: absolute;
+  display: none;
+  cursor: pointer;
+  color: @bf-action-icon-light-color;
+}
+
+.favgroup-action-delete {
+  top: -10px;
+  right: 0;
+  font-size: 23px;
+  line-height: 20px;
+  &:hover {
+    color: #cb000b;
   }
 }
 

@@ -146,7 +146,7 @@ Base.apply = function apply(Model, table) {
     conn._upsert(table, preppedAttributes, parseResult.bind(this));
   };
 
-  Base.prototype.destroy = function (callback) {
+  Base.prototype.delete = function (callback) {
     var self = this;
     var table = this.getTableName();
     var querySQL = 'DELETE FROM `' + table + '` WHERE `id` = ? LIMIT 1';

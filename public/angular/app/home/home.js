@@ -18,12 +18,15 @@ angular.module('homeCtrl', [
           var appNotInBothList = this.getAppNotInBothList(newApps, oldApps);
           if (newApps.length > oldApps.length) {
             //Add the App to the Favgroup
-            apiRestangularSrv.one('favgroups', favgroupId).one('apps', appNotInBothList.id).post();
-            apiRestangularSrv.all('favgroups').one(favgroupId).all('apps').customPUT(newApps);
+            apiRestangularSrv.one('favgroups', favgroupId).one('apps', appNotInBothList.id).post().then(function () {
+              apiRestangularSrv.all('favgroups').one(favgroupId).all('apps').customPUT(newApps);
+            });
+
           } else {
             //Remove the App to the Favgroup
-            apiRestangularSrv.one('favgroups', favgroupId).one('apps', appNotInBothList.id).remove();
-            apiRestangularSrv.all('favgroups').one(favgroupId).all('apps').customPUT(newApps);
+            apiRestangularSrv.one('favgroups', favgroupId).one('apps', appNotInBothList.id).remove().then(function () {
+              apiRestangularSrv.all('favgroups').one(favgroupId).all('apps').customPUT(newApps);
+            });
           }
         }
       }
@@ -53,6 +56,14 @@ angular.module('homeCtrl', [
       var newFavgroupTitle = $translate('home.favgroup.new');
       apiRestangularSrv.all('favgroups').post({title: newFavgroupTitle}).then(function (newFavgroup) {
         $scope.favgroups.push(newFavgroup);
+      });
+    };
+
+    $scope.deleteFavgroup = function (favgroupToDelete, index) {
+      apiRestangularSrv.all('favgroups').one(favgroupToDelete.id).remove().then(function () {
+        _.remove($scope.favgroups, function (favgroup) {
+          return favgroup.id === favgroupToDelete.id;
+        });
       });
     };
 

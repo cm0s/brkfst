@@ -200,8 +200,7 @@ exports.update = function (req, res) {
       res.json(updatedFavgroup);
     }
   );
-}
-;
+};
 
 exports.create = function (req, res) {
   req.checkBody('title', 'Should not be empty').notEmpty();
@@ -224,5 +223,34 @@ exports.create = function (req, res) {
       errors.serverError(res, err);
     }
     res.json(newFavgroup);
+  });
+};
+
+exports.delete = function (req, res) {
+  req.checkParams('id', 'Should be a number').isInt();
+  req.sanitize('id').toInt();
+
+  var reqErrors = req.validationErrors();
+  if (reqErrors) {
+    errors.badRequest(res, reqErrors);
+    return;
+  }
+
+  Favgroup.findOne({id: req.params.id}, function (err, favgroup) {
+    if (err) {
+      errors.serverError(res, err);
+      return;
+    }
+    if (!favgroup) {
+      errors.notFound(res, {error: 'Favgroup not found: ' + req.params.id});
+      return;
+    }
+
+    favgroup.delete(function (err, favgroup) {
+      if (err) {
+        errors.serverError(res, err);
+      }
+      res.json(favgroup);
+    });
   });
 };
