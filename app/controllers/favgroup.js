@@ -222,6 +222,7 @@ exports.create = function (req, res) {
     if (err) {
       errors.serverError(res, err);
     }
+    newFavgroup.apps = [];
     res.json(newFavgroup);
   });
 };
