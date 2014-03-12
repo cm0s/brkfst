@@ -2,6 +2,106 @@
  * APP module
  */
 
+// APP
+//--------------------------
+.app {
+  position: relative;
+  margin-right: 5px;
+
+  &:hover {
+
+    .app-fav {
+      display: inline;
+    }
+
+  }
+}
+
+// APP-LARGE
+//--------------------------
+.app-large:extend(.app all) {
+  float: left;
+  margin-bottom: 10px;
+  margin-right: 16px;
+  background: none;
+
+  &:hover {
+    cursor: pointer;
+    .app-icon {
+      .lh-transition(all 0.30s);
+      .lh-transform(scale(1.2, 1.2));
+      //.lh-brightness(0.75);
+    }
+  }
+
+  .app-icon {
+    .border-radius(3px);
+    height: 58px;
+    width: 58px;
+    margin: 0 auto;
+    text-align: center;
+    img {
+      height: 50px;
+      width: 50px;
+    }
+  }
+
+  .app-title {
+    overflow: hidden;
+    padding: 4px 14px 4px 7px;
+    width: 110px;
+    height: 43px;
+    text-align: center;
+  }
+}
+
+// APP-SMALL
+//--------------------------
+.app-small:extend(.app all) {
+  float: left;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  .box-shadow(0px 2px 4px rgba(0, 0, 0, .2));
+  .border-radius(3px);
+  background-color: white;
+
+  .app-icon {
+    .border-left-radius(3px);
+    float: left;
+    height: 44px;
+    padding: 4px 5px 0 5px;
+    img {
+      height: 36px;
+      width: 36px;
+    }
+  }
+
+  .app-title {
+    overflow: hidden;
+    padding: 4px 14px 4px 7px;
+    width: 140px;
+    height: 43px;
+  }
+
+  .app-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    .border-radius(3px);
+    cursor: pointer;
+    .lh-opacity(0);
+    &:hover {
+      .lh-transition(opacity .3s ease-in-out);
+      .lh-opacity(.15);
+    }
+  }
+}
+
+// APP-FAV
+//--------------------------
 .app-fav {
   display: none;
   position: absolute;
@@ -33,107 +133,6 @@
     }
     &:hover {
       color: #cb000b;
-    }
-  }
-}
-
-.app {
-  position: relative;
-  margin-right: 5px;
-
-  &:hover {
-    .app-fav {
-      display: inline;
-    }
-  }
-}
-
-.app-large:extend(.app all) {
-  float: left;
-  margin-bottom: 10px;
-  margin-right: 16px;
-  background: none;
-
-  .app-hover-overlay {
-    position: absolute;
-    top: 0;
-    left: 26px;
-    width: 58px;
-    height: 58px;
-    background: black;
-    .border-radius(5px);
-    .lh-transition(opacity .3s ease-in-out);
-    .lh-opacity(0);
-  }
-
-  &:hover {
-    cursor: pointer;
-    .app-hover-overlay {
-      .lh-opacity(.15);
-    }
-  }
-
-  .app-icon {
-    background-color: cornflowerblue;
-    .border-radius(3px);
-    font-size: 29px;
-    height: 58px;
-    width: 58px;
-    margin: 0 auto;
-  }
-
-  .app-title {
-    overflow: hidden;
-    padding: 4px 14px 4px 7px;
-    width: 110px;
-    height: 43px;
-    text-align: center;
-  }
-}
-
-.app-placeholder {
-  border: 1px dotted black;
-  height: 50px;
-  position: relative;
-  width: 50px;
-}
-
-.app-small:extend(.app all) {
-  float: left;
-  margin-bottom: 10px;
-  margin-right: 10px;
-  .box-shadow(0px 2px 4px rgba(0, 0, 0, .2));
-  .border-radius(3px);
-  background-color: white;
-
-  .app-icon {
-    background-color: cornflowerblue;
-    .border-left-radius(3px);
-    float: left;
-    font-size: 29px;
-    height: 43px;
-  }
-
-  .app-title {
-    overflow: hidden;
-    padding: 4px 14px 4px 7px;
-    width: 140px;
-    height: 43px;
-  }
-
-  .app-hover-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: black;
-    .border-radius(3px);
-    cursor: pointer;
-    .lh-transition(opacity .3s ease-in-out);
-    .lh-opacity(0);
-    &:hover {
-      .lh-opacity(.15);
     }
   }
 }
