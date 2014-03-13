@@ -26,7 +26,7 @@ Favgroup.findAllwithEmbeddedApps = function (callback) {
     function (callback) {
       conn.query({
         sql: 'SELECT * FROM favgroup LEFT JOIN favgroup_app ON ' +
-          'favgroup_app.favgroup_id = favgroup.id LEFT JOIN app ON app.id = favgroup_app.app_id ORDER BY favgroup_app.position',
+          'favgroup_app.favgroup_id = favgroup.id LEFT JOIN app ON app.id = favgroup_app.app_id JOIN apptype ON apptype.id = app.app_type_id ORDER BY favgroup_app.position',
         nestTables: true
       }, function (err, rows) {
         if (err) {
@@ -48,6 +48,11 @@ Favgroup.findAllwithEmbeddedApps = function (callback) {
         if (_.isNumber(row.app.id)) {
           row.app.favgroup = {id: favgroupId}; //Add extra favgroup property
           row.app.position = row.favgroupApp.position; //Add extra position property
+
+          //Replace appTypeId by the apptype row
+          delete row.app.appTypeId;
+          row.app.appType = row.apptype;
+
           objData[favgroupId].apps.push(row.app);
         }
       });

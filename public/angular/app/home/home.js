@@ -75,8 +75,14 @@ angular.module('homeCtrl', [
     };
 
     $scope.loadApp = function (app) {
-
-      $scope.loadedAppUrl = app.url;
+      //Depending on the app type we open it in the appview or in a new browser window
+      switch (app.appType.name) {
+        case 'swapp' :
+          $scope.loadedAppUrl = app.url;
+          break;
+        default :
+          window.open(app.url, '_blank');
+      }
     };
 
     $scope.sortableOptions = {
