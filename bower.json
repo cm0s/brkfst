@@ -21,7 +21,8 @@
     "angular-translate-loader-url": "~0.1.5",
     "animate.css": "~3.0.0",
     "jquery-ui": "~1.10.4",
-    "angular-ui-sortable": "~0.12.1"
+    "angular-ui-sortable": "~0.12.1",
+    "angular-scroll": "~0.2.8"
   },
   "resolutions": {
     "angular": "1.2.13"

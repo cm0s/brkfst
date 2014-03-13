@@ -4,7 +4,8 @@ angular.module('homeCtrl', [
   'ui.utils',
   'ui.sortable',
   'directives.ugApp',
-  'directives.ugEditableText'
+  'directives.ugEditableText',
+  'duScroll'
 ])
   .controller('FavgroupCtrl', function ($scope, apiRestangularSrv) {
     $scope.$watch('favgroup.apps', function (newApps, oldApps, scope) {
@@ -47,7 +48,7 @@ angular.module('homeCtrl', [
     }, true);
   })
 
-  .controller('HomeCtrl', function ($scope, apiRestangularSrv, utilsSrv, $parse, $translate) {
+  .controller('HomeCtrl', function ($scope, apiRestangularSrv, utilsSrv, $parse, $translate, scroller) {
     $scope.loadedAppUrl = 'about:blank';
 
     apiRestangularSrv.all('favgroups').getList({embed: 'apps'}).then(function (favgroups) {
@@ -78,6 +79,8 @@ angular.module('homeCtrl', [
       //Depending on the app type we open it in the appview or in a new browser window
       switch (app.appType.name) {
         case 'swapp' :
+          //TODO should be in a directive (there should be no DOM access in a controller)
+          scroller.scrollToElement($('body'), 0, 1000);
           $scope.loadedAppUrl = app.url;
           break;
         default :
