@@ -7,7 +7,6 @@ angular.module('homeCtrl', [
   'directives.ugEditableText'
 ])
   .controller('FavgroupCtrl', function ($scope, apiRestangularSrv) {
-
     $scope.$watch('favgroup.apps', function (newApps, oldApps, scope) {
       if (!_.isEqual(angular.toJson(newApps), angular.toJson(oldApps))) { //Skip init watch call
         var favgroupId = $scope.favgroup.id;
@@ -47,7 +46,10 @@ angular.module('homeCtrl', [
       };
     }, true);
   })
+
   .controller('HomeCtrl', function ($scope, apiRestangularSrv, utilsSrv, $parse, $translate) {
+    $scope.loadedAppUrl = 'about:blank';
+
     apiRestangularSrv.all('favgroups').getList({embed: 'apps'}).then(function (favgroups) {
       $scope.favgroups = favgroups;
     });
@@ -70,6 +72,11 @@ angular.module('homeCtrl', [
     $scope.updateFavgroupTitle = function (favgroup) {
       //favgroup is a restangular object and thus we can run a PUT request to update the title
       favgroup.put();
+    };
+
+    $scope.loadApp = function (app) {
+
+      $scope.loadedAppUrl = app.url;
     };
 
     $scope.sortableOptions = {

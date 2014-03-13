@@ -1,25 +1,31 @@
-<section class="home">
-  <div class="actionmenu">
-    <div class="dropdown-toggle">
-      <i class="icon-ellipsis-vert"></i>
-    </div>
-    <ul class="dropdown-menu dropdown-menu-right" role="menu">
-      <li><a ng-click="addFavgroup()">{{ 'home.actionmenu.addgroup' | translate }}</a></li>
-    </ul>
-  </div>
+<section class="home row">
 
-  <div class="favgroup" ng-repeat="favgroup in favgroups | orderBy:'-isDefault'" ng-controller="FavgroupCtrl">
-
-    <div class="favgroup-title" ng-if="!favgroup.isDefault">
-      <div class="favgroup-action favgroup-action-delete" ng-click="deleteFavgroup(favgroup)">
-        <i class="icon-cancel"></i>
+  <section class="fav col-md-6">
+    <div class="actionmenu">
+      <div class="dropdown-toggle">
+        <i class="icon-ellipsis-vert"></i>
       </div>
-      <ug-editable-text model="favgroup.title" on-save="updateFavgroupTitle(favgroup)"/>
+      <ul class="dropdown-menu dropdown-menu-left" role="menu">
+        <li><a ng-click="addFavgroup()">{{ 'home.actionmenu.addgroup' | translate }}</a></li>
+      </ul>
     </div>
-    <div class="js-favgroup-apps-drop-container favgroup-apps" id="favgroup_{{favgroup.id}}" ng-model="favgroup.apps"
-         ui-sortable="sortableOptions">
-      <ug-app class="app-large" id="app_{{app.id}}" model="app" has-unfav-icon="true"
-              ng-repeat="app in favgroup.apps"></ug-app>
+
+    <div class="favgroup" ng-repeat="favgroup in favgroups | orderBy:'-isDefault'" ng-controller="FavgroupCtrl">
+
+      <div class="favgroup-title" ng-if="!favgroup.isDefault">
+        <div class="favgroup-action favgroup-action-delete" ng-click="deleteFavgroup(favgroup)">
+          <i class="icon-cancel"></i>
+        </div>
+        <ug-editable-text model="favgroup.title" on-save="updateFavgroupTitle(favgroup)"/>
+      </div>
+      <div class="js-favgroup-apps-drop-container favgroup-apps" id="favgroup_{{favgroup.id}}" ng-model="favgroup.apps"
+           ui-sortable="sortableOptions">
+        <ug-app class="app-large" id="app_{{app.id}}" ng-click="loadApp(app)" model="app" has-unfav-icon="true"
+                ng-repeat="app in favgroup.apps"></ug-app>
+      </div>
     </div>
-  </div>
+  </section>
+  <section class="appview col-md-6">
+    <iframe src="{{loadedAppUrl}}" frameborder="0"></iframe>
+  </section>
 </section>
