@@ -21,17 +21,19 @@
 //--------------------------
 .app-large:extend(.app all) {
   float: left;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   margin-right: 16px;
   background: none;
+  padding-top: 5px;
+  .border-radius(11px);
+  .lh-transition(0.30s ease);
+  .lh-transition-property(transform, background-color);
 
   &:hover {
     cursor: pointer;
-    .app-icon {
-      .lh-transition(all 0.30s);
-      .lh-transform(scale(1.2, 1.2));
-      //.lh-brightness(0.75);
-    }
+    background-color: rgba(255, 255, 255, 0.3);
+    .box-shadow(0px 2px 4px rgba(0, 0, 0, .2));
+    .lh-transform(scale(1.16, 1.16));
   }
 
   .app-icon {
@@ -58,6 +60,7 @@
 // APP-SMALL
 //--------------------------
 .app-small:extend(.app all) {
+
   float: left;
   margin-bottom: 10px;
   margin-right: 10px;
@@ -93,10 +96,18 @@
     .border-radius(3px);
     cursor: pointer;
     .lh-opacity(0);
+    .lh-transition(opacity .3s ease-in-out);
     &:hover {
-      .lh-transition(opacity .3s ease-in-out);
+
       .lh-opacity(.15);
     }
+  }
+  &:hover {
+    z-index: 2;
+    cursor: pointer;
+    .border-radius(3px);
+    background-color: white;
+    .box-shadow(0px 2px 4px rgba(0, 0, 0, .2));
   }
 }
 
