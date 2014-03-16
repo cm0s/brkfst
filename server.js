@@ -5,6 +5,7 @@
  */
 var express = require('express'),
   fs = require('fs'),
+  https = require('https'),
   passport = require('passport');
 
 /**
@@ -56,8 +57,16 @@ require('./config/routes')(app, passport);
 
 //Start the app by listening on <port>
 var port = process.env.PORT || config.port;
-app.listen(port);
-console.log('Express app started on port ' + port);
+
+var options = {
+  key: fs.readFileSync('./config/ssl/private.key'),
+  cert: fs.readFileSync('./config/ssl/certificate.crt')
+};
+
+https.createServer(options, app).listen(port, function () {
+  console.log('Express app started on port ' + port);
+});
+
 
 //expose app so we can test it
 module.exports = app;
