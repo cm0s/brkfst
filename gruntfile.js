@@ -56,7 +56,8 @@ module.exports = function (grunt) {
           nodeArgs: ['--debug=5859'],
           delayTime: 1,
           env: {
-            PORT: 443
+            PORT: 3000,
+            SSL_PORT: 443
           },
           cwd: __dirname
         }

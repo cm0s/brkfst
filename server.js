@@ -57,13 +57,18 @@ require('./config/routes')(app, passport);
 
 //Start the app by listening on <port>
 var port = process.env.PORT || config.port;
+var sslPort = process.env.SSL_PORT || config.sslPort;
 
 var options = {
   key: fs.readFileSync('./config/ssl/private.key'),
   cert: fs.readFileSync('./config/ssl/certificate.crt')
 };
 
-https.createServer(options, app).listen(port, function () {
+https.createServer(options, app).listen(sslPort, function () {
+  console.log('Express app started on port ' + sslPort);
+});
+
+app.listen(port, function () {
   console.log('Express app started on port ' + port);
 });
 
