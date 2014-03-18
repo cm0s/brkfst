@@ -104,8 +104,9 @@ angular.module('homeCtrl', [
           scope.app.favgroup.id = _.parseInt(favgroupIdTarget);
         }
       },
-
-      scroll: false
+      helper: 'clone',
+      appendTo: 'body',
+      placeholder: 'app-sortable-placeholder'
     };
 
     $scope.$on('ugApp.remove.fav', function (event, removedApp) {
