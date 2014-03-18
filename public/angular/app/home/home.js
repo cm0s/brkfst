@@ -50,13 +50,17 @@ angular.module('homeCtrl', [
 
   .controller('HomeCtrl', function ($scope, apiRestangularSrv, utilsSrv, $parse, $translate, scroller) {
     $scope.loadedAppUrl = 'about:blank';
+    $scope.loadedAppImageFileName = '';
+    $translate('home.appview.title').then(function (text) {
+      $scope.loadedAppTitle = text;
+    });
 
     apiRestangularSrv.all('favgroups').getList({embed: 'apps'}).then(function (favgroups) {
       $scope.favgroups = favgroups;
     });
 
     $scope.addFavgroup = function () {
-      var newFavgroupTitle = $translate('home.favgroup.new');
+      var newFavgroupTitle = $translate.instant('home.favgroup.new');
       apiRestangularSrv.all('favgroups').post({title: newFavgroupTitle}).then(function (newFavgroup) {
         $scope.favgroups.push(newFavgroup);
       });
@@ -82,6 +86,8 @@ angular.module('homeCtrl', [
           //TODO should be in a directive (there should be no DOM access in a controller)
           scroller.scrollToElement($('body'), 0, 1000);
           $scope.loadedAppUrl = app.url;
+          $scope.loadedAppImageFileName = app.imageFileName;
+          $scope.loadedAppTitle = app.title;
           break;
         default :
           window.open(app.url, '_blank');

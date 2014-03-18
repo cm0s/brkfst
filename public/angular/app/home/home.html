@@ -26,7 +26,10 @@
     </div>
   </section>
   <section class="appview col-md-6">
-    <iframe class="iframeplus" id="appview-iframe" data-dom-resize-listener="body" src="{{loadedAppUrl}}"
-            frameborder="0"></iframe>
+    <div class="appview-title">{{ loadedAppTitle }}</div>
+    <div class="appview-icon"><img src="public/img/svg/{{loadedAppImageFileName}}.svg"/></div>
+    <div class="appview-body">
+      <iframe class="iframeplus" id="appview-iframe" data-dom-resize-listener="body" src="{{loadedAppUrl}}"
+              frameborder="0"></iframe>
   </section>
 </section>
