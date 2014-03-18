@@ -25,8 +25,8 @@ Favgroup.findAllwithEmbeddedApps = function (callback) {
   async.waterfall([
     function (callback) {
       conn.query({
-        sql: 'SELECT * FROM favgroup LEFT JOIN favgroup_app ON ' +
-          'favgroup_app.favgroup_id = favgroup.id LEFT JOIN app ON app.id = favgroup_app.app_id JOIN apptype ON apptype.id = app.app_type_id ORDER BY favgroup_app.position',
+        sql: 'SELECT * FROM favgroup_app RIGHT JOIN favgroup ON ' +
+          'favgroup_app.favgroup_id = favgroup.id LEFT JOIN app ON app.id = favgroup_app.app_id LEFT JOIN apptype ON apptype.id = app.app_type_id ORDER BY favgroup_app.position',
         nestTables: true
       }, function (err, rows) {
         if (err) {
