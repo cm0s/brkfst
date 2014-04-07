@@ -96,11 +96,18 @@ angular.module('homeCtrl', [
 
     $scope.sortableOptions = {
       connectWith: '.js-favgroup-apps-drop-container',
+
+      // When an app is moved from one favgroup to another the app.favroup.id is correctly
+      // persisted in the DB but not in the scope.
+      // Updating the app.favgroup located in the scope could be done by calling a new XHR but it's not efficient to
+      // rerun this HTTP request just for the modification of one app property. For this reason the app.favgroup.id
+      // is manually updated whenever the update app event is called.
       update: function (event, ui) {
+        //Retrieve the favgroup id located in the id value of the droptarget element.
         var favgroupIdTarget = ui.item.sortable.droptarget[0].id.split('favgroup_')[1];
         var scope = ui.item.scope();
+
         if (scope) {
-          //Update the favgroup.id of the moved app.
           scope.app.favgroup.id = _.parseInt(favgroupIdTarget);
         }
       },
