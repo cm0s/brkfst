@@ -1,9 +1,6 @@
 /**
  * APP module
  */
-
-// APP
-//--------------------------
 .app {
   position: relative;
   margin-right: 5px;
@@ -17,8 +14,6 @@
   }
 }
 
-// APP-LARGE
-//--------------------------
 .app-large:extend(.app all) {
   display: inline-block;
   margin-bottom: 20px;
@@ -26,8 +21,8 @@
   background: none;
   padding-top: 5px;
   .border-radius(11px);
-  .lh-transition(0.30s ease);
-  .lh-transition-property(transform, background-color);
+  //.lh-transition(0.30s ease);
+  //.lh-transition-property(transform, background-color);
 
   &:hover {
     cursor: pointer;
@@ -57,8 +52,6 @@
   }
 }
 
-// APP-SMALL
-//--------------------------
 .app-small:extend(.app all) {
 
   float: left;
@@ -96,7 +89,7 @@
     .border-radius(3px);
     cursor: pointer;
     .lh-opacity(0);
-    .lh-transition(opacity .3s ease-in-out);
+    //.lh-transition(opacity .3s ease-in-out);
     &:hover {
 
       .lh-opacity(.15);
@@ -111,8 +104,6 @@
   }
 }
 
-// APP-FAV
-//--------------------------
 .app-fav {
   display: none;
   position: absolute;
@@ -148,8 +139,6 @@
   }
 }
 
-// APP-SORTABLE-PLACEHOLDER
-//--------------------------
 .app-sortable-placeholder {
   display: inline-block;
   height: 101px;
@@ -158,5 +147,20 @@
   border: 2px dashed @bf-border-color;
   .lh-border-radius(10px);
 }
+
+//TODO to delete if not used
+/*.favgroup-no-apps-placeholder {
+  position: absolute;
+  top: 50px;
+  display: inline-block;
+  height: 101px;
+  width: 120px;
+  margin-right: 6px;
+  border: 2px dashed @bf-border-color;
+  .lh-border-radius(10px);
+  &:after {
+    content: 'hello';
+  }
+}*/
 
 
