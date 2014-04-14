@@ -1,7 +1,7 @@
 <section class="home row">
 
   <section class="fav col-md-6">
-    <div class="actionmenu">
+    <div class="actionmenu-left">
       <div class="dropdown-toggle">
         <i class="icon-ellipsis-vert"></i>
       </div>
@@ -10,11 +10,33 @@
       </ul>
     </div>
 
-    <div class="favgroup" ng-repeat="favgroup in favgroups | orderBy:'-isDefault'" ng-controller="FavgroupCtrl">
-
+    <div class="favgroup" ng-repeat="favgroup in filteredFavgroups = (favgroups | orderBy:'[-isDefault,position]')"
+         ng-controller="FavgroupCtrl">
       <div class="favgroup-title" ng-if="!favgroup.isDefault">
-        <div class="favgroup-action favgroup-action-delete" ng-click="deleteFavgroup(favgroup)">
-          <i class="icon-cancel"></i>
+        <div class="favgroup-actionmenu actionmenu-right actionmenu-small">
+          <div class="dropdown-toggle">
+            <i class="icon-ellipsis-vert"></i>
+          </div>
+          <ul class="dropdown-menu dropdown-menu-left" role="menu">
+            <li>
+              <a ng-click="deleteFavgroup(favgroup)">
+                <i class="actionmenu-icon icon-cancel"></i>
+                <span class="actionmenu-title">{{ 'home.favgroup.actionmenu.remove' | translate }}</span>
+              </a>
+            </li>
+            <li ng-show="favgroup.position > 0">
+              <a ng-click="moveFavgroupUp(favgroup)">
+                <i class="actionmenu-icon icon-up-dir"></i>
+                <span class="actionmenu-title">{{ 'home.favgroup.actionmenu.up' | translate }}</span>
+              </a>
+            </li>
+            <li ng-show="favgroup.position < (filteredFavgroups.length - 2)">
+              <a ng-click="moveFavgroupDown(favgroup)">
+                <i class="actionmenu-icon icon-down-dir"></i>
+                <span class="actionmenu-title">{{ 'home.favgroup.actionmenu.down' | translate }}</span>
+              </a>
+            </li>
+          </ul>
         </div>
         <ug-editable-text model="favgroup.title" on-save="updateFavgroupTitle(favgroup)"/>
       </div>
@@ -31,5 +53,6 @@
     <div class="appview-body">
       <iframe class="iframeplus" id="appview-iframe" data-dom-resize-listener="body" src="{{loadedAppUrl}}"
               frameborder="0"></iframe>
+    </div>
   </section>
 </section>

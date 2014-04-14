@@ -5,6 +5,7 @@ var Favgroup = require('../models/favgroup'),
   App = require('../models/app'),
   errors = require('../errors'),
   util = require('util'),
+  utils = require('../utils/utils'),
   logger = require('../../config/logger'),
   async = require('async'),
   _ = require('lodash');
@@ -22,11 +23,11 @@ exports.findAll = function (req, res) {
       }
     });
   } else if (_.isEmpty(embed)) {
-    Favgroup.findAll(function (err, apps) {
+    Favgroup.findAll(function (err, favgroups) {
       if (err) {
         errors.serverError(res, err.message);
       } else {
-        res.json(apps);
+        res.json(favgroups);
       }
     });
   } else {
@@ -175,9 +176,11 @@ exports.update = function (req, res) {
   req.checkParams('id', 'Should be a number').isInt();
   req.checkBody('id', 'Should be a number').isInt();
   req.checkBody('title', 'Should not be empty').notEmpty();
+  req.checkBody('position', 'Should be a number').isInt();
   req.sanitize('isDefault').toBoolean();
   req.sanitize('title').toString();
   req.sanitize('id').toInt();
+  req.sanitize('position').toInt();
 
   var reqErrors = req.validationErrors();
   if (reqErrors) {
@@ -189,6 +192,7 @@ exports.update = function (req, res) {
     id: req.body.id,
     title: req.body.title,
     user_id: req.user.id,
+    position: req.body.position,
     //TODO this option should probably not be settable through the REST API
     is_default: req.body.isDefault
   });
@@ -212,10 +216,24 @@ exports.create = function (req, res) {
     return;
   }
 
+  Favgroup.findAll(function (err, favgroups) {
+    if (err) {
+      errors.serverError(res, err.message);
+    } else {
+      _.forEach(favgroups, function (favgroup) {
+        if (favgroup.isDefault === 0) { //It's not necessary to modify the positon of the default group
+          favgroup.position += 1;
+          favgroup.save();
+        }
+      });
+    }
+  });
+  //TODO must probably run synchronously
   var favgroup = new Favgroup({
     title: req.body.title,
     user_id: req.user.id,
-    is_default: 0
+    is_default: 0,
+    position: 0
   });
 
   favgroup.save(function (err, newFavgroup) {
@@ -253,5 +271,137 @@ exports.delete = function (req, res) {
       }
       res.json(favgroup);
     });
+  });
+};
+
+exports.increasePosition = function (req, res) {
+  req.checkParams('id', 'Should be a number').isInt();
+  req.sanitize('id').toInt();
+
+  async.waterfall([
+    function (callback) {
+      //Find all favgroups (which are not default favgroup)
+      Favgroup.find({is_default: 0}, function (err, favgroups) {
+        if (err) {
+          errors.serverError(res, err.message);
+        } else {
+          callback(null, favgroups);
+        }
+      });
+    },
+    function (favgroups, callback) {
+      var lastPosition = favgroups.length - 1;
+      //Find the favgroup passed in the request parameter
+      Favgroup.findOne({id: req.params.id}, function (err, favgroup) {
+        if (err) {
+          errors.serverError(res, err.message);
+          return;
+        } else {
+          if (!favgroup) {
+            errors.notFound(res, {error: 'Favgroup not found: ' + req.params.id});
+            return;
+          }
+          //Only increase the position if the favgroup is not already in last position
+          if (favgroup.position !== lastPosition) {
+            callback(null, favgroup);
+          } else {
+            res.json(favgroups);
+            return;
+          }
+        }
+      });
+    },
+    function (favgroup, callback) {
+      //Find the other favgroup which has a position equivalent to the future favgroup position (position + 1)
+      Favgroup.findOne({is_default: 0, position: favgroup.position + 1}, function (err, otherFavgroup) {
+        if (err) {
+          errors.serverError(res, err.message);
+          return;
+        } else {
+          utils.convertObjPropertiesToSnakeCase(otherFavgroup);
+          otherFavgroup.position -= 1;
+          otherFavgroup.save(function (err, otherSavedFavgroup) {
+            utils.convertObjPropertiesToSnakeCase(favgroup);
+            favgroup.position += 1;
+            favgroup.save(function (err, savedFavgroup) {
+              callback(null);
+            });
+          });
+        }
+      });
+    },
+    function (callback) {
+      //Find all favgroups (which are not default favgroup)
+      Favgroup.find({is_default: 0}, function (err, favgroups) {
+        if (err) {
+          errors.serverError(res, err.message);
+        } else {
+          callback(null, favgroups);
+        }
+      });
+    }
+  ], function (err, favgroups) {
+    res.json(favgroups);
+  });
+};
+
+exports.decreasePosition = function (req, res) {
+  req.checkParams('id', 'Should be a number').isInt();
+  req.sanitize('id').toInt();
+
+  async.waterfall([
+    function (callback) {
+
+      //Find the favgroup passed in the request parameter
+      Favgroup.findOne({id: req.params.id}, function (err, favgroup) {
+        if (err) {
+          errors.serverError(res, err.message);
+          return;
+        } else {
+          if (!favgroup) {
+            errors.notFound(res, {error: 'Favgroup not found: ' + req.params.id});
+            return;
+          }
+          //Only decrease the position if the favgroup is not already in first position
+          if (favgroup.position !== 0) {
+            callback(null, favgroup);
+          } else {
+            res.json(favgroups);
+            return;
+          }
+        }
+      });
+    },
+    function (favgroup, callback) {
+      //Find the other favgroup which has a position equivalent to the future favgroup position (position + 1)
+      Favgroup.findOne({is_default: 0, position: favgroup.position - 1}, function (err, otherFavgroup) {
+        if (err) {
+          errors.serverError(res, err.message);
+          return;
+        } else {
+          utils.convertObjPropertiesToSnakeCase(otherFavgroup);
+          otherFavgroup.position += 1;
+          otherFavgroup.save(function (err, otherSavedFavgroup) {
+            utils.convertObjPropertiesToSnakeCase(favgroup);
+            favgroup.position -= 1;
+            favgroup.save(function (err, savedFavgroup) {
+              callback(null);
+            });
+          });
+        }
+      });
+    },
+    function (callback) {
+      //Find all favgroups (which are not default favgroup)
+      Favgroup.find({is_default: 0}, function (err, favgroups) {
+        if (err) {
+          errors.serverError(res, err.message);
+        } else {
+          callback(null, favgroups);
+        }
+      });
+    }
+  ], function (err, favgroups) {
+    res.json(favgroups);
   });
 };

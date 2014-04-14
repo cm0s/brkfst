@@ -62,6 +62,11 @@ angular.module('homeCtrl', [
     $scope.addFavgroup = function () {
       var newFavgroupTitle = $translate.instant('home.favgroup.new');
       apiRestangularSrv.all('favgroups').post({title: newFavgroupTitle}).then(function (newFavgroup) {
+        _.forEach($scope.favgroups, function (favgroup) {
+          if (favgroup.is_default === 0) { //It's not necessary to modify the positon of the default group
+            favgroup.position += 1;
+          }
+        });
         $scope.favgroups.push(newFavgroup);
       });
     };
@@ -77,6 +82,18 @@ angular.module('homeCtrl', [
     $scope.updateFavgroupTitle = function (favgroup) {
       //favgroup is a restangular object and thus we can run a PUT request to update the title
       favgroup.put();
+    };
+
+    $scope.moveFavgroupUp = function (favgroup) {
+      apiRestangularSrv.all('favgroups').one(favgroup.id).one('increaseposition').post().then(function (favgroups) {
+        $scope.favgroups = favgroups;
+      });
+    };
+
+    $scope.moveFavgroupDown = function (favgroup) {
+      apiRestangularSrv.all('favgroups').one(favgroup.id).one('decreaseposition').post().then(function (favgroups) {
+        $scope.favgroups = favgroups;
+      });
     };
 
     $scope.loadApp = function (app) {

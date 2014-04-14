@@ -7,6 +7,11 @@
       "addgroup": "Add a group"
     },
     "favgroup": {
+      "actionmenu": {
+        "remove": "Remove this group",
+        "up": "Move up",
+        "down": "Move down"
+      },
       "new": "Rename me!"
     },
     "appview": {

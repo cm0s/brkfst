@@ -11,7 +11,7 @@ Base.apply = function apply(Model, table) {
 
   Model.fromDbResult = function fromDbResult(attributes) {
     if (attributes === undefined) return null;
-    utils.convertToCamelCase(attributes);
+    utils.convertObjPropertiesToCamelCase(attributes);
     return new Model(attributes);
   };
 
@@ -121,7 +121,7 @@ Base.apply = function apply(Model, table) {
         this.id = result.insertId;
       }
 
-      utils.convertToCamelCase(this);
+      utils.convertObjPropertiesToCamelCase(this);
 
       return callback(null, this);
     }

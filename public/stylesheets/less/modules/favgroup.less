@@ -1,3 +1,6 @@
+/**
+ * FAVGROUP module
+ */
 .favgroup {
   clear: both;
   margin-bottom: 15px;
@@ -19,32 +22,29 @@
   }
 
   &:hover {
-    .favgroup-action {
-      display: inline;
+    .favgroup-actionmenu {
+      display: block;
     }
-  }
-}
-
-.favgroup-action {
-  position: absolute;
-  display: none;
-  cursor: pointer;
-  color: @bf-action-icon-light-color;
-}
-
-.favgroup-action-delete {
-  top: -10px;
-  right: 0;
-  font-size: 23px;
-  line-height: 20px;
-  &:hover {
-    color: #cb000b;
   }
 }
 
 .favgroup-apps {
   min-height: 140px;
   padding: 12px 0 0 30px;
+}
+
+.favgroup-actionmenu {
+  &.open {
+    display: block;
+  }
+  display: none;
+  font-size: 24px !important;
+
+  .dropdown-menu {
+    a {
+      padding: 0 10px;
+    }
+  }
 }
 
 .home .favgroup-title {

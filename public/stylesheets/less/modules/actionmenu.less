@@ -1,10 +1,33 @@
+/**
+ * ACTIONMENU module
+ */
+// MIXINS
+//--------------------------
 .actionmenu {
   position: absolute;
-  left: 0;
   font-size: 32px;
   color: @bf-action-icon-color;
   &:hover {
     color: @bf-action-icon-hover-color;
     cursor: pointer;
   }
+}
+
+// ACTIONMENU
+//--------------------------
+.actionmenu-left:extend(.actionmenu all) {
+  left: 0;
+}
+
+.actionmenu-right:extend(.actionmenu all) {
+  right: 0;
+}
+
+.actionmenu-icon {
+  font-size: 20px;
+  vertical-align: middle;
+}
+
+.actionmenu-title {
+  vertical-align: middle;
 }
