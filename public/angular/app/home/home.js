@@ -62,19 +62,16 @@ angular.module('homeCtrl', [
     $scope.addFavgroup = function () {
       var newFavgroupTitle = $translate.instant('home.favgroup.new');
       apiRestangularSrv.all('favgroups').post({title: newFavgroupTitle}).then(function (newFavgroup) {
-        _.forEach($scope.favgroups, function (favgroup) {
-          if (favgroup.is_default === 0) { //It's not necessary to modify the positon of the default group
-            favgroup.position += 1;
-          }
+        apiRestangularSrv.all('favgroups').getList({embed: 'apps'}).then(function (favgroups) {
+          $scope.favgroups = favgroups;
         });
-        $scope.favgroups.push(newFavgroup);
       });
     };
 
     $scope.deleteFavgroup = function (favgroupToDelete, index) {
       apiRestangularSrv.all('favgroups').one(favgroupToDelete.id).remove().then(function () {
-        _.remove($scope.favgroups, function (favgroup) {
-          return favgroup.id === favgroupToDelete.id;
+        apiRestangularSrv.all('favgroups').getList({embed: 'apps'}).then(function (favgroups) {
+          $scope.favgroups = favgroups;
         });
       });
     };
