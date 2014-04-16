@@ -332,7 +332,7 @@ exports.increasePosition = function (req, res) {
     },
     function (callback) {
       //Find all favgroups (which are not default favgroup)
-      Favgroup.find({is_default: 0}, function (err, favgroups) {
+      Favgroup.findAllwithEmbeddedApps(function (err, favgroups) {
         if (err) {
           errors.serverError(res, err.message);
         } else {
@@ -393,7 +393,7 @@ exports.decreasePosition = function (req, res) {
     },
     function (callback) {
       //Find all favgroups (which are not default favgroup)
-      Favgroup.find({is_default: 0}, function (err, favgroups) {
+      Favgroup.findAllwithEmbeddedApps(function (err, favgroups) {
         if (err) {
           errors.serverError(res, err.message);
         } else {
