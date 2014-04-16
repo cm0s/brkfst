@@ -12,7 +12,7 @@
 
   <!-- SEARCH RESULT -->
   <div class="catalog-search-results" ng-show="!isSearchInputEmpty">
-    <ug-app class="app-small" model="app" has-fav-icon="true"
+    <ug-app class="app-small" model="app" has-fav-icon="true" text-to-highlight="search"
             ng-repeat="app in filteredApps = (apps | filter:textFilter)"></ug-app>
   </div>
   <div class="catalog-search-no-results" ng-show="!filteredApps.length">{{'catalog.noresults' | translate}}</div>

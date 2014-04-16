@@ -4,7 +4,8 @@
     <img src="public/img/svg/{{app.imageFileName}}.svg"/>
   </div>
   <div class="app-title">
-    <div class="ellipsis" ui-jq="ellipsis" ui-options="{row:2}">{{app.title}}</div>
+    <div class="ellipsis" ui-jq="ellipsis" ui-options="{row:2}"
+         ng-bind-html="app.title | highlight:textToHighlight:false"></div>
   </div>
   <div class="app-fav app-fav-add" ng-if="hasFavIcon" ng-class="{'app-fav-active': app.isFavorited}"
        ng-click="addFav(app)">

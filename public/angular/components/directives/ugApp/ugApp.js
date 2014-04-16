@@ -1,5 +1,6 @@
 angular.module('directives.ugApp', [
-  'services.apiRestangularSrv'
+  'services.apiRestangularSrv',
+  'ui.utils'
 ])
   .controller('UgAppCtrl', function ($scope, $rootScope, apiRestangularSrv) {
     $scope.addFav = function favorite(app) {
@@ -23,7 +24,8 @@ angular.module('directives.ugApp', [
       scope: {
         app: '=model',
         hasFavIcon: '=',
-        hasUnfavIcon: '='
+        hasUnfavIcon: '=',
+        textToHighlight: '='
       }
     };
   });
