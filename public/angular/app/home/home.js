@@ -83,13 +83,17 @@ angular.module('homeCtrl', [
 
     $scope.moveFavgroupUp = function (favgroup) {
       apiRestangularSrv.all('favgroups').one(favgroup.id).one('decreaseposition').post().then(function (favgroups) {
-        $scope.favgroups = favgroups;
+        apiRestangularSrv.all('favgroups').getList({embed: 'apps'}).then(function (favgroups) {
+          $scope.favgroups = favgroups;
+        });
       });
     };
 
     $scope.moveFavgroupDown = function (favgroup) {
       apiRestangularSrv.all('favgroups').one(favgroup.id).one('increaseposition').post().then(function (favgroups) {
-        $scope.favgroups = favgroups;
+        apiRestangularSrv.all('favgroups').getList({embed: 'apps'}).then(function (favgroups) {
+          $scope.favgroups = favgroups;
+        });
       });
     };
 

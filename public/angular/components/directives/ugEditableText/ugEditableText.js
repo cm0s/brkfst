@@ -1,6 +1,6 @@
 angular.module('directives.ugEditableText', [
-    'services.apiRestangularSrv'
-  ])
+  'services.apiRestangularSrv'
+])
   .directive('ugEditableText', function () {
     return {
       restrict: 'E',

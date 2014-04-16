@@ -381,19 +381,9 @@ exports.increasePosition = function (req, res) {
           });
         }
       });
-    },
-    function (callback) {
-      //Find all favgroups (which are not default favgroup)
-      Favgroup.findAllwithEmbeddedApps(function (err, favgroups) {
-        if (err) {
-          errors.serverError(res, err.message);
-        } else {
-          callback(null, favgroups);
-        }
-      });
     }
-  ], function (err, favgroups) {
-    res.json(favgroups);
+  ], function (err, favgroup) {
+    res.json(favgroup);
   });
 };
 
@@ -442,18 +432,8 @@ exports.decreasePosition = function (req, res) {
           });
         }
       });
-    },
-    function (callback) {
-      //Find all favgroups (which are not default favgroup)
-      Favgroup.findAllwithEmbeddedApps(function (err, favgroups) {
-        if (err) {
-          errors.serverError(res, err.message);
-        } else {
-          callback(null, favgroups);
-        }
-      });
     }
-  ], function (err, favgroups) {
-    res.json(favgroups);
+  ], function (err, favgroup) {
+    res.json(favgroup);
   });
 };
