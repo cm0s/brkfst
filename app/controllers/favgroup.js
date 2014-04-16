@@ -366,7 +366,7 @@ exports.decreasePosition = function (req, res) {
           if (favgroup.position !== 0) {
             callback(null, favgroup);
           } else {
-            res.json(favgroups);
+            res.json(favgroup);
             return;
           }
         }
