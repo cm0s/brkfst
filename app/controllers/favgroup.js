@@ -217,32 +217,52 @@ exports.create = function (req, res) {
   }
 
   Favgroup.findAll(function (err, favgroups) {
-    if (err) {
-      errors.serverError(res, err.message);
-    } else {
-      _.forEach(favgroups, function (favgroup) {
-        if (favgroup.isDefault === 0) { //It's not necessary to modify the positon of the default group
-          favgroup.position += 1;
-          favgroup.save();
-        }
-      });
-    }
-  });
-  //TODO must probably run synchronously
-  var favgroup = new Favgroup({
-    title: req.body.title,
-    user_id: req.user.id,
-    is_default: 0,
-    position: 0
-  });
+      if (err) {
+        errors.serverError(res, err.message);
+      } else {
 
-  favgroup.save(function (err, newFavgroup) {
-    if (err) {
-      errors.serverError(res, err);
+        var favgroupAppFunctions = [];
+        _.forEach(favgroups, function (favgroup) {
+            if (favgroup.isDefault === 0) { //It's not necessary to modify the positon of the default group
+              favgroupAppFunctions.push(
+                function (callback) {
+                  favgroup.position += 1;
+                  utils.convertObjPropertiesToSnakeCase(favgroup);
+                  favgroup.save(function (err, updatedFavgroup) {
+                    if (err) {
+                      callback(err);
+                    }
+                    callback(null, favgroup);
+
+                  });
+                });
+            }
+          }
+        );
+
+        async.parallel(favgroupAppFunctions, function (err, favgroups) {
+          if (err) {
+            errors.serverError(res, err);
+            return;
+          }
+          var favgroup = new Favgroup({
+            title: req.body.title,
+            user_id: req.user.id,
+            is_default: 0,
+            position: 0
+          });
+
+          favgroup.save(function (err, newFavgroup) {
+            if (err) {
+              errors.serverError(res, err);
+            }
+            newFavgroup.apps = [];
+            res.json(newFavgroup);
+          });
+        });
+      }
     }
-    newFavgroup.apps = [];
-    res.json(newFavgroup);
-  });
+  );
 };
 
 exports.delete = function (req, res) {
@@ -255,23 +275,55 @@ exports.delete = function (req, res) {
     return;
   }
 
-  Favgroup.findOne({id: req.params.id}, function (err, favgroup) {
-    if (err) {
-      errors.serverError(res, err);
-      return;
-    }
-    if (!favgroup) {
-      errors.notFound(res, {error: 'Favgroup not found: ' + req.params.id});
-      return;
-    }
-
-    favgroup.delete(function (err, favgroup) {
+  Favgroup.findAll(function (err, favgroups) {
       if (err) {
-        errors.serverError(res, err);
+        errors.serverError(res, err.message);
+        return;
+      } else {
+        Favgroup.findOne({id: req.params.id}, function (err, favgroupToDelete) {
+          if (err) {
+            errors.serverError(res, err);
+            return;
+          }
+          if (!favgroupToDelete) {
+            errors.notFound(res, {error: 'Favgroup not found: ' + req.params.id});
+            return;
+          }
+
+          favgroupToDelete.delete(function (err, favgroupDeleted) {
+            if (err) {
+              errors.serverError(res, err);
+            }
+            var favgroupAppFunctions = [];
+            _.forEach(favgroups, function (favgroup) {
+                if (favgroup.isDefault === 0 && favgroup.position > favgroupDeleted.position) { //It's not necessary to modify the positon of the default group
+                  favgroupAppFunctions.push(
+                    function (callback) {
+                      favgroup.position -= 1;
+                      utils.convertObjPropertiesToSnakeCase(favgroup);
+                      favgroup.save(function (err, updatedFavgroup) {
+                        if (err) {
+                          callback(err);
+                        }
+                        callback(null, favgroup);
+                      });
+                    });
+                }
+              }
+            );
+
+            async.parallel(favgroupAppFunctions, function (err, favgroups) {
+              if (err) {
+                errors.serverError(res, err);
+                return;
+              }
+              res.json(favgroupDeleted);
+            });
+          });
+        });
       }
-      res.json(favgroup);
-    });
-  });
+    }
+  );
 };
 
 exports.increasePosition = function (req, res) {
