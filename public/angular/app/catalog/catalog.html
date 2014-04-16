@@ -4,7 +4,7 @@
     <input type="text" class="form-control" placeholder="Search" ng-model="search" ng-change="hideCategories()"/>
   </div>
   <div class="catalog-browse" ng-show="isSearchInputEmpty">
-    <div class="category" ng-repeat="category in categories">
+    <div class="category" ng-repeat="category in categories | orderBy: 'title'">
       <div class="category-title">{{category.title}}</div>
       <ug-app class="app-small" model="app" has-fav-icon="true" ng-repeat="app in category.apps"></ug-app>
     </div>
