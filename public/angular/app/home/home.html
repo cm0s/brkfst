@@ -40,7 +40,9 @@
         </div>
         <ug-editable-text model="favgroup.title" on-save="updateFavgroupTitle(favgroup)"/>
       </div>
-      <div class="js-favgroup-apps-drop-container favgroup-apps" id="favgroup_{{favgroup.id}}" ng-model="favgroup.apps"
+      <div class="favgroup-apps js-favgroup-apps-drop-container"
+           ng-show="favgroup.apps.length > 0 || !favgroup.isDefault"
+           id="favgroup_{{favgroup.id}}" ng-model="favgroup.apps"
            ui-sortable="sortableOptions">
         <ug-app class="app-large" id="app_{{app.id}}" ng-click="loadApp(app)" model="app" has-unfav-icon="true"
                 ng-repeat="app in favgroup.apps"></ug-app>
