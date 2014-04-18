@@ -2,17 +2,24 @@ angular.module('catalogCtrl', [
   'services.apiRestangularSrv',
   'services.utilsSrv',
   'ui.utils',
-  'directives.ugApp'
+  'directives.ugApp',
+  'appviewCtrl'
 ])
   .controller('CatalogCtrl', function ($scope, apiRestangularSrv, utilsSrv) {
-    var
-      categories = apiRestangularSrv.all('categories'),
-      apps = apiRestangularSrv.all('apps');
 
-    $scope.categories = categories.getList({embed: 'apps'}).$object;
-    apps.getList().then(function (apps) {
-      $scope.apps = apps;
+    apiRestangularSrv.all('categories').getList({embed: 'apps'}).then(function (categories) {
+      $scope.categories = categories;
+
+      //Create an array of apps from the array of category which have the apps embedded inside.
+      //This way it's not necessary to run a second REST request to retrieve the apps list.
+      var apps = [];
+      _.forEach(categories, function (category) {
+        apps = apps.concat(category.apps);
+      });
+      //Make sure the app array doesn't contain duplicate app.
+      $scope.apps = _.uniq(apps, 'id');
     });
+
     $scope.isSearchInputEmpty = true;
 
     $scope.hideCategories = function () {

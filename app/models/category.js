@@ -16,8 +16,8 @@ Category.findAllwithEmbeddedApps = function (callback) {
   async.waterfall([
     function (callback) {
       conn.query({
-        sql: 'SELECT * FROM category JOIN category_app ON ' +
-          'category_app.category_id = category.id JOIN app ON app.id = category_app.app_id',
+        sql: 'SELECT * FROM category_app RIGHT JOIN category ON ' +
+          'category_app.category_id = category.id LEFT JOIN app ON app.id = category_app.app_id LEFT JOIN apptype ON apptype.id = app.app_type_id',
         nestTables: true
       }, function (err, rows) {
         if (err) {
@@ -36,7 +36,12 @@ Category.findAllwithEmbeddedApps = function (callback) {
           objData[categoryId] = row.category;
           objData[categoryId].apps = [];
         }
-        objData[categoryId].apps.push(row.app);
+        if (_.isNumber(row.app.id)) {
+          //Replace appTypeId by the apptype row
+          delete row.app.appTypeId;
+          row.app.appType = row.apptype;
+          objData[categoryId].apps.push(row.app);
+        }
       });
       var arrData = _.toArray(objData);
       callback(null, arrData);

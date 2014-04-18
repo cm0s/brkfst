@@ -3,17 +3,20 @@
   <div class="catalog-search-input">
     <input type="text" class="form-control" placeholder="Search" ng-model="search" ng-change="hideCategories()"/>
   </div>
-  <div class="catalog-browse" ng-show="isSearchInputEmpty">
+  <div class="catalog-browse" ng-show="isSearchInputEmpty" ng-controller="ModalAppviewCtrl">
     <div class="category" ng-repeat="category in categories | orderBy: 'title'">
       <div class="category-title">{{category.title}}</div>
-      <ug-app class="app-small" model="app" has-fav-icon="true" ng-repeat="app in category.apps"></ug-app>
+      <ug-app class="app-small" model="app" has-fav-icon="true" ng-click="loadApp(app)"
+              ng-repeat="app in category.apps"></ug-app>
     </div>
   </div>
 
   <!-- SEARCH RESULT -->
-  <div class="catalog-search-results" ng-show="!isSearchInputEmpty">
-    <ug-app class="app-small" model="app" has-fav-icon="true" text-to-highlight="search"
+  <div class="catalog-search-results" ng-show="!isSearchInputEmpty" ng-controller="ModalAppviewCtrl">
+    <ug-app class="app-small" model="app" ng-click="loadApp(app)" has-fav-icon="true"
+            text-to-highlight="search"
             ng-repeat="app in filteredApps = (apps | filter:textFilter)"></ug-app>
+    <div class="catalog-search-no-results" ng-show="!filteredApps.length">{{'catalog.noresults' | translate}}</div>
   </div>
-  <div class="catalog-search-no-results" ng-show="!filteredApps.length">{{'catalog.noresults' | translate}}</div>
+
 </section>
