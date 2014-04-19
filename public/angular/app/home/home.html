@@ -44,17 +44,10 @@
            ng-show="favgroup.apps.length > 0 || !favgroup.isDefault"
            id="favgroup_{{favgroup.id}}" ng-model="favgroup.apps"
            ui-sortable="sortableOptions">
-        <ug-app class="app-large" id="app_{{app.id}}" ng-click="loadApp(app)" model="app" has-unfav-icon="true"
+        <ug-app class="app-large" id="app_{{app.id}}" ng-click="showApp(app)" model="app" has-unfav-icon="true"
                 ng-repeat="app in favgroup.apps"></ug-app>
       </div>
     </div>
   </section>
-  <section class="appview col-md-6">
-    <div class="appview-title">{{ loadedAppTitle }}</div>
-    <div class="appview-icon"><img src="public/img/svg/{{loadedAppImageFileName}}.svg"/></div>
-    <div class="appview-body">
-      <iframe class="iframeplus" id="appview-iframe" data-dom-resize-listener="body" src="{{loadedAppUrl}}"
-              frameborder="0"></iframe>
-    </div>
-  </section>
+  <ug-appview class="col-md-6"></ug-appview>
 </section>

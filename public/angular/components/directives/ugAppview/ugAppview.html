@@ -1,0 +1,11 @@
+<div class="appview">
+  <div class="appview-header">
+    <div class="appview-icon"><img src="public/img/svg/{{app.imageFileName}}.svg"/></div>
+    <div class="appview-title">{{ app.title }}</div>
+    <i class="appview-cancel close icon-cancel" ng-if="hasCloseIcon" data-dismiss="modal"></i>
+  </div>
+  <div class="appview-body">
+    <iframe class="iframeplus" id="appview-iframe" data-dom-resize-listener="body" src="{{app.url}}"
+            frameborder="0"></iframe>
+  </div>
+</div>

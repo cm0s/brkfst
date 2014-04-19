@@ -3,7 +3,7 @@ angular.module('catalogCtrl', [
   'services.utilsSrv',
   'ui.utils',
   'directives.ugApp',
-  'appviewCtrl'
+  'directives.ugShowModal'
 ])
   .controller('CatalogCtrl', function ($scope, apiRestangularSrv, utilsSrv) {
 
@@ -53,6 +53,25 @@ angular.module('catalogCtrl', [
         return true;
       }
       return false;
+    };
+
+    $scope.showApp = function (app) {
+      //Depending on the app type we open it inside the application or in a new browser window
+      switch (app.appType.name) {
+        case 'swapp' :
+          $scope.app = {
+            title: app.title,
+            url: app.url,
+            imageFileName: app.imageFileName
+          };
+
+          //Display the app in a modal window
+          $scope.isModalShown = true;
+          break;
+        default :
+          //Display the app in a new browser tab
+          window.open(app.url, '_blank');
+      }
     };
   });
 

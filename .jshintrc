@@ -18,6 +18,7 @@
   "trailing": true, // Prohibit trailing whitespaces.
   "smarttabs": false, // Suppresses warnings about mixed tabs and spaces
   "globals": { // Globals variables.
+    "iframeplus": true,
     "angular": true,
     "define": true,
     "require": true,

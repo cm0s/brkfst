@@ -12,25 +12,37 @@
   }
 }
 
+.appview-header {
+  padding: 0 0 8px 0;
+  margin: 0 15px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.appview-body {
+  position: relative;
+  padding: 20px 15px 0 15px;
+}
+
 .appview-title {
-  font-weight: 300;
+  display: inline-block;
   font-size: 21px;
   color: darken(@headings-color, 30%);
-  border-bottom: 1px solid @bf-separation-line-color;
-  margin: 0 5px 0 5px;
-  padding: 0 10px 7px 10px;
+  margin-left: 3px;
+  font-weight: 300;
+  vertical-align: middle;
 }
 
 .appview-icon {
-  position: absolute;
-  top: 3px;
-  right: 5px;
+  display: inline-block;
+  vertical-align: middle;
   img {
     height: 40px;
     width: 40px;
   }
 }
 
-.appview-body {
-  padding: 20px 15px 0 15px;
+.appview-cancel {
+  font-size: 30px;
+  margin-top: 4px !important;
 }
+

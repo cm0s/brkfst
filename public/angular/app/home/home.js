@@ -5,6 +5,7 @@ angular.module('homeCtrl', [
   'ui.sortable',
   'directives.ugApp',
   'directives.ugEditableText',
+  'directives.ugAppview',
   'duScroll'
 ])
   .controller('FavgroupCtrl', function ($scope, apiRestangularSrv) {
@@ -97,15 +98,17 @@ angular.module('homeCtrl', [
       });
     };
 
-    $scope.loadApp = function (app) {
+    $scope.showApp = function (app) {
       //Depending on the app type we open it in the appview or in a new browser window
       switch (app.appType.name) {
         case 'swapp' :
           //TODO should be in a directive (there should be no DOM access in a controller)
           scroller.scrollToElement($('body'), 0, 1000);
-          $scope.loadedAppUrl = app.url;
-          $scope.loadedAppImageFileName = app.imageFileName;
-          $scope.loadedAppTitle = app.title;
+          $scope.app = {
+            title: app.title,
+            url: app.url,
+            imageFileName: app.imageFileName
+          };
           break;
         default :
           window.open(app.url, '_blank');

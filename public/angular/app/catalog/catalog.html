@@ -3,20 +3,29 @@
   <div class="catalog-search-input">
     <input type="text" class="form-control" placeholder="Search" ng-model="search" ng-change="hideCategories()"/>
   </div>
-  <div class="catalog-browse" ng-show="isSearchInputEmpty" ng-controller="ModalAppviewCtrl">
+  <div class="catalog-browse" ng-show="isSearchInputEmpty">
     <div class="category" ng-repeat="category in categories | orderBy: 'title'">
       <div class="category-title">{{category.title}}</div>
-      <ug-app class="app-small" model="app" has-fav-icon="true" ng-click="loadApp(app)"
+      <ug-app class="app-small" model="app" has-fav-icon="true" ng-click="showApp(app)"
               ng-repeat="app in category.apps"></ug-app>
     </div>
   </div>
 
-  <!-- SEARCH RESULT -->
-  <div class="catalog-search-results" ng-show="!isSearchInputEmpty" ng-controller="ModalAppviewCtrl">
-    <ug-app class="app-small" model="app" ng-click="loadApp(app)" has-fav-icon="true"
+  <!-- APPS LIST FILTERED -->
+  <div class="catalog-search-results" ng-show="!isSearchInputEmpty">
+    <ug-app class="app-small" model="app" has-fav-icon="true" ng-click="showApp(app)"
             text-to-highlight="search"
             ng-repeat="app in filteredApps = (apps | filter:textFilter)"></ug-app>
     <div class="catalog-search-no-results" ng-show="!filteredApps.length">{{'catalog.noresults' | translate}}</div>
+  </div>
+
+  <!-- MODAL APPVIEW -->
+  <div ug-show-modal="isModalShown" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <ug-appview has-close-icon="true"></ug-appview>
+      </div>
+    </div>
   </div>
 
 </section>
