@@ -220,5 +220,6 @@
     removeAllListeners: removeAllListeners
   };
 
-  init();
+  //TODO create a new version of iframeplus library which doesn't run the init function automatically
+  //init();
 })(jQuery, document, this);
