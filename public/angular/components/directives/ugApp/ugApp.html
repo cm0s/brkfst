@@ -8,7 +8,7 @@
          ng-bind-html="app.title | highlight:textToHighlight:false"></div>
   </div>
   <div class="app-fav app-fav-add" ng-if="hasFavIcon" ng-class="{'app-fav-active': app.isFavorited}"
-       ng-click="addFav(app)">
+       ng-click="addOrRemoveFav(app)">
     <i class="icon-star-5"></i>
   </div>
   <div class="app-fav app-fav-remove" ng-if="hasUnfavIcon" ng-click="removeFav(app)">

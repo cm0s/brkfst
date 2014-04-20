@@ -96,35 +96,57 @@ exports.addApp = function (req, res) {
 
 exports.removeApp = function (req, res) {
   req.assert('app_id', 'Should be a number').isInt();
-  req.assert('favgroup_id', 'Should be a number').isInt();
+  req.sanitize('app_id').toInt();
 
   var reqErrors = req.validationErrors();
   if (reqErrors) {
     errors.badRequest(res, reqErrors);
     return;
   }
-
-  Favgroup.findOne({id: req.params.favgroup_id}, function (err, favgroup) {
-    if (err) {
-      errors.serverError(res, err);
-      return;
-    }
-    if (!favgroup) {
-      errors.notFound(res, {error: 'Favgroup not found: ' + req.params.favgroup_id});
-      return;
-    }
-    favgroup.removeApp(req.params.app_id, function (err, results) {
+  if (req.params.favgroup_id === 'all') { //Remove the app from all the favgroups
+    FavgroupApp.find({app_id: req.params.app_id}, function (err, favgroupApps) {
+      var favgroupAppFunctions = [];
+      _.forEach(favgroupApps, function (favgroupApp, position) {
+        favgroupAppFunctions.push(
+          function (callback) {
+            favgroupApp.delete(function (err, favgroupApp) {
+              if (err) {
+                callback(err);
+              }
+              callback(null, favgroupApp);
+            });
+          });
+      });
+      async.parallel(favgroupAppFunctions, function (err, favgroupApp) {
+        if (err) {
+          errors.serverError(res, err);
+        }
+        res.json(204, null);
+      });
+    });
+  } else {
+    Favgroup.findOne({id: req.params.favgroup_id}, function (err, favgroup) {
       if (err) {
         errors.serverError(res, err);
         return;
       }
-      if (!results) {
-        errors.notFound(res, {error: 'App not found: ' + req.params.app_id});
+      if (!favgroup) {
+        errors.notFound(res, {error: 'Favgroup not found: ' + req.params.favgroup_id});
         return;
       }
-      res.json(204, null);
+      favgroup.removeApp(req.params.app_id, function (err, results) {
+        if (err) {
+          errors.serverError(res, err);
+          return;
+        }
+        if (!results) {
+          errors.notFound(res, {error: 'App not found: ' + req.params.app_id});
+          return;
+        }
+        res.json(204, null);
+      });
     });
-  });
+  }
 };
 
 exports.updateAppsPosition = function (req, res) {

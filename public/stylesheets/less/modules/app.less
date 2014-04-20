@@ -117,6 +117,9 @@
 
   &.app-fav-active {
     display: inherit;
+    &:hover {
+      color: #eec500 !important;
+    }
   }
 
   &.app-fav-add {
@@ -127,7 +130,7 @@
       color: #eec500;
     }
     &:hover {
-      color: #eec500;
+      color: darken(@bf-action-icon-light-color, 20%);
     }
   }
 

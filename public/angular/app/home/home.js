@@ -24,7 +24,7 @@ angular.module('homeCtrl', [
             });
 
           } else {
-            //Remove the App to the Favgroup
+            //Remove the App from the Favgroup
             apiRestangularSrv.one('favgroups', favgroupId).one('apps', appNotInBothList.id).remove().then(function () {
               apiRestangularSrv.all('favgroups').one(favgroupId).all('apps').customPUT(newApps);
             });
