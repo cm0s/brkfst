@@ -6,7 +6,8 @@ angular.module('homeCtrl', [
   'directives.ugApp',
   'directives.ugEditableText',
   'directives.ugAppview',
-  'duScroll'
+  'duScroll',
+  'matchmedia-ng'
 ])
   .controller('FavgroupCtrl', function ($scope, apiRestangularSrv) {
     $scope.$watch('favgroup.apps', function (newApps, oldApps, scope) {
@@ -49,7 +50,21 @@ angular.module('homeCtrl', [
     }, true);
   })
 
-  .controller('HomeCtrl', function ($scope, apiRestangularSrv, utilsSrv, $parse, $translate, scroller) {
+  .controller('HomeCtrl', function ($scope, apiRestangularSrv, utilsSrv, $parse, $translate, scroller, matchmedia) {
+    matchmedia.onPhone(function (mediaQueryList) {
+      $scope.isPhone = mediaQueryList.matches;
+    });
+    matchmedia.onTablet(function (mediaQueryList) {
+      $scope.isTablet = mediaQueryList.matches;
+    });
+
+    matchmedia.onDesktop(function (mediaQueryList) {
+      $scope.isDesktop = mediaQueryList.matches;
+      //Ensure no appview modal is shown
+      $scope.isModalShown = false;
+    });
+
+
     $scope.loadedAppUrl = 'about:blank';
     $scope.loadedAppImageFileName = '';
     $translate('home.appview.title').then(function (text) {
@@ -102,13 +117,18 @@ angular.module('homeCtrl', [
       //Depending on the app type we open it in the appview or in a new browser window
       switch (app.appType.name) {
         case 'swapp' :
-          //TODO should be in a directive (there should be no DOM access in a controller)
-          scroller.scrollToElement($('body'), 0, 1000);
           $scope.app = {
             title: app.title,
             url: app.url,
             imageFileName: app.imageFileName
           };
+          if ($scope.isPhone || $scope.isTablet) {
+            //Display the app in a modal window
+            $scope.isModalShown = true;
+          } else {
+            //TODO should be in a directive (there should be no DOM access in a controller)
+            scroller.scrollToElement($('body'), 0, 1000);
+          }
           break;
         default :
           window.open(app.url, '_blank');

@@ -49,5 +49,16 @@
       </div>
     </div>
   </section>
-  <ug-appview class="col-md-6"></ug-appview>
+
+  <!-- APPVIEW -->
+  <ug-appview ng-if="!isPhone && !isTablet" class="col-md-6"></ug-appview>
+
+  <!-- MODAL APPVIEW -->
+  <div ug-show-modal="isModalShown" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <ug-appview has-close-icon="true"></ug-appview>
+      </div>
+    </div>
+  </div>
 </section>
