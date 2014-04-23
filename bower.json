@@ -24,7 +24,8 @@
     "angular-ui-sortable": "~0.12.1",
     "angular-scroll": "~0.2.8",
     "angular-touch": "~1.2.16",
-    "matchmedia-ng": "~1.0.2"
+    "matchmedia-ng": "~1.0.2",
+    "jqueryui-touch-punch": "*"
   },
   "resolutions": {
     "angular": "1.2.16"
