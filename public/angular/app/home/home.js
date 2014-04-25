@@ -6,11 +6,12 @@ angular.module('homeCtrl', [
   'directives.ugApp',
   'directives.ugEditableText',
   'directives.ugAppview',
+  'directives.ugTabs',
   'duScroll',
   'matchmedia-ng'
 ])
   .controller('FavgroupCtrl', function ($scope, apiRestangularSrv) {
-    $scope.$watch('favgroup.apps', function (newApps, oldApps, scope) {
+    $scope.$watch('selectedFavgroup.apps', function (newApps, oldApps, scope) {
       if (!_.isEqual(angular.toJson(newApps), angular.toJson(oldApps))) { //Skip init watch call
         var favgroupId = $scope.favgroup.id;
         if (newApps.length === oldApps.length) {  //An App has been moved inside a Favgroup
@@ -73,6 +74,7 @@ angular.module('homeCtrl', [
 
     apiRestangularSrv.all('favgroups').getList({embed: 'apps'}).then(function (favgroups) {
       $scope.favgroups = favgroups;
+      $scope.selectedFavgroup = favgroups[3];
     });
 
     $scope.addFavgroup = function () {
