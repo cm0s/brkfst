@@ -1,13 +1,15 @@
 angular.module('directives.ugEditableText', [
   'services.apiRestangularSrv'
 ])
-  .directive('ugEditableText', function () {
+  .directive('ugEditableText', function ($timeout) {
     return {
       restrict: 'E',
       templateUrl: 'directives/ugEditableText/ugEditableText.html',
       scope: {
         text: '=model',
-        onSave: '&'
+        onSave: '&',
+        editMode: '=',
+        clickable: '='
       },
       replace: true,
       link: function (scope, element, attrs) {
@@ -15,15 +17,24 @@ angular.module('directives.ugEditableText', [
         var form = angular.element(element.children()[1]);
         var input = angular.element(element.children()[1][0]);
 
-        span.bind('click', function (event) {
+        scope.$on('ugEditableText-edit-text', function (event, data) {
           input[0].value = scope.text;
           startEdit();
         });
 
+        if (scope.clickable) {
+          span.bind('click', function (event) {
+            input[0].value = scope.text;
+            startEdit();
+          });
+        }
+
         function startEdit() {
           bindEditElements();
           setEdit(true);
-          input[0].focus();
+          $timeout(function () {
+            input[0].focus();
+          });
         }
 
         function bindEditElements() {
@@ -50,7 +61,6 @@ angular.module('directives.ugEditableText', [
 
         function save() {
           scope.text = input[0].value;
-          scope.$apply();
           scope.onSave();
         }
 
@@ -66,7 +76,10 @@ angular.module('directives.ugEditableText', [
 
         function setEdit(value) {
           scope.editing = value;
-          scope.$apply();
+          // In order to ensure $apply is not called while another $apply is in progress
+          // ($timeout automatically call $apply at the end of the digest phase)
+          $timeout(function () {
+          });
         }
 
         function isEscape(event) {

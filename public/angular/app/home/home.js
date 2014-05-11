@@ -10,6 +10,10 @@ angular.module('homeCtrl', [
   'matchmedia-ng'
 ])
   .controller('FavgroupCtrl', function ($scope, apiRestangularSrv) {
+    $scope.activateFavgroupTitleEditMode = function () {
+      $scope.$broadcast('ugEditableText-edit-text', false);
+    };
+
     $scope.$watch('favgroup.apps', function (newApps, oldApps, scope) {
       if (!_.isEqual(angular.toJson(newApps), angular.toJson(oldApps))) { //Skip init watch call
         var favgroupId = $scope.favgroup.id;

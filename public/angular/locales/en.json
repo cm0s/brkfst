@@ -8,7 +8,8 @@
     },
     "favgroup": {
       "actionmenu": {
-        "remove": "Remove this group",
+        "edit": "Rename",
+        "remove": "Remove",
         "up": "Move up",
         "down": "Move down"
       },

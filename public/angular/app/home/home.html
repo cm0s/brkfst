@@ -19,6 +19,12 @@
           </div>
           <ul class="dropdown-menu dropdown-menu-left" role="menu">
             <li>
+              <a ng-click="activateFavgroupTitleEditMode()">
+                <i class="actionmenu-icon icon-pencil"></i>
+                <span class="actionmenu-title">{{ 'home.favgroup.actionmenu.edit' | translate }}</span>
+              </a>
+            </li>
+            <li>
               <a ng-click="deleteFavgroup(favgroup)">
                 <i class="actionmenu-icon icon-cancel"></i>
                 <span class="actionmenu-title">{{ 'home.favgroup.actionmenu.remove' | translate }}</span>
@@ -38,7 +44,8 @@
             </li>
           </ul>
         </div>
-        <ug-editable-text model="favgroup.title" on-save="updateFavgroupTitle(favgroup)"/>
+        <ug-editable-text clickable="false" edit-mode="isFavgroupTitleEditable" model="favgroup.title"
+                          on-save="updateFavgroupTitle(favgroup)"/>
       </div>
       <div class="favgroup-apps js-favgroup-apps-drop-container"
            ng-show="favgroup.apps.length > 0 || !favgroup.isDefault"
