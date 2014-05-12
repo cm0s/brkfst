@@ -26,8 +26,8 @@
   background: none;
   padding-top: 5px;
   .border-radius(11px);
-  //.lh-transition(0.30s ease);
-  //.lh-transition-property(transform, background-color);
+  .lh-transition(0.30s ease);
+  .lh-transition-property(transform, background-color);
 
   &:hover {
     cursor: pointer;
@@ -58,7 +58,6 @@
 }
 
 .app-small:extend(.app all) {
-
   float: left;
   margin-bottom: 10px;
   margin-right: 10px;
@@ -94,7 +93,7 @@
     .border-radius(3px);
     cursor: pointer;
     .lh-opacity(0);
-    //.lh-transition(opacity .3s ease-in-out);
+    .lh-transition(opacity .3s ease-in-out);
     &:hover {
 
       .lh-opacity(.15);
