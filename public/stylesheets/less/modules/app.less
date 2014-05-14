@@ -128,8 +128,14 @@
     &.app-fav-active {
       color: #eec500;
     }
-    &:hover {
-      color: darken(@bf-action-icon-light-color, 20%);
+    @media (max-width: @screen-xs-max) {
+      display: inherit;
+      color: @bf-action-icon-light-color;
+    }
+    @media (min-width: @screen-tablet) {
+      &:hover {
+        color: darken(@bf-action-icon-light-color, 20%);
+      }
     }
   }
 
