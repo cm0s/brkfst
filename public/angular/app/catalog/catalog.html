@@ -1,7 +1,7 @@
 <section class="catalog">
   <!-- APPS LIST -->
   <div class="catalog-search-input">
-    <input type="text" class="form-control" placeholder="Search" ng-model="search" ng-change="hideCategories()"/>
+    <input type="text" class="bs-form-control" placeholder="Search" ng-model="search" ng-change="hideCategories()"/>
   </div>
   <div class="catalog-browse" ng-show="isSearchInputEmpty">
     <div class="category" ng-repeat="category in categories | orderBy: 'title'">
@@ -20,9 +20,9 @@
   </div>
 
   <!-- MODAL APPVIEW -->
-  <div ug-show-modal="isModalShown" class="modal fade">
-    <div class="modal-dialog">
-      <div class="modal-content">
+  <div ug-show-modal="isModalShown" class="bs-modal bs-fade">
+    <div class=bs-"modal-dialog">
+      <div class="bs-modal-content">
         <ug-appview has-close-icon="true"></ug-appview>
       </div>
     </div>
