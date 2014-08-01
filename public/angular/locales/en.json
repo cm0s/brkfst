@@ -2,12 +2,6 @@
   "app": {
     "title": "Brkfst"
   },
-  "header": {
-    "link": {
-      "home": "Home",
-      "catalog": "Catalog"
-    }
-  },
   "home": {
     "actionmenu": {
       "addgroup": "Add a group"

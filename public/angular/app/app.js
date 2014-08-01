@@ -9,8 +9,7 @@ angular.module('app', [
   'ngAnimate',
   'pascalprecht.translate',
   'ui.bootstrap',
-  'matchmedia-ng',
-  'directives.ugNav'
+  'matchmedia-ng'
 ]);
 
 angular.module('app').config(function ($translateProvider, $sceProvider, matchmediaProvider) {
