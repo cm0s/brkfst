@@ -1,11 +1,11 @@
 <section class="home row">
 
-  <section class="fav" ng-class="{'bs-col-md-12':isPhone || isTablet, 'bs-col-md-6':isDesktop}">
+  <section class="fav" ng-class="{'col-md-12':isPhone || isTablet, 'col-md-6':isDesktop}">
     <div class="actionmenu-left">
-      <div data-toggle="dropdown">
+      <div class="dropdown-toggle">
         <i class="icon-ellipsis-vert"></i>
       </div>
-      <ul class="bs-dropdown-menu bs-dropdown-menu-left" role="menu">
+      <ul class="dropdown-menu dropdown-menu-left" role="menu">
         <li><a ng-click="addFavgroup()">{{ 'home.actionmenu.addgroup' | translate }}</a></li>
       </ul>
     </div>
@@ -14,10 +14,10 @@
          ng-controller="FavgroupCtrl">
       <div class="favgroup-title" ng-if="!favgroup.isDefault">
         <div class="favgroup-actionmenu actionmenu-right actionmenu-small">
-          <div data-toggle="dropdown">
+          <div class="dropdown-toggle">
             <i class="icon-ellipsis-vert"></i>
           </div>
-          <ul class="bs-dropdown-menu bs-dropdown-menu-left" role="menu">
+          <ul class="dropdown-menu dropdown-menu-left" role="menu">
             <li>
               <a ng-click="activateFavgroupTitleEditMode()">
                 <i class="actionmenu-icon icon-pencil"></i>
@@ -58,12 +58,12 @@
   </section>
 
   <!-- APPVIEW -->
-  <ug-appview ng-if="!isPhone && !isTablet" class="bs-col-md-6"></ug-appview>
+  <ug-appview ng-if="!isPhone && !isTablet" class="col-md-6"></ug-appview>
 
   <!-- MODAL APPVIEW -->
-  <div ug-show-modal="isModalShown" class="bs-modal bs-fade">
-    <div class="bs-modal-dialog">
-      <div class="bs-modal-content">
+  <div ug-show-modal="isModalShown" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
         <ug-appview has-close-icon="true"></ug-appview>
       </div>
     </div>

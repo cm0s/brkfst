@@ -155,13 +155,13 @@ module.exports = function (grunt) {
       }
     },
 
-    bootstrap_prefix: {
-      custom_options: {
+    css_prefix: {
+      bootstrap: {
         options: {
-          cssPath: 'public/stylesheets/css',
-          cssDest: 'public/stylesheets/css',
-          jsPath: 'public/libs/bootstrap/dist/js',
-          jsDest: 'public/libs/bootstrap/dist/js'
+          prefix: 'bs-'
+        },
+        files: {
+          'public/stylesheets/css/bootstrap-prefixed.css': 'public/stylesheets/css/bootstrap.css'
         }
       }
     },
@@ -270,10 +270,10 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-replace');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-file-append');
-  grunt.loadNpmTasks('grunt-bootstrap-prefix');
+  grunt.loadNpmTasks('grunt-css-prefix');
 
   //Default task(s).
-  grunt.registerTask('default', ['angular-dist', 'jshint', 'less', 'bootstrap_prefix', 'nodemon:dev' ]);
+  grunt.registerTask('default', ['angular-dist', 'jshint', 'less', 'css_prefix', 'nodemon:dev' ]);
 
   //Test task.
   grunt.registerTask('test', ['env:test', 'mochacov:test', 'mochacov:coverage']);
