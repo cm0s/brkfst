@@ -270,10 +270,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-replace');
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-file-append');
-  grunt.loadNpmTasks('grunt-css-prefix');
 
   //Default task(s).
-  grunt.registerTask('default', ['angular-dist', 'jshint', 'less', 'css_prefix', 'nodemon:dev' ]);
+  grunt.registerTask('default', ['angular-dist', 'jshint', 'less', 'nodemon:dev' ]);
 
   //Test task.
   grunt.registerTask('test', ['env:test', 'mochacov:test', 'mochacov:coverage']);
