@@ -7,7 +7,7 @@ test/coverage/
 public/angular/dist/
 public/stylesheets/css/
 public/fonts/fontello/css
-public/fonts/fontello/fonts
+public/fonts/fontello/font
 config/ssl
 .idea/
 brkfst.iml
