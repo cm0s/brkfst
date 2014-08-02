@@ -1,6 +1,6 @@
 <section class="home row">
 
-  <section class="fav" ng-class="{'col-md-12':isPhone || isTablet, 'col-md-6':isDesktop}">
+  <section class="fav col-md-12">
     <div class="actionmenu-left">
       <div class="dropdown-toggle">
         <i class="icon-ellipsis-vert"></i>
@@ -51,21 +51,9 @@
            ng-show="favgroup.apps.length > 0 || !favgroup.isDefault"
            id="favgroup_{{favgroup.id}}" ng-model="favgroup.apps"
            ui-sortable="sortableOptions">
-        <ug-app class="app-large" id="app_{{app.id}}" ng-click="showApp(app)" model="app" has-unfav-icon="true"
+        <ug-app class="app-large" id="app_{{app.id}}" ng-click="openApp(app)" model="app" has-unfav-icon="true"
                 ng-repeat="app in favgroup.apps"></ug-app>
       </div>
     </div>
   </section>
-
-  <!-- APPVIEW -->
-  <ug-appview ng-if="!isPhone && !isTablet" class="col-md-6"></ug-appview>
-
-  <!-- MODAL APPVIEW -->
-  <div ug-show-modal="isModalShown" class="modal fade">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <ug-appview has-close-icon="true"></ug-appview>
-      </div>
-    </div>
-  </div>
 </section>

@@ -5,7 +5,6 @@ angular.module('homeCtrl', [
   'ui.sortable',
   'directives.ugApp',
   'directives.ugEditableText',
-  'directives.ugAppview',
   'duScroll',
   'matchmedia-ng'
 ])
@@ -64,15 +63,6 @@ angular.module('homeCtrl', [
 
     matchmedia.onDesktop(function (mediaQueryList) {
       $scope.isDesktop = mediaQueryList.matches;
-      //Ensure no appview modal is shown
-      $scope.isModalShown = false;
-    });
-
-
-    $scope.loadedAppUrl = 'about:blank';
-    $scope.loadedAppImageFileName = '';
-    $translate('home.appview.title').then(function (text) {
-      $scope.loadedAppTitle = text;
     });
 
     apiRestangularSrv.all('favgroups').getList({embed: 'apps'}).then(function (favgroups) {
@@ -117,26 +107,8 @@ angular.module('homeCtrl', [
       });
     };
 
-    $scope.showApp = function (app) {
-      //Depending on the app type we open it in the appview or in a new browser window
-      switch (app.appType.name) {
-        case 'swapp' :
-          $scope.app = {
-            title: app.title,
-            url: app.url,
-            imageFileName: app.imageFileName
-          };
-          if ($scope.isPhone || $scope.isTablet) {
-            //Display the app in a modal window
-            $scope.isModalShown = true;
-          } else {
-            //TODO should be in a directive (there should be no DOM access in a controller)
-            scroller.scrollToElement($('body'), 0, 1000);
-          }
-          break;
-        default :
-          window.open(app.url, '_blank');
-      }
+    $scope.openApp = function (app) {
+      window.open(app.url, '_blank');
     };
 
     $scope.sortableOptions = {

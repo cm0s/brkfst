@@ -14,9 +14,6 @@
         "down": "Move down"
       },
       "new": "Rename me!"
-    },
-    "appview": {
-      "title": "Initial name"
     }
   },
   "catalog": {

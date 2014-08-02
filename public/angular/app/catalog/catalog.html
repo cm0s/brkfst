@@ -6,26 +6,16 @@
   <div class="catalog-browse" ng-show="isSearchInputEmpty">
     <div class="category" ng-repeat="category in categories | orderBy: 'title'">
       <div class="category-title">{{category.title}}</div>
-      <ug-app class="app-small" model="app" has-fav-icon="true" ng-click="showApp(app)"
+      <ug-app class="app-small" model="app" has-fav-icon="true" ng-click="openApp(app)"
               ng-repeat="app in category.apps"></ug-app>
     </div>
   </div>
 
   <!-- APPS LIST FILTERED -->
   <div class="catalog-search-results" ng-show="!isSearchInputEmpty">
-    <ug-app class="app-small" model="app" has-fav-icon="true" ng-click="showApp(app)"
+    <ug-app class="app-small" model="app" has-fav-icon="true" ng-click="openApp(app)"
             text-to-highlight="search"
             ng-repeat="app in filteredApps = (apps | filter:textFilter)"></ug-app>
     <div class="catalog-search-no-results" ng-show="!filteredApps.length">{{'catalog.noresults' | translate}}</div>
   </div>
-
-  <!-- MODAL APPVIEW -->
-  <div ug-show-modal="isModalShown" class="modal fade">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <ug-appview has-close-icon="true"></ug-appview>
-      </div>
-    </div>
-  </div>
-
 </section>
