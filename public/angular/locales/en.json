@@ -3,6 +3,7 @@
     "title": "Brkfst"
   },
   "home": {
+    "title": "Mes raccourcis",
     "actionmenu": {
       "addgroup": "Add a group"
     },
@@ -17,6 +18,7 @@
     }
   },
   "catalog": {
+    "title": "Catalogue de raccourcis",
     "noresults": "No results"
   }
 }

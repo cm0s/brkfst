@@ -6,16 +6,28 @@
   margin-bottom: 14px;
   margin-top: -11px;
   position: relative;
+
+  nav {
+    min-height: 42px; //override bootstrap style
+  }
 }
 
-.header-text {
-  padding-right: 8px;
-  position: relative;
-  text-transform: uppercase;
-  background-color: @bf-main-bg-color;
-  bottom: -11px;
-  font-size: 12px;
-  font-weight: bold;
-  color: @headings-color;
-  display: inline-block;
+.header-link {
+  font-size: ceil(@font-size-base*1.15);
+  padding-top: 10px !important; //override bootstrap style
+  padding-bottom: 10px !important; //override bootstrap style
+  &.active {
+    border-bottom: 3px solid @bf-primary-color;
+    color: @bf-primary-color !important; //override bootstrap style
+    @media (max-width: @screen-xs-max) {
+      border-bottom: none;
+    }
+  }
+  &:hover {
+    border-bottom: 3px solid @bf-primary-color;
+    color: @bf-primary-color !important; //override bootstrap style
+    @media (max-width: @screen-xs-max) {
+      border-bottom: none;
+    }
+  }
 }
