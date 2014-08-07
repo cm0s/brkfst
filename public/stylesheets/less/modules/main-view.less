@@ -5,7 +5,10 @@
 to prevent collapsing during animation*/
 .main-view {
   height: 0;
-  position: absolute;
+
+  &.ng-animate {
+    position: absolute;
+  }
 }
 
 .main-view.ng-enter {
