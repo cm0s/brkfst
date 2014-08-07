@@ -13,17 +13,25 @@
 }
 
 .header-link {
+  transition: all 0.6s ease;
+  border-bottom: 3px solid white;
+  @media (max-width: @screen-xs-max) {
+    border-bottom: none;
+  }
   font-size: ceil(@font-size-base*1.15);
-  padding-top: 10px !important; //override bootstrap style
-  padding-bottom: 10px !important; //override bootstrap style
+  padding-top: 10px !important; // override bootstrap style
+  padding-bottom: 10px !important; // override bootstrap style
+
   &.active {
     border-bottom: 3px solid @bf-primary-color;
-    color: @bf-primary-color !important; //override bootstrap style
+    color: @bf-primary-color !important; // override bootstrap style
     @media (max-width: @screen-xs-max) {
       border-bottom: none;
     }
   }
+
   &:hover {
+    transition: all 0.6s ease;
     border-bottom: 3px solid @bf-primary-color;
     color: @bf-primary-color !important; //override bootstrap style
     @media (max-width: @screen-xs-max) {
